@@ -14,10 +14,10 @@ import lombok.Setter;
 @MappedSuperclass
 public class GenericEntity {
 	
-	@Column(name = "created", columnDefinition = "TIMESTAMP WITH TIME ZONE", updatable = false)
+	@Column(name = "created", updatable = false)
 	protected LocalDateTime created;
 
-	@Column(name = "modified", columnDefinition = "TIMESTAMP WITH TIME ZONE")
+	@Column(name = "modified")
 	protected LocalDateTime modified;
 
 	@PrePersist

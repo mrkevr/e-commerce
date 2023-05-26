@@ -2,9 +2,7 @@ package dev.mrkevr.ecommerce.entity;
 
 import static jakarta.persistence.CascadeType.DETACH;
 import static jakarta.persistence.CascadeType.MERGE;
-import static jakarta.persistence.CascadeType.PERSIST;
 import static jakarta.persistence.CascadeType.REFRESH;
-import static jakarta.persistence.CascadeType.REMOVE;
 import static jakarta.persistence.FetchType.EAGER;
 import static jakarta.persistence.GenerationType.SEQUENCE;
 
@@ -38,7 +36,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Entity(name = "User")
-@Table(name = "users", uniqueConstraints = @UniqueConstraint(name="unique_email", columnNames = { "email" }))
+@Table(name = "users", uniqueConstraints = @UniqueConstraint(columnNames = {"username","email"}))
 @SequenceGenerator(
 		name = "user_id_seq",
 		sequenceName = "user_id_seq",
@@ -58,7 +56,7 @@ public class User extends GenericEntity implements UserDetails {
 	
 	@Id
 	@GeneratedValue(strategy = SEQUENCE, generator = "user_id_seq")
-	@Column(name = "id", updatable = false)
+	@Column(name = "user_id", updatable = false)
 	private long id;
 	
 	@Column(name = "username")
@@ -91,8 +89,8 @@ public class User extends GenericEntity implements UserDetails {
 	private String password;
 	
 	@ManyToMany(fetch = EAGER, cascade = {DETACH, MERGE,REFRESH})
-	@JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
-	inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id") )
+	@JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "user_id"),
+		inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "role_id") )
 	Set<Role> roles = new HashSet<Role>();
 	
 	@Override

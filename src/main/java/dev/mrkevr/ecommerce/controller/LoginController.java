@@ -15,6 +15,7 @@ public class LoginController {
 
 	@GetMapping
 	public String login(@ModelAttribute UserLoginRequest userLoginRequest) {
+
 		return "login";
-	}	
+	}
 }

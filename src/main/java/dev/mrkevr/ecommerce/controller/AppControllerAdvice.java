@@ -1,13 +1,8 @@
 package dev.mrkevr.ecommerce.controller;
 
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.web.bind.annotation.ControllerAdvice;
-import org.springframework.web.bind.annotation.ModelAttribute;
 
-import dev.mrkevr.ecommerce.dto.LoggedInUserDetails;
-import dev.mrkevr.ecommerce.entity.User;
-import dev.mrkevr.ecommerce.servioe.ApplicationUserManagerImpl;
+import dev.mrkevr.ecommerce.servioe.impl.ApplicationUserManagerImpl;
 import lombok.RequiredArgsConstructor;
 
 @ControllerAdvice

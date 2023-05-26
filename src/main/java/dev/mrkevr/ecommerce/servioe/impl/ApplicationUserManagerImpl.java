@@ -1,4 +1,4 @@
-package dev.mrkevr.ecommerce.servioe;
+package dev.mrkevr.ecommerce.servioe.impl;
 
 import java.util.Collection;
 import java.util.Set;
@@ -8,7 +8,6 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import dev.mrkevr.ecommerce.dto.UserRegistrationRequest;
@@ -17,6 +16,7 @@ import dev.mrkevr.ecommerce.entity.User;
 import dev.mrkevr.ecommerce.mapper.UserMapper;
 import dev.mrkevr.ecommerce.repository.RoleRepository;
 import dev.mrkevr.ecommerce.repository.UserRepository;
+import dev.mrkevr.ecommerce.servioe.ApplicationUserManager;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -55,7 +55,7 @@ public class ApplicationUserManagerImpl implements ApplicationUserManager {
 	}
 
 	@Override
-	public UserDetails loadUserByUsername(String usernameEmail) throws UsernameNotFoundException {
+	public UserDetails loadUserByUsername(String usernameEmail) {
 
 		if (userRepo.findByUsername(usernameEmail).isPresent()) {
 			return userRepo.findByUsername(usernameEmail).get();
@@ -85,7 +85,7 @@ public class ApplicationUserManagerImpl implements ApplicationUserManager {
 
 	@Override
 	public User registerUser(UserRegistrationRequest userRegistrationRequest) {
-		Role role = roleRepo.findByRole("USER").orElseThrow();
+		Role role = roleRepo.findByRoleIgnoreCase("user").orElseThrow();
 		User user = userMapper.toUser(userRegistrationRequest, role);
 		User savedUser = userRepo.save(user);
 		return savedUser;
