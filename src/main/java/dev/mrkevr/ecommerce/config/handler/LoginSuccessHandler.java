@@ -2,10 +2,10 @@ package dev.mrkevr.ecommerce.config.handler;
 
 import java.io.IOException;
 import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.web.DefaultRedirectStrategy;
@@ -42,15 +42,24 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 
 			System.out.println(userDetails.getAttributes());
 
-			String username = userDetails.getAttribute("email") != null ? userDetails.getAttribute("email")
-					: userDetails.getAttribute("login") + "@gmail.com";
-
-			if (userRepo.findByEmail(username).isEmpty()) {
+//			String username = userDetails.getAttribute("email") != null ? userDetails.getAttribute("email")
+//					: userDetails.getAttribute("login") + "@gmail.com";
+			
+			// Getting the id (sub for google and id for github)
+			String oauth2Id = userDetails.getAttribute("sub") != null ? 
+					userDetails.getAttribute("sub").toString() : userDetails.getAttribute("id").toString();
+			
+			if (userRepo.findByOauth2Id(oauth2Id).isEmpty()) {
 				User user = new User();
-				user.setEmail(username);
-				user.setUsername(userDetails.getAttribute("email") != null ? userDetails.getAttribute("email")
-						: userDetails.getAttribute("login"));
-				user.setPassword(passwordEncoder.encode("PASSWORD"));
+				user.setOauth2Id(oauth2Id);
+				
+				user.setUsername(userDetails.getAttribute("email") != null ? 
+						userDetails.getAttribute("email") : userDetails.getAttribute("login"));
+				
+				user.setEmail(userDetails.getAttribute("email") != null ? 
+						userDetails.getAttribute("email") : null);
+				
+				user.setPassword(passwordEncoder.encode(UUID.randomUUID().toString()));
 				Role role = roleRepo.findByRoleIgnoreCase("USER").get();
 				user.getRoles().add(role);
 

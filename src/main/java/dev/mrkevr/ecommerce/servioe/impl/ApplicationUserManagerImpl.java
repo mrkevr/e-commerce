@@ -55,15 +55,17 @@ public class ApplicationUserManagerImpl implements ApplicationUserManager {
 	}
 
 	@Override
-	public UserDetails loadUserByUsername(String usernameEmail) {
+	public UserDetails loadUserByUsername(String identity) {
 
-		if (userRepo.findByUsername(usernameEmail).isPresent()) {
-			return userRepo.findByUsername(usernameEmail).get();
+		if (userRepo.findByUsername(identity).isPresent()) {
+			return userRepo.findByUsername(identity).get();
 		}
-		if (userRepo.findByEmail(usernameEmail).isPresent()) {
-			return userRepo.findByEmail(usernameEmail).get();
+		if (userRepo.findByEmail(identity).isPresent()) {
+			return userRepo.findByEmail(identity).get();
 		}
-		
+		if (userRepo.findByOauth2Id(identity).isPresent()) {
+			return userRepo.findByOauth2Id(identity).get();
+		}
 		throw new BadCredentialsException("Bad credentials");
 	}
 

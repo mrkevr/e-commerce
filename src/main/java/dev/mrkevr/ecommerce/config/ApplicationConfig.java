@@ -23,20 +23,19 @@ public class ApplicationConfig {
 	private final RoleRepository roleRepo;
 	private final ProductRepository productRepo;
 	private final ShoppingCartRepository shoppingCartRepo;
-	
+
 	private final ApplicationUserManager applicationUserManager;
 	private final PasswordEncoder passwordEncoder;
 	private final CategoryService categoryServ;
-	
-	
-	
+
 	@Bean
 	CommandLineRunner init() {
 		return args -> {
-			
-			roleRepo.deleteAll();
-			roleRepo.save(new Role("ADMIN"));
-			roleRepo.save(new Role("USER"));
+
+			if (roleRepo.count() == 0) {
+				roleRepo.save(new Role("ADMIN"));
+				roleRepo.save(new Role("USER"));
+			}
 
 			if (!userRepo.existsByUsername("admin")) {
 				User user = new User();
@@ -44,7 +43,8 @@ public class ApplicationConfig {
 				user.setUsername("admin");
 				user.setPassword(passwordEncoder.encode("admin"));
 				user.getRoles().add(roleRepo.findByRoleIgnoreCase("admin").get());
-				applicationUserManager.createUser(user);
+				
+				userRepo.save(user);
 			}
 		};
 	}

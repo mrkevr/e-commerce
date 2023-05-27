@@ -52,7 +52,10 @@ public class User extends GenericEntity implements UserDetails {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_id_seq")
 	@Column(name = "user_id", updatable = false)
 	private String id;
-
+	
+	@Column(name = "oauth2_id")
+	private String oauth2Id;
+	
 	@Column(name = "username")
 	private String username;
 
@@ -81,7 +84,9 @@ public class User extends GenericEntity implements UserDetails {
 	private String password;
 
 	@ManyToMany(fetch = EAGER, cascade = { DETACH, MERGE, REFRESH })
-	@JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "role_id"))
+	@JoinTable(name = "users_roles", 
+		joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "user_id"), 
+		inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "role_id"))
 	Set<Role> roles = new HashSet<Role>();
 
 	@Override
