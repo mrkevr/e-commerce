@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import dev.mrkevr.ecommerce.entity.Product;
 
-public interface ProductRepository extends JpaRepository<Product, Long> {
+public interface ProductRepository extends JpaRepository<Product, String> {
 
 	@Query("SELECT p FROM Product p WHERE p.isDeleted = false and p.isActivated = true")
     List<Product> findAllAvailable();
@@ -47,5 +47,5 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     @Query(value = "SELECT p FROM Product p INNER JOIN Category c ON c.id = :id AND p.category.id = :id "
     		+ "WHERE p.isActivated = true and p.isDeleted = false")
-    List<Product> findAllByCategoryId(long id);
+    List<Product> findAllByCategoryId(String id);
 }

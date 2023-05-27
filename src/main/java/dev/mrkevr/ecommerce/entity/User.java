@@ -4,29 +4,30 @@ import static jakarta.persistence.CascadeType.DETACH;
 import static jakarta.persistence.CascadeType.MERGE;
 import static jakarta.persistence.CascadeType.REFRESH;
 import static jakarta.persistence.FetchType.EAGER;
-import static jakarta.persistence.GenerationType.SEQUENCE;
 
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.hibernate.annotations.GenericGenerator;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import dev.mrkevr.ecommerce.entity.embeddable.Address;
+import dev.mrkevr.ecommerce.entity.generator.GeneticEntityIdentifierGenerator;
 import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.AttributeOverrides;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
-import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import lombok.AllArgsConstructor;
@@ -37,7 +38,6 @@ import lombok.ToString;
 
 @Entity(name = "User")
 @Table(name = "users", uniqueConstraints = @UniqueConstraint(columnNames = { "username", "email" }))
-@SequenceGenerator(name = "user_id_seq", sequenceName = "user_id_seq", initialValue = 111001, allocationSize = 1)
 @ToString
 @Getter
 @Setter
@@ -45,15 +45,13 @@ import lombok.ToString;
 @AllArgsConstructor
 public class User extends GenericEntity implements UserDetails {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -2268718342760256881L;
-
+	
 	@Id
-	@GeneratedValue(strategy = SEQUENCE, generator = "user_id_seq")
+	@GenericGenerator(name = "user_id_seq", type = GeneticEntityIdentifierGenerator.class)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_id_seq")
 	@Column(name = "user_id", updatable = false)
-	private long id;
+	private String id;
 
 	@Column(name = "username")
 	private String username;

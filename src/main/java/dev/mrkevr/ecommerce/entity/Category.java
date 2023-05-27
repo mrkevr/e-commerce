@@ -1,12 +1,13 @@
 package dev.mrkevr.ecommerce.entity;
 
-import static jakarta.persistence.GenerationType.SEQUENCE;
+import org.hibernate.annotations.GenericGenerator;
 
+import dev.mrkevr.ecommerce.entity.generator.GeneticEntityIdentifierGenerator;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import lombok.AllArgsConstructor;
@@ -18,7 +19,6 @@ import lombok.ToString;
 @Entity(name = "Category")
 @Table(name = "categories", uniqueConstraints = @UniqueConstraint(name = "unique_category_name", columnNames = {
 		"name" }))
-@SequenceGenerator(name = "category_id_seq", sequenceName = "category_id_seq", initialValue = 333001, allocationSize = 1)
 @ToString
 @Getter
 @Setter
@@ -27,9 +27,10 @@ import lombok.ToString;
 public class Category {
 
 	@Id
-	@GeneratedValue(strategy = SEQUENCE, generator = "category_id_seq")
+	@GenericGenerator(name = "category_id_seq", type = GeneticEntityIdentifierGenerator.class)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "category_id_seq")
 	@Column(name = "category_id", updatable = false)
-	private long id;
+	private String id;
 
 	@Column(name = "name")
 	private String name;

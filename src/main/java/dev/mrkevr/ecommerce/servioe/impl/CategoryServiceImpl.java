@@ -40,19 +40,19 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
-	public Optional<Category> findById(Long id) {
+	public Optional<Category> findById(String id) {
 		// TODO Auto-generated method stub
 		return Optional.empty();
 	}
 
 	@Override
-	public void deleteById(Long id) {
+	public void deleteById(String id) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void enableById(Long id) {
+	public void enableById(String id) {
 		// TODO Auto-generated method stub
 
 	}

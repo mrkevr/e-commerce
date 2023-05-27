@@ -71,7 +71,7 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public ProductResponse update(long id, ProductRequest productRequest, MultipartFile imageFile) {
+	public ProductResponse update(String id, ProductRequest productRequest, MultipartFile imageFile) {
 		try {
 			Product productToUpdate = productRepo.findById(id).orElseThrow();
 
@@ -103,7 +103,7 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public void enableById(Long id) {
+	public void enableById(String id) {
 
 		Product product = productRepo.findById(id).orElseThrow();
 		product.setActivated(true);
@@ -112,7 +112,7 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public void deleteById(Long id) {
+	public void deleteById(String id) {
 		Product product = productRepo.findById(id).orElseThrow();
 		product.setActivated(false);
 		product.setDeleted(true);
@@ -120,13 +120,13 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public ProductResponse getById(Long id) {
+	public ProductResponse getById(String id) {
 		Product product = productRepo.findById(id).orElseThrow();
 		return productMapper.toResponse(product);
 	}
 
 	@Override
-	public Product findById(Long id) {
+	public Product findById(String id) {
 		return productRepo.findById(id).orElseThrow();
 	}
 
@@ -181,7 +181,7 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public List<ProductResponse> findByCategoryId(Long id) {
+	public List<ProductResponse> findByCategoryId(String id) {
 		List<Product> products = productRepo.findAllByCategoryId(id);
 		return productMapper.toResponse(products);
 	}

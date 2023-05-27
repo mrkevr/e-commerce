@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import dev.mrkevr.ecommerce.entity.Role;
 
-public interface RoleRepository extends JpaRepository<Role, Long> {
+public interface RoleRepository extends JpaRepository<Role, String> {
 
 	Optional<Role> findByRoleIgnoreCase(String role);
 }

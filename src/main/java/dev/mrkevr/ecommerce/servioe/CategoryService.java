@@ -16,11 +16,11 @@ public interface CategoryService {
 
 	List<Category> findALl();
 
-	Optional<Category> findById(Long id);
+	Optional<Category> findById(String id);
 
-	void deleteById(Long id);
+	void deleteById(String id);
 
-	void enableById(Long id);
+	void enableById(String id);
 
 	List<CategoryResponse> getCategoriesAndSize();
 }

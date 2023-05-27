@@ -9,14 +9,14 @@ import org.springframework.data.jpa.repository.Query;
 import dev.mrkevr.ecommerce.dto.CategoryResponse;
 import dev.mrkevr.ecommerce.entity.Category;
 
-public interface CategoryRepository extends JpaRepository<Category, Long> {
+public interface CategoryRepository extends JpaRepository<Category, String> {
 
 	Optional<Category> findByNameIgnoreCase(String name);
 
 	boolean existsByNameContainingIgnoreCase(String name);
 
 	@Query("UPDATE Category c SET name = :name where id = :id")
-	Category update(String name, Long id);
+	Category update(String name, String id);
 
 	@Query("SELECT c from Category c WHERE c.isActivated = true")
 	List<Category> findAllByActivatedTrue();

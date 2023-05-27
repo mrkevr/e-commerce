@@ -13,5 +13,5 @@ public interface ApplicationUserManager extends UserDetailsManager {
 
 	boolean usernameAlreadyTaken(String username);
 	
-	void deleteUserById(Long id);
+	void deleteUserById(String id);
 }

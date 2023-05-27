@@ -78,7 +78,7 @@ public class ApplicationUserManagerImpl implements ApplicationUserManager {
 	}
 
 	@Override
-	public void deleteUserById(Long id) {
+	public void deleteUserById(String id) {
 		User toDelete = userRepo.findById(id).orElseThrow();
 		userRepo.delete(toDelete);
 	}

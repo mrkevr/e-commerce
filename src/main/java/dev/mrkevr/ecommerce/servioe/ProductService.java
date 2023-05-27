@@ -19,15 +19,15 @@ public interface ProductService {
 
 	ProductResponse save(ProductRequest productRequest, MultipartFile imageFile);
 
-	ProductResponse update(long id, ProductRequest productRequest, MultipartFile imageFile);
+	ProductResponse update(String id, ProductRequest productRequest, MultipartFile imageFile);
 
-	void enableById(Long id);
+	void enableById(String id);
 
-	void deleteById(Long id);
+	void deleteById(String id);
 
-	ProductResponse getById(Long id);
+	ProductResponse getById(String id);
 
-	Product findById(Long id);
+	Product findById(String id);
 
 	List<ProductResponse> randomProduct(int limit);
 
@@ -45,7 +45,7 @@ public interface ProductService {
 
 	List<ProductResponse> listViewProducts(int limit);
 
-	List<ProductResponse> findByCategoryId(Long id);
+	List<ProductResponse> findByCategoryId(String id);
 
 	List<ProductResponse> searchProducts(String keyword);
 }

@@ -6,7 +6,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import dev.mrkevr.ecommerce.entity.Role;
-import dev.mrkevr.ecommerce.entity.ShoppingCart;
 import dev.mrkevr.ecommerce.entity.User;
 import dev.mrkevr.ecommerce.repository.ProductRepository;
 import dev.mrkevr.ecommerce.repository.RoleRepository;
@@ -34,9 +33,10 @@ public class ApplicationConfig {
 	@Bean
 	CommandLineRunner init() {
 		return args -> {
-
-			roleRepo.save(new Role(1, "ADMIN"));
-			roleRepo.save(new Role(2, "USER"));
+			
+			roleRepo.deleteAll();
+			roleRepo.save(new Role("ADMIN"));
+			roleRepo.save(new Role("USER"));
 
 			if (!userRepo.existsByUsername("admin")) {
 				User user = new User();
