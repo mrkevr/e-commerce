@@ -13,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 import dev.mrkevr.ecommerce.dto.ProductRequest;
 import dev.mrkevr.ecommerce.dto.ProductResponse;
 import dev.mrkevr.ecommerce.entity.Product;
+import dev.mrkevr.ecommerce.exception.ProductNotFoundException;
 import dev.mrkevr.ecommerce.mapper.ProductMapper;
 import dev.mrkevr.ecommerce.repository.ProductRepository;
 import dev.mrkevr.ecommerce.servioe.ProductService;
@@ -73,7 +74,8 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public ProductResponse update(String id, ProductRequest productRequest, MultipartFile imageFile) {
 		try {
-			Product productToUpdate = productRepo.findById(id).orElseThrow();
+			
+			Product productToUpdate = productRepo.findById(id).orElseThrow(() -> new ProductNotFoundException(id));
 
 			if (imageFile == null) {
 				productToUpdate.setImage(productToUpdate.getImage());
@@ -105,7 +107,7 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public void enableById(String id) {
 
-		Product product = productRepo.findById(id).orElseThrow();
+		Product product = productRepo.findById(id).orElseThrow(() -> new ProductNotFoundException(id));
 		product.setActivated(true);
 		product.setDeleted(false);
 		productRepo.save(product);
@@ -113,7 +115,7 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public void deleteById(String id) {
-		Product product = productRepo.findById(id).orElseThrow();
+		Product product = productRepo.findById(id).orElseThrow(() -> new ProductNotFoundException(id));
 		product.setActivated(false);
 		product.setDeleted(true);
 		productRepo.save(product);
@@ -121,13 +123,13 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public ProductResponse getById(String id) {
-		Product product = productRepo.findById(id).orElseThrow();
+		Product product = productRepo.findById(id).orElseThrow(() -> new ProductNotFoundException(id));
 		return productMapper.toResponse(product);
 	}
 
 	@Override
 	public Product findById(String id) {
-		return productRepo.findById(id).orElseThrow();
+		return productRepo.findById(id).orElseThrow(() -> new ProductNotFoundException(id));
 	}
 
 	@Override

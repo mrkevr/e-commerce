@@ -7,6 +7,7 @@ import static jakarta.persistence.FetchType.EAGER;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -19,6 +20,7 @@ import dev.mrkevr.ecommerce.entity.embeddable.Address;
 import dev.mrkevr.ecommerce.entity.generator.GeneticEntityIdentifierGenerator;
 import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.AttributeOverrides;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
@@ -28,6 +30,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import lombok.AllArgsConstructor;
@@ -88,7 +92,13 @@ public class User extends GenericEntity implements UserDetails {
 		joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "user_id"), 
 		inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "role_id"))
 	Set<Role> roles = new HashSet<Role>();
-
+	
+	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private ShoppingCart cart;
+	
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+	private List<Order> orders;
+	
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		return roles.stream().map(role -> new SimpleGrantedAuthority(role.getRole())).collect(Collectors.toList());

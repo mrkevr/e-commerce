@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-@Entity(name = "Category")
+@Entity
 @Table(name = "categories", uniqueConstraints = @UniqueConstraint(name = "unique_category_name", columnNames = {
 		"name" }))
 @ToString
@@ -24,7 +24,7 @@ import lombok.ToString;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Category {
+public class Category extends GenericEntity {
 
 	@Id
 	@GenericGenerator(name = "category_id_seq", type = GeneticEntityIdentifierGenerator.class)
@@ -45,5 +45,10 @@ public class Category {
 		this.name = name;
 		this.isActivated = true;
 		this.isDeleted = false;
+	}
+
+	@Override
+	public String getIdPrefix() {
+		return "CTGY";
 	}
 }

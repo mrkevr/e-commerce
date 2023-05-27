@@ -1,7 +1,5 @@
 package dev.mrkevr.ecommerce.entity;
 
-import java.util.Set;
-
 import org.hibernate.annotations.GenericGenerator;
 
 import dev.mrkevr.ecommerce.entity.generator.GeneticEntityIdentifierGenerator;
@@ -13,7 +11,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -22,37 +20,37 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-@Entity(name = "ShoppingCart")
-@Table(name = "shopping_carts")
+@Entity
+@Table(name = "order_item")
 @ToString
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ShoppingCart extends GenericEntity {
+public class OrderItem extends GenericEntity {
 
 	@Id
-	@GenericGenerator(name = "shopping_cart_id_seq", type = GeneticEntityIdentifierGenerator.class)
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "shopping_cart_id_seq")
-	@Column(name = "shopping_cart_id", updatable = false)
+	@GenericGenerator(name = "order_item_seq", type = GeneticEntityIdentifierGenerator.class)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "order_item_seq")
+	@Column(name = "order_item", updatable = false)
 	private String id;
 
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(name = "order_id", referencedColumnName = "order_id")
+	private Order order;
+
 	@OneToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "user_id", referencedColumnName = "user_id")
-	private User user;
-	
-	@Column(name = "total_price")
-	private double totalPrice;
+	@JoinColumn(name = "product_id", referencedColumnName = "product_id")
+	private Product product;
 
-	@Column(name = "total_items")
-    private int totalItems;
+	@Column(name = "quantity")
+	private int quantity;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "cart")
-    private Set<CartItem> cartItems;
-    
-    
+	@Column(name = "unit_price")
+	private double unitPrice;
+
 	@Override
 	public String getIdPrefix() {
-		return "SCRT";
+		return "OITM";
 	}
 }

@@ -22,7 +22,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-@Entity(name = "Product")
+@Entity
 @Table(name = "products", uniqueConstraints = @UniqueConstraint(columnNames = {"name"}))
 @ToString
 @Getter

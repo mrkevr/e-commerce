@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import dev.mrkevr.ecommerce.dto.UserRegistrationRequest;
 import dev.mrkevr.ecommerce.entity.Role;
 import dev.mrkevr.ecommerce.entity.User;
+import dev.mrkevr.ecommerce.exception.UserNotFoundException;
 import dev.mrkevr.ecommerce.mapper.UserMapper;
 import dev.mrkevr.ecommerce.repository.RoleRepository;
 import dev.mrkevr.ecommerce.repository.UserRepository;
@@ -56,17 +57,17 @@ public class ApplicationUserManagerImpl implements ApplicationUserManager {
 
 	@Override
 	public UserDetails loadUserByUsername(String identity) {
-
-		if (userRepo.findByUsername(identity).isPresent()) {
-			return userRepo.findByUsername(identity).get();
-		}
+		
 		if (userRepo.findByEmail(identity).isPresent()) {
 			return userRepo.findByEmail(identity).get();
+		}
+		if (userRepo.findByUsername(identity).isPresent()) {
+			return userRepo.findByUsername(identity).get();
 		}
 		if (userRepo.findByOauth2Id(identity).isPresent()) {
 			return userRepo.findByOauth2Id(identity).get();
 		}
-		throw new BadCredentialsException("Bad credentials");
+		throw new UserNotFoundException();
 	}
 
 	@Override

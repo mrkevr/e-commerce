@@ -42,9 +42,6 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 
 			System.out.println(userDetails.getAttributes());
 
-//			String username = userDetails.getAttribute("email") != null ? userDetails.getAttribute("email")
-//					: userDetails.getAttribute("login") + "@gmail.com";
-			
 			// Getting the id (sub for google and id for github)
 			String oauth2Id = userDetails.getAttribute("sub") != null ? 
 					userDetails.getAttribute("sub").toString() : userDetails.getAttribute("id").toString();

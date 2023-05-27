@@ -51,7 +51,7 @@ public class CartItem extends GenericEntity {
 	
 	@Override
 	public String getIdPrefix() {
-		return "CRTI";
+		return "CITM";
 	}
 
 }
