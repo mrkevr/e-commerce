@@ -36,12 +36,8 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Entity(name = "User")
-@Table(name = "users", uniqueConstraints = @UniqueConstraint(columnNames = {"username","email"}))
-@SequenceGenerator(
-		name = "user_id_seq",
-		sequenceName = "user_id_seq",
-		initialValue = 111001,
-		allocationSize = 1)
+@Table(name = "users", uniqueConstraints = @UniqueConstraint(columnNames = { "username", "email" }))
+@SequenceGenerator(name = "user_id_seq", sequenceName = "user_id_seq", initialValue = 111001, allocationSize = 1)
 @ToString
 @Getter
 @Setter
@@ -53,46 +49,43 @@ public class User extends GenericEntity implements UserDetails {
 	 * 
 	 */
 	private static final long serialVersionUID = -2268718342760256881L;
-	
+
 	@Id
 	@GeneratedValue(strategy = SEQUENCE, generator = "user_id_seq")
 	@Column(name = "user_id", updatable = false)
 	private long id;
-	
+
 	@Column(name = "username")
 	private String username;
-	
+
 	@Column(name = "first_name")
 	private String firstName;
-	
+
 	@Column(name = "last_name")
 	private String lastName;
-	
+
 	@Column(name = "address")
 	@Embedded
-	@AttributeOverrides({
-	  @AttributeOverride( name = "street", column = @Column(name = "street")),
-	  @AttributeOverride( name = "barangay", column = @Column(name = "barangay")),
-	  @AttributeOverride( name = "municipality", column = @Column(name = "municipality")),
-	  @AttributeOverride( name = "province", column = @Column(name = "province")),
-	  @AttributeOverride( name = "zipcode", column = @Column(name = "zipcode"))
-	})
+	@AttributeOverrides({ @AttributeOverride(name = "street", column = @Column(name = "street")),
+			@AttributeOverride(name = "barangay", column = @Column(name = "barangay")),
+			@AttributeOverride(name = "municipality", column = @Column(name = "municipality")),
+			@AttributeOverride(name = "province", column = @Column(name = "province")),
+			@AttributeOverride(name = "zipcode", column = @Column(name = "zipcode")) })
 	private Address Address;
-	
+
 	@Column(name = "email", unique = true)
 	private String email;
-	
+
 	@Column(name = "phone")
 	private String phone;
-	
+
 	@Column(name = "password")
 	private String password;
-	
-	@ManyToMany(fetch = EAGER, cascade = {DETACH, MERGE,REFRESH})
-	@JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "user_id"),
-		inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "role_id") )
+
+	@ManyToMany(fetch = EAGER, cascade = { DETACH, MERGE, REFRESH })
+	@JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "role_id"))
 	Set<Role> roles = new HashSet<Role>();
-	
+
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		return roles.stream().map(role -> new SimpleGrantedAuthority(role.getRole())).collect(Collectors.toList());
@@ -116,5 +109,10 @@ public class User extends GenericEntity implements UserDetails {
 	@Override
 	public boolean isEnabled() {
 		return true;
+	}
+
+	@Override
+	public String getIdPrefix() {
+		return "USER";
 	}
 }

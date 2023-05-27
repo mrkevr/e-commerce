@@ -16,8 +16,8 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     List<Product> findAllByNameOrDescription(String keyword);
 
     @Query("SELECT p FROM Product p INNER JOIN Category c ON c.id = p.category.id" +
-            " WHERE p.category.name = :query and p.isActivated = true and p.isDeleted = false")
-    List<Product> findAllByCategory(String query);
+            " WHERE LOWER(p.category.name) = LOWER(?1) and p.isActivated = true and p.isDeleted = false")
+    List<Product> findAllByCategoryIgnoreCase(String category);
 
     @Query(value = "SELECT " +
             "p.product_id, p.name, p.description, p.current_quantity, p.cost_price, p.category_id, p.sale_price, p.image, p.is_ativated, p.is_deleted " +
@@ -27,9 +27,9 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     @Query(value = "SELECT " +
             "p.product_id, p.name, p.description, p.current_quantity, p.cost_price, p.category_id, p.sale_price, p.image, p.is_activated, p.is_deleted " +
-            "FROM products p where p.is_deleted = false and p.is_activated = true ORDER BY p.cost_price DESC LIMIT 9", 
+            "FROM products p where p.is_deleted = false and p.is_activated = true ORDER BY p.cost_price DESC LIMIT :limit", 
             nativeQuery = true)
-    List<Product> filterHighProducts();
+    List<Product> filterHigherProducts(int limit);
 
     @Query(value = "SELECT " +
             "p.product_id, p.name, p.description, p.current_quantity, p.cost_price, p.category_id, p.sale_price, p.image, p.is_activated, p.is_deleted " +
@@ -40,10 +40,12 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     @Query(value = "SELECT "
     		+ "p.product_id, p.name, p.description, p.current_quantity, p.cost_price, p.category_id, p.sale_price, p.image, p.is_activated, p.is_deleted "
-    		+ "FROM products p WHERE p.is_deleted = false AND p.is_activated = true LIMIT :limit", nativeQuery = true)
+    		+ "FROM products p "
+    		+ "WHERE p.is_deleted = false AND p.is_activated = true LIMIT :limit", 
+    		nativeQuery = true)
     List<Product> listViewProduct(int limit);
 
-
-    @Query(value = "SELECT p FROM Product p INNER JOIN Category c ON c.id = :id AND p.category.id = :id WHERE p.isActivated = true and p.isDeleted = false")
-    List<Product> getProductsByCategoryId(Long id);
+    @Query(value = "SELECT p FROM Product p INNER JOIN Category c ON c.id = :id AND p.category.id = :id "
+    		+ "WHERE p.isActivated = true and p.isDeleted = false")
+    List<Product> findAllByCategoryId(long id);
 }

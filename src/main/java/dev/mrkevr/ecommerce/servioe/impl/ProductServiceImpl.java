@@ -39,7 +39,6 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public List<ProductResponse> getAllProducts() {
-
 		return productMapper.toResponse(productRepo.findAll());
 	}
 
@@ -105,6 +104,7 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public void enableById(Long id) {
+
 		Product product = productRepo.findById(id).orElseThrow();
 		product.setActivated(true);
 		product.setDeleted(false);
@@ -138,72 +138,73 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public Page<ProductResponse> searchProducts(int page, int limit, String keyword) {
-		
 		List<Product> products = productRepo.findAllByNameOrDescription(keyword);
 		List<ProductResponse> dtoList = productMapper.toResponse(products);
 		Pageable pageable = PageRequest.of(page, limit);
-		Page<ProductResponse> dtoPage = this.toPage(dtoList, pageable);
-		return dtoPage;
+		return this.toPage(dtoList, pageable);
 	}
 
 	@Override
 	public Page<ProductResponse> getAllProducts(int page, int limit) {
-		// TODO Auto-generated method stub
-		return null;
+		List<ProductResponse> dtoList = productMapper.toResponse(productRepo.findAll());
+		Pageable pageable = PageRequest.of(page, limit);
+		return this.toPage(dtoList, pageable);
 	}
 
 	@Override
 	public Page<ProductResponse> getAllProductsForCustomer(int page, int limit) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public List<ProductResponse> findAllByCategory(String category) {
-		// TODO Auto-generated method stub
-		return null;
+		List<Product> products = productRepo.findAllByCategoryIgnoreCase(category);
+		return productMapper.toResponse(products);
 	}
 
 	@Override
 	public List<ProductResponse> filterHighProducts(int limit) {
-		// TODO Auto-generated method stub
-		return null;
+		List<Product> products = productRepo.filterHigherProducts(limit);
+		return productMapper.toResponse(products);
 	}
 
 	@Override
 	public List<ProductResponse> filterLowerProducts(int limit) {
-		// TODO Auto-generated method stub
-		return null;
+		List<Product> products = productRepo.filterLowerProducts(limit);
+		return productMapper.toResponse(products);
 	}
 
 	@Override
-	public List<ProductResponse> listViewProducts() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<ProductResponse> listViewProducts(int limit) {
+		List<Product> products = productRepo.listViewProduct(limit);
+		return productMapper.toResponse(products);
 	}
 
 	@Override
 	public List<ProductResponse> findByCategoryId(Long id) {
-		// TODO Auto-generated method stub
-		return null;
+		List<Product> products = productRepo.findAllByCategoryId(id);
+		return productMapper.toResponse(products);
 	}
 
 	@Override
 	public List<ProductResponse> searchProducts(String keyword) {
-		// TODO Auto-generated method stub
-		return null;
+		List<Product> products = productRepo.findAllByNameOrDescription(keyword);
+		return productMapper.toResponse(products);
 	}
 
 	private Page<ProductResponse> toPage(List<ProductResponse> list, Pageable pageable) {
-		
+
 		if (pageable.getOffset() >= list.size()) {
 			return Page.empty();
 		}
-		
+
 		int startIndex = (int) pageable.getOffset();
-		int endIndex = ((pageable.getOffset() + pageable.getPageSize()) > list.size()) ? 
-				list.size() : (int) (pageable.getOffset() + pageable.getPageSize());
+		int endIndex = ((pageable.getOffset() + pageable.getPageSize()) > list.size()) ? list.size()
+				: (int) (pageable.getOffset() + pageable.getPageSize());
+		
 		List<ProductResponse> subList = list.subList(startIndex, endIndex);
-		return new PageImpl(subList, pageable, list.size());
+		PageImpl<ProductResponse> page = new PageImpl<>(subList, pageable, list.size());
+		return page;
 	}
+
 }

@@ -12,7 +12,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @MappedSuperclass
-public class GenericEntity {
+public abstract class GenericEntity {
 	
 	@Column(name = "created", updatable = false)
 	protected LocalDateTime created;
@@ -30,4 +30,6 @@ public class GenericEntity {
 	public void preUpdate() {
 		this.setModified(LocalDateTime.now());
 	}
+	
+	public abstract String getIdPrefix();
 }

@@ -43,7 +43,7 @@ public interface ProductService {
 
 	List<ProductResponse> filterLowerProducts(int limit);
 
-	List<ProductResponse> listViewProducts();
+	List<ProductResponse> listViewProducts(int limit);
 
 	List<ProductResponse> findByCategoryId(Long id);
 

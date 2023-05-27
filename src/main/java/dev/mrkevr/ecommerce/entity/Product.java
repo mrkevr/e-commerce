@@ -1,3 +1,4 @@
+
 package dev.mrkevr.ecommerce.entity;
 
 import static jakarta.persistence.GenerationType.SEQUENCE;
@@ -63,4 +64,9 @@ public class Product extends GenericEntity {
 
 	@Column(name = "is_deleted")
 	private boolean isDeleted;
+
+	@Override
+	public String getIdPrefix() {
+		return "PROD";
+	}
 }
