@@ -55,6 +55,7 @@ public class SecurityConfig {
         .authorizeHttpRequests(auth -> {
         	auth
         		.requestMatchers("/login/**","/register/**", "/js/**", "/css/**").permitAll()
+        		.requestMatchers("/admin/**").hasRole("ADMIN")
         		.anyRequest().authenticated();
         })
         .formLogin().loginPage("/login").successHandler(successHandler).usernameParameter("usernameEmail")

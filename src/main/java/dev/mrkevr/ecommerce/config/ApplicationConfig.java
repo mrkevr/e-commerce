@@ -5,9 +5,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import dev.mrkevr.ecommerce.entity.Product;
 import dev.mrkevr.ecommerce.entity.Role;
 import dev.mrkevr.ecommerce.entity.User;
+import dev.mrkevr.ecommerce.entity.embeddable.Address;
 import dev.mrkevr.ecommerce.repository.ProductRepository;
 import dev.mrkevr.ecommerce.repository.RoleRepository;
 import dev.mrkevr.ecommerce.repository.ShoppingCartRepository;
@@ -33,20 +33,30 @@ public class ApplicationConfig {
 	CommandLineRunner init() {
 		return args -> {
 
-			if (roleRepo.count() == 0) {
-				roleRepo.save(new Role("ADMIN"));
-				roleRepo.save(new Role("USER"));
-			}
+			this.addRoles();
+			this.addAdminAccount();
 
-			if (!userRepo.existsByUsername("admin")) {
-				User user = new User();
-				user.setEmail("admin@e-commerce.com");
-				user.setUsername("admin");
-				user.setPassword(passwordEncoder.encode("admin"));
-				user.getRoles().add(roleRepo.findByRoleIgnoreCase("admin").get());
-				
-				userRepo.save(user);
-			}
 		};
+	}
+
+	private void addRoles() {
+		if (roleRepo.count() == 0) {
+			roleRepo.save(new Role("ROLE_ADMIN"));
+			roleRepo.save(new Role("ROLE_USER"));
+		}
+	}
+
+	private void addAdminAccount() {
+		
+		if (!userRepo.existsByUsername("admin")) {
+			User user = new User();
+			user.setUsername("admin");
+			user.setEmail("admin@e-commerce.com");
+			user.setAddress(new Address("B1 L26 Dollar St. Camella Homes", "Banlic", "Cabuyao", "Laguna", "4025"));
+			user.setPhone("1234-12345");		
+			user.setPassword(passwordEncoder.encode("admin"));
+			user.getRoles().add(roleRepo.findByRoleIgnoreCase("ROLE_ADMIN").get());
+			userRepo.save(user);
+		}
 	}
 }

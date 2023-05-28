@@ -1,7 +1,12 @@
 package dev.mrkevr.ecommerce.controller;
 
+import java.util.Collection;
 import java.util.Set;
 
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -30,6 +35,14 @@ public class UserRegistrationController {
 	
 	@GetMapping
 	public ModelAndView showRegistrationForm() {
+		
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		if (authentication != null && !(authentication instanceof AnonymousAuthenticationToken)) {
+			
+			
+			return new ModelAndView("redirect:dashboard");
+		}
+		
 		ModelAndView mav = new ModelAndView("register");
 		mav.addObject("registrationDto", new UserRegistrationRequest());
 		return mav;

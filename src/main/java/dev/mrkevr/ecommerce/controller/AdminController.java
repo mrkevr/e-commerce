@@ -1,5 +1,6 @@
 package dev.mrkevr.ecommerce.controller;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -20,6 +21,7 @@ public class AdminController {
 	private final ApplicationUserManager applicationUserManager;
 
 	@GetMapping
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	ModelAndView dashboard() {
 		
 		SecurityContext securityContext = SecurityContextHolder.getContext();

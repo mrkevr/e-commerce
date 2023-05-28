@@ -37,44 +37,41 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 
 		String redirectUrl = null;
 		if (authentication.getPrincipal() instanceof DefaultOAuth2User) {
-
+			
 			DefaultOAuth2User userDetails = (DefaultOAuth2User) authentication.getPrincipal();
-
-			System.out.println(userDetails.getAttributes());
-
 			// Getting the id (sub for google and id for github)
 			String oauth2Id = userDetails.getAttribute("sub") != null ? 
 					userDetails.getAttribute("sub").toString() : userDetails.getAttribute("id").toString();
 			
 			if (userRepo.findByOauth2Id(oauth2Id).isEmpty()) {
-				User user = new User();
-				user.setOauth2Id(oauth2Id);
-				
-				user.setUsername(userDetails.getAttribute("email") != null ? 
-						userDetails.getAttribute("email") : userDetails.getAttribute("login"));
-				
-				user.setEmail(userDetails.getAttribute("email") != null ? 
-						userDetails.getAttribute("email") : null);
-				
-				user.setPassword(passwordEncoder.encode(UUID.randomUUID().toString()));
-				Role role = roleRepo.findByRoleIgnoreCase("USER").get();
-				user.getRoles().add(role);
-
-				userManager.createUser(user);
+				regiterOauth2User(oauth2Id, userDetails);
 			}
 		}
-
+		
 		Set<String> roles = authentication.getAuthorities()
 				.stream()
 				.map(r -> r.getAuthority())
 				.collect(Collectors.toSet());
 
-		if (roles.contains("ADMIN")) {
+		if (roles.contains("ROLE_ADMIN")) {
 			redirectUrl = "/admin";
 		} else {
 			redirectUrl = "/dashboard";
 		}
-
 		new DefaultRedirectStrategy().sendRedirect(request, response, redirectUrl);
+	}
+
+	private void regiterOauth2User(String oauth2Id, DefaultOAuth2User userDetails) {
+		
+		User user = new User();
+		user.setOauth2Id(oauth2Id);
+		user.setUsername(userDetails.getAttribute("email") != null ? 
+				userDetails.getAttribute("email") : userDetails.getAttribute("login"));
+		user.setEmail(userDetails.getAttribute("email") != null ? 
+				userDetails.getAttribute("email") : null);
+		user.setPassword(passwordEncoder.encode(UUID.randomUUID().toString()));
+		Role role = roleRepo.findByRoleIgnoreCase("ROLE_USER").get();
+		user.getRoles().add(role);
+		userManager.createUser(user);
 	}
 }

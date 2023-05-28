@@ -88,7 +88,7 @@ public class ApplicationUserManagerImpl implements ApplicationUserManager {
 
 	@Override
 	public User registerUser(UserRegistrationRequest userRegistrationRequest) {
-		Role role = roleRepo.findByRoleIgnoreCase("user").orElseThrow();
+		Role role = roleRepo.findByRoleIgnoreCase("ROLE_USER").orElseThrow();
 		User user = userMapper.toUser(userRegistrationRequest, role);
 		User savedUser = userRepo.save(user);
 		return savedUser;

@@ -35,7 +35,11 @@ public class UserMapper {
 		response.setUsername(user.getUsername());
 		response.setFirstName(user.getFirstName());
 		response.setLastName(user.getLastName());
-		response.setAddress(user.getAddress());
+		response.setAddress(
+				user.getAddress().getStreet() + ", " + 
+		user.getAddress().getBarangay() + ", "
+				+ user.getAddress().getMunicipality() + ", " + user.getAddress().getProvince() + " "
+				+ user.getAddress().getZipcode());
 		response.setEmail(user.getEmail());
 		response.setPhone(user.getPhone());
 		return response;
