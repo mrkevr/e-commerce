@@ -1,5 +1,6 @@
 package dev.mrkevr.ecommerce.dto;
 
+import dev.mrkevr.ecommerce.entity.embeddable.Address;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,7 +20,7 @@ public class UserProfileResponse {
 
 	private String lastName;
 
-	private String address;
+	private Address address;
 
 	private String email;
 

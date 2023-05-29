@@ -31,9 +31,14 @@ public class UserProfileController {
 		if (securityContext.getAuthentication().getPrincipal() instanceof DefaultOAuth2User) {
 			
 			DefaultOAuth2User principal = (DefaultOAuth2User) securityContext.getAuthentication().getPrincipal();
+			
+	
 			String id = principal.getAttribute("sub");
+			
+		
+			
 			if (id == null) {
-				id = principal.getAttribute("id");
+				id = principal.getAttribute("id").toString();
 			}
 			
 			System.out.println("READING OAUTH2 PROFILE");
