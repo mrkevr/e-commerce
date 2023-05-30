@@ -1,9 +1,9 @@
 package dev.mrkevr.ecommerce.servioe;
 
-import dev.mrkevr.ecommerce.dto.UserProfileResponse;
+import dev.mrkevr.ecommerce.dto.UserProfileDto;
 
 public interface UserService {
 	
-	UserProfileResponse getProfileResponseById(String id);
+	UserProfileDto getProfileDto(String id);
 	
 }

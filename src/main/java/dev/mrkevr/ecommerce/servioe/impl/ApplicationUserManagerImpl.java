@@ -10,6 +10,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import dev.mrkevr.ecommerce.dto.UserProfileDto;
 import dev.mrkevr.ecommerce.dto.UserRegistrationRequest;
 import dev.mrkevr.ecommerce.entity.Role;
 import dev.mrkevr.ecommerce.entity.User;
@@ -87,14 +88,27 @@ public class ApplicationUserManagerImpl implements ApplicationUserManager {
 	}
 
 	@Override
-	public User registerUser(UserRegistrationRequest userRegistrationRequest) {
+	public UserProfileDto registerUser(UserRegistrationRequest userRegistrationRequest) {
 		Role role = roleRepo.findByRoleIgnoreCase("ROLE_USER").orElseThrow();
 		User user = userMapper.toUser(userRegistrationRequest, role);
 		User savedUser = userRepo.save(user);
-		return savedUser;
+		return userMapper.toUserProfileResponse(savedUser);
 	}
+	
 
+	@Override
+	public UserProfileDto updateUser(UserProfileDto dto) {
+		User userToUpdate = userRepo.findById(dto.getId()).orElseThrow(() -> new UserNotFoundException(dto.getId()));
+		userToUpdate.setFirstName(dto.getFirstName());
+		userToUpdate.setLastName(dto.getLastName());
+		userToUpdate.setAddress(dto.getAddress());
+		userToUpdate.setPhone(dto.getPhone());
+		User savedUser = userRepo.save(userToUpdate);
+		return userMapper.toUserProfileResponse(savedUser);
+	}
+	
 	private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Set<Role> roles) {
 		return roles.stream().map(role -> new SimpleGrantedAuthority(role.getRole())).collect(Collectors.toList());
 	}
+
 }

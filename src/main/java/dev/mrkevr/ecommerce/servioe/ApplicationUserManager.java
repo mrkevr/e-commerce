@@ -2,12 +2,14 @@ package dev.mrkevr.ecommerce.servioe;
 
 import org.springframework.security.provisioning.UserDetailsManager;
 
+import dev.mrkevr.ecommerce.dto.UserProfileDto;
 import dev.mrkevr.ecommerce.dto.UserRegistrationRequest;
-import dev.mrkevr.ecommerce.entity.User;
 
 public interface ApplicationUserManager extends UserDetailsManager {
 
-	User registerUser(UserRegistrationRequest userRegistrationRequest);
+	UserProfileDto registerUser(UserRegistrationRequest userRegistrationRequest);
+	
+	UserProfileDto updateUser(UserProfileDto dto);
 
 	boolean emailAlreadyTaken(String email);
 

@@ -2,7 +2,7 @@ package dev.mrkevr.ecommerce.servioe.impl;
 
 import org.springframework.stereotype.Service;
 
-import dev.mrkevr.ecommerce.dto.UserProfileResponse;
+import dev.mrkevr.ecommerce.dto.UserProfileDto;
 import dev.mrkevr.ecommerce.entity.User;
 import dev.mrkevr.ecommerce.exception.UserNotFoundException;
 import dev.mrkevr.ecommerce.mapper.UserMapper;
@@ -18,7 +18,7 @@ public class UserServiceImpl implements UserService {
 	private final UserMapper userMapper;
 	
 	@Override
-	public UserProfileResponse getProfileResponseById(String id) {
+	public UserProfileDto getProfileDto(String id) {
 		User user = userRepo.findById(id)
 			.orElseGet(() -> userRepo.findByOauth2Id(id)
 			.orElseThrow(() -> new UserNotFoundException(id)));

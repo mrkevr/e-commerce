@@ -3,7 +3,7 @@ package dev.mrkevr.ecommerce.mapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import dev.mrkevr.ecommerce.dto.UserProfileResponse;
+import dev.mrkevr.ecommerce.dto.UserProfileDto;
 import dev.mrkevr.ecommerce.dto.UserRegistrationRequest;
 import dev.mrkevr.ecommerce.entity.Role;
 import dev.mrkevr.ecommerce.entity.User;
@@ -28,20 +28,14 @@ public class UserMapper {
 		return user;
 	}
 
-	public UserProfileResponse toUserProfileResponse(User user) {
-		UserProfileResponse response = new UserProfileResponse();
+	public UserProfileDto toUserProfileResponse(User user) {
+		UserProfileDto response = new UserProfileDto();
 		response.setId(user.getId());
-		response.setOauth2Id(user.getOauth2Id());
 		response.setUsername(user.getUsername());
+		response.setEmail(user.getEmail());
 		response.setFirstName(user.getFirstName());
 		response.setLastName(user.getLastName());
 		response.setAddress(user.getAddress());
-//		response.setAddress(
-//				user.getAddress().getStreet() + ", " + 
-//		user.getAddress().getBarangay() + ", "
-//				+ user.getAddress().getMunicipality() + ", " + user.getAddress().getProvince() + " "
-//				+ user.getAddress().getZipcode());
-		response.setEmail(user.getEmail());
 		response.setPhone(user.getPhone());
 		return response;
 	}

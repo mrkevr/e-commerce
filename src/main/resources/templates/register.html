@@ -26,6 +26,11 @@
                                                 <label for="inputUsername">Username</label>
                                                	<p th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="alert alert-danger small p-1"></p>
                                             </div>
+                                            <div class="form-floating mb-3">
+                                                <input class="form-control" id="inputEmail" type="email" th:field="*{email}" />
+                                                <label for="inputEmail">Email address</label>
+                                                <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="alert alert-danger small p-1"></p>
+                                            </div>
                                             <div class="row mb-3">
                                                 <div class="col-md-6">
                                                     <div class="form-floating mb-3 mb-md-0">
@@ -75,17 +80,13 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="form-floating mb-3">
-                                                <input type="text" th:field="*{address.zipcode}" class="form-control" id="inputZipcode" placeholder="" />
-                                                <label for="inputZipcode">Zipcode</label>
-                                               	<p th:if="${#fields.hasErrors('address.zipcode')}" th:errors="*{address.zipcode}" class="alert alert-danger small p-1"></p>
-                                            </div>
+                                      
                                              <div class="row mb-3">
                                                 <div class="col-md-6">
                                             		<div class="form-floating mb-3 mb-3 mb-md-0">
-                                                		<input class="form-control" id="inputEmail" type="email" th:field="*{email}" />
-                                                		<label for="inputEmail">Email address</label>
-                                                		<p th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="alert alert-danger small p-1"></p>
+                                            			<input type="text" th:field="*{address.zipcode}" class="form-control" id="inputZipcode"/>
+                                                		<label for="inputZipcode">Zipcode</label>
+                                               			<p th:if="${#fields.hasErrors('address.zipcode')}" th:errors="*{address.zipcode}" class="alert alert-danger small p-1"></p>
                                             		</div>
                                          	   </div>
                                          	   <div class="col-md-6">
