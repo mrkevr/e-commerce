@@ -14,15 +14,17 @@ public class ImageUploader {
 	private final String UPLOAD_FOLDER = "D:\\Programming Applications\\eclipse-workspace\\e-commerce\\src\\main\\resources\\static\\img";
 
 	public boolean uploadFile(MultipartFile file) {
-		boolean isUpload = false;
+		boolean uploadSuccess = false;
 		try {
-			Files.copy(file.getInputStream(), Paths.get(UPLOAD_FOLDER + File.separator + file.getOriginalFilename()),
-					StandardCopyOption.REPLACE_EXISTING);
-			isUpload = true;
+			Files.copy(file.getInputStream(), 
+				Paths.get(UPLOAD_FOLDER + File.separator + file.getOriginalFilename()),
+				StandardCopyOption.REPLACE_EXISTING);
+			uploadSuccess = true;
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return isUpload;
+		return uploadSuccess;
 	}
 
 	public boolean fileExists(MultipartFile multipartFile) {

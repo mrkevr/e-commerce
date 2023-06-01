@@ -54,7 +54,7 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 				.collect(Collectors.toSet());
 
 		if (roles.contains("ROLE_ADMIN")) {
-			redirectUrl = "/admin";
+			redirectUrl = "/admin/dashboard";
 		} else {
 			redirectUrl = "/dashboard";
 		}

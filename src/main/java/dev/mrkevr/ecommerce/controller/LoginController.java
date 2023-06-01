@@ -30,7 +30,8 @@ public class LoginController {
 			boolean isAdmin = authorities.stream().anyMatch(a -> a.toString().equals("ROLE_ADMIN"));
 			return isAdmin ? "redirect:admin" : "redirect:dashboard";
 		}
-
+		
+		userLoginRequest.setUsernameEmail("admin");
 		return "login";
 	}
 }
