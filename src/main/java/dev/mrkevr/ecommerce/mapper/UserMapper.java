@@ -1,5 +1,8 @@
 package dev.mrkevr.ecommerce.mapper;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -38,5 +41,9 @@ public class UserMapper {
 		response.setAddress(user.getAddress());
 		response.setPhone(user.getPhone());
 		return response;
+	}
+
+	public List<UserProfileDto> toUserProfileResponse(List<User> users) {
+		return users.stream().map(user -> this.toUserProfileResponse(user)).collect(Collectors.toList());
 	}
 }

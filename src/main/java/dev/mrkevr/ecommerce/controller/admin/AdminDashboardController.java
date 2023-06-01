@@ -24,7 +24,7 @@ public class AdminDashboardController {
 	private final AdminServiceImpl adminServ;
 	
 	
-	@GetMapping("/dashboard")
+	@GetMapping({"/dashboard","/"})
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	ModelAndView dashboard() {
 		
@@ -32,7 +32,7 @@ public class AdminDashboardController {
 		mav.addObject("totalUsers", adminServ.getTotalUsers());
 		mav.addObject("totalCategories", adminServ.getTotalCategories());
 		mav.addObject("totalProducts", adminServ.getTotalProducts());
-		mav.addObject(null, mav)
+		mav.addObject("totalOrders", adminServ.getTotalOrders());
 		
 		return mav;
 	}

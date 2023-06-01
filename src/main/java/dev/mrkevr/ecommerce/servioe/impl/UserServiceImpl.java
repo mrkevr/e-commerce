@@ -1,5 +1,8 @@
 package dev.mrkevr.ecommerce.servioe.impl;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.stereotype.Service;
 
 import dev.mrkevr.ecommerce.dto.UserProfileDto;
@@ -24,6 +27,14 @@ public class UserServiceImpl implements UserService {
 			.orElseThrow(() -> new UserNotFoundException(id)));
 		
 		return userMapper.toUserProfileResponse(user);
+	}
+
+	@Override
+	public List<UserProfileDto> getAllUsersDto() {
+		List<User> list = userRepo.findAll().stream().filter(user -> !user.getUsername().equals("admin")).collect(Collectors.toList());
+		
+		
+		return userMapper.toUserProfileResponse(list);
 	}
 	
 	
