@@ -7,7 +7,7 @@
 	content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 <meta name="description" content="" />
 <meta name="author" content="" />
-<title>Users - Admin</title>
+<title>Categories - Admin</title>
 <link
 	href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css"
 	rel="stylesheet" />
@@ -145,57 +145,51 @@
 		<div id="layoutSidenav_content">
 			<main>
 				<div class="container-fluid px-4">
-					<h1 class="mt-4">Users</h1>
+					<h1 class="mt-4">Categories</h1>
 					
 					<!-- Table -->
 					<div class="card mb-4">
 						<div class="card-header">
-							<i class="fas fa-table me-1"></i> Users Table
+							<i class="fas fa-table me-1"></i> Categories Table
 						</div>
 						<div class="card-body">
 							<table id="datatablesSimple">
 								<thead>
 									<tr>
-										<th>Username</th>
 										<th>Name</th>
-										<th class="d-none d-lg-table-cell">Email</th>
-										<th class="d-none d-md-table-cell">Phone</th>
-										<th class="d-none d-md-table-cell">Address</th>
+										<th class="d-none d-lg-table-cell">Activated</th>
+										<th class="d-none d-lg-table-cell">Deleted</th>
+										<th class="d-none d-md-table-cell">Created</th>
+										<th class="d-none d-md-table-cell">Modified</th>
 										<th>Action</th>
 									</tr>
 								</thead>
 								<tfoot>
 									<tr>
-										<th>Username</th>
 										<th>Name</th>
-										<th class="d-none d-lg-table-cell">Email</th>
-										<th class="d-none d-md-table-cell">Phone</th>
-										<th class="d-none d-md-table-cell">Address</th>
+										<th class="d-none d-lg-table-cell">Activated</th>
+										<th class="d-none d-lg-table-cell">Deleted</th>
+										<th class="d-none d-md-table-cell">Created</th>
+										<th class="d-none d-md-table-cell">Modified</th>
 										<th>Action</th>
 									</tr>
 								</tfoot>
 								<tbody>
-									<tr th:each="u: ${users}">
-										<td><a th:text="${u.username}" th:href="@{users/{id}(id=${u.id})}"></a></td>
-										<td th:text="${u.firstName}+' '+${u.lastName}"></td>
-										<td th:text="${u.email}" class="d-none d-lg-table-cell p-1"></td>
-										<td th:text="${u.phone}" class="d-none d-md-table-cell p-1"></td>
-										<td th:text="${u.address?.street}+' '+${u.address?.barangay}+' '+${u.address?.municipality}+' '+${u.address?.province}+' '+${u.address?.zipcode}" class="d-none d-md-table-cell"></td>
-										
-										
-										
+									<tr th:each="c: ${categories}">
+										<td th:text="${c.name}"></td>
+										<td th:text="${c.isActivated}" class="d-none d-lg-table-cell p-1"></td>
+										<td th:text="${c.isDeleted}" class="d-none d-lg-table-cell p-1"></td>
+										<td><span th:text="${#temporals.format(c.created, 'MMMM dd, yyyy hh:mm a')}"></span></td>
+										<td><span th:text="${#temporals.format(c.modified, 'MMMM dd, yyyy hh:mm a')}"></span></td>
+										<!-- Actions -->
 										<td class="d-flex">
 											<div style="text-align: center">
 	
-
-
-
-
-
+	
 												<!-- Delete -->
-												<a th:href="@{/delete-user(id=${u.id})}"
+												<a th:href="@{/delete-category(id=${c.id})}"
 													class="text-primary fs-6"
-													onclick="if (!(confirm('Are you sure you want to delete this user?'))) return false">
+													onclick="if (!(confirm('Are you sure you want to delete this category?'))) return false">
 													<i class="fas fa-trash-alt"></i>
 												</a>
 												<!-- Delete : End -->

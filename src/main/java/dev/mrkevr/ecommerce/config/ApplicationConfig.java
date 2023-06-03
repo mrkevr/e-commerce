@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import dev.mrkevr.ecommerce.entity.Category;
 import dev.mrkevr.ecommerce.entity.Role;
 import dev.mrkevr.ecommerce.entity.User;
 import dev.mrkevr.ecommerce.entity.embeddable.Address;
@@ -47,16 +48,31 @@ public class ApplicationConfig {
 	}
 
 	private void addAdminAccount() {
-		
+
 		if (!userRepo.existsByUsername("admin")) {
 			User user = new User();
 			user.setUsername("admin");
 			user.setEmail("admin@e-commerce.com");
 			user.setAddress(new Address("B1 L26 Dollar St. Camella Homes", "Banlic", "Cabuyao", "Laguna", "4025"));
-			user.setPhone("1234-12345");		
+			user.setPhone("1234-12345");
 			user.setPassword(passwordEncoder.encode("admin"));
 			user.getRoles().add(roleRepo.findByRoleIgnoreCase("ROLE_ADMIN").get());
 			userRepo.save(user);
 		}
+	}
+
+//	@Bean
+	CommandLineRunner init2() {
+		return args -> {
+			categoryServ.save(new Category("Electronics/Tech"));
+			categoryServ.save(new Category("Cosmetics and Body Care"));
+			categoryServ.save(new Category("Food and Beverage"));
+			categoryServ.save(new Category("Furniture and Decor"));
+			categoryServ.save(new Category("Health and Wellness"));
+			categoryServ.save(new Category("Household"));
+			categoryServ.save(new Category("Pet Care"));
+			categoryServ.save(new Category("Office Equipment and Supplies"));
+			categoryServ.save(new Category("Entertainment"));
+		};
 	}
 }

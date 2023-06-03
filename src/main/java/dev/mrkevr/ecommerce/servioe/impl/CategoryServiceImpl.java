@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import dev.mrkevr.ecommerce.dto.CategoryResponse;
 import dev.mrkevr.ecommerce.entity.Category;
+import dev.mrkevr.ecommerce.exception.CategoryNotFoundException;
 import dev.mrkevr.ecommerce.repository.CategoryRepository;
 import dev.mrkevr.ecommerce.servioe.CategoryService;
 import lombok.RequiredArgsConstructor;
@@ -23,44 +24,47 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
-	public Category update(Category category) {
-		// TODO Auto-generated method stub
-		return null;
+	public Category updateName(String id, String name) {
+		Category toUpdate = categoryRepo.findById(id).orElseThrow(() -> new CategoryNotFoundException(id));
+		toUpdate.setName(name);
+		Category updatedCategory = categoryRepo.save(toUpdate);
+		return updatedCategory;
 	}
-
+	
 	@Override
 	public List<Category> findAllByActivatedTrue() {
 		return categoryRepo.findAllByActivatedTrue();
 	}
 
 	@Override
-	public List<Category> findALl() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Category> findAll() {
+		return categoryRepo.findAll();
 	}
 
 	@Override
-	public Optional<Category> findById(String id) {
-		// TODO Auto-generated method stub
-		return Optional.empty();
+	public Category findById(String id) {
+		return categoryRepo.findById(id).orElseThrow(() -> new CategoryNotFoundException(id));
 	}
 
 	@Override
 	public void deleteById(String id) {
-		// TODO Auto-generated method stub
-
+		Category toDelete = categoryRepo.findById(id).orElseThrow(() -> new CategoryNotFoundException(id));
+		categoryRepo.delete(toDelete);
 	}
 
 	@Override
 	public void enableById(String id) {
-		// TODO Auto-generated method stub
-
+		Category toEnable = categoryRepo.findById(id).orElseThrow(() -> new CategoryNotFoundException(id));
+		toEnable.setActivated(true);
+		toEnable.setDeleted(false);
+		categoryRepo.save(toEnable);
 	}
 
 	@Override
 	public List<CategoryResponse> getCategoriesAndSize() {
-		
 		return categoryRepo.getCategoriesAndSize();
 	}
+
+	
 
 }

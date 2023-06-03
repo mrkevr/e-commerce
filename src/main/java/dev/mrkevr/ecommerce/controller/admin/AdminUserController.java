@@ -10,14 +10,14 @@ import dev.mrkevr.ecommerce.servioe.UserService;
 import lombok.RequiredArgsConstructor;
 
 @Controller
-@RequestMapping("/admin")
+@RequestMapping("/admin/users")
 @RequiredArgsConstructor
 public class AdminUserController {
 
 	private final UserService userServ;
 
-	@GetMapping("/users")
-	ModelAndView dashboard() {
+	@GetMapping
+	ModelAndView users() {
 
 		ModelAndView mav = new ModelAndView("admin/users");
 		mav.addObject("users", userServ.getAllUsersDto());
@@ -25,8 +25,8 @@ public class AdminUserController {
 		return mav;
 	}
 
-	@GetMapping("/users/{id}")
-	ModelAndView dashboard(@PathVariable String id) {
+	@GetMapping("/{id}")
+	ModelAndView userDetails(@PathVariable String id) {
 
 		ModelAndView mav = new ModelAndView("admin/user-details");
 		mav.addObject("user", userServ.getProfileDto(id));
