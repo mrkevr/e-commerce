@@ -45,7 +45,8 @@ public class CategoryServiceImpl implements CategoryService {
 	public Category findById(String id) {
 		return categoryRepo.findById(id).orElseThrow(() -> new CategoryNotFoundException(id));
 	}
-
+	
+	// do not use, use disableById method instead
 	@Override
 	public void deleteById(String id) {
 		Category toDelete = categoryRepo.findById(id).orElseThrow(() -> new CategoryNotFoundException(id));
@@ -53,17 +54,27 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
-	public void enableById(String id) {
+	public Category enableById(String id) {
 		Category toEnable = categoryRepo.findById(id).orElseThrow(() -> new CategoryNotFoundException(id));
 		toEnable.setActivated(true);
 		toEnable.setDeleted(false);
-		categoryRepo.save(toEnable);
+		return categoryRepo.save(toEnable);
+	}
+	
+	@Override
+	public Category disableById(String id) {
+		Category toDisable = categoryRepo.findById(id).orElseThrow(() -> new CategoryNotFoundException(id));
+		toDisable.setActivated(false);
+		toDisable.setDeleted(true);
+		return categoryRepo.save(toDisable);
 	}
 
 	@Override
 	public List<CategoryResponse> getCategoriesAndSize() {
 		return categoryRepo.getCategoriesAndSize();
 	}
+
+
 
 	
 

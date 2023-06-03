@@ -88,7 +88,7 @@
 						<div class="collapse" id="collapseLayouts2"
 							aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
 							<nav class="sb-sidenav-menu-nested nav">
-								<a class="nav-link" th:href="@{/admin/products}"><i
+								<a class="nav-link" th:href="@{/admin/categories}"><i
 									class="fas fa-table me-2"></i>Categories</a>
 							</nav>
 							<nav class="sb-sidenav-menu-nested nav">
@@ -146,7 +146,9 @@
 			<main>
 				<div class="container-fluid px-4">
 					<h1 class="mt-4">Categories</h1>
-					
+					<div class="alert alert-success p-1 text-center" th:if="${categoryUpdateSuccessful}">
+						<strong>Success! </strong><span th:text="${categoryUpdateSuccessful}"></span>
+					</div>
 					<!-- Table -->
 					<div class="card mb-4">
 						<div class="card-header">
@@ -177,27 +179,55 @@
 								<tbody>
 									<tr th:each="c: ${categories}">
 										<td th:text="${c.name}"></td>
-										<td th:text="${c.isActivated}" class="d-none d-lg-table-cell p-1"></td>
-										<td th:text="${c.isDeleted}" class="d-none d-lg-table-cell p-1"></td>
+										<td class="d-none d-lg-table-cell p-1">
+											<div style="text-align: center">
+												<span th:if="${c.isActivated}">
+        											<i class="fas fa-check-circle text-success fs-4"></i>
+    											</span>
+    											<span th:if="${!c.isActivated}">
+        											<i class="fas fa-times-circle text-danger fs-4"></i>
+    											</span>
+											</div>
+										</td>
+										<td class="d-none d-lg-table-cell p-1">
+											<div style="text-align: center">
+												<span th:if="${c.isDeleted}">
+        											<i class="fas fa-check-circle text-success fs-4"></i>
+    											</span>
+    											<span th:if="${!c.isDeleted}">
+        											<i class="fas fa-times-circle text-danger fs-4"></i>
+    											</span>
+    										</div>
+										</td>
 										<td><span th:text="${#temporals.format(c.created, 'MMMM dd, yyyy hh:mm a')}"></span></td>
 										<td><span th:text="${#temporals.format(c.modified, 'MMMM dd, yyyy hh:mm a')}"></span></td>
 										<!-- Actions -->
 										<td class="d-flex">
 											<div style="text-align: center">
 	
-	
-												<!-- Delete -->
-												<a th:href="@{/delete-category(id=${c.id})}"
-													class="text-primary fs-6"
-													onclick="if (!(confirm('Are you sure you want to delete this category?'))) return false">
-													<i class="fas fa-trash-alt"></i>
-												</a>
-												<!-- Delete : End -->
+												<span th:if="${!c.isActivated} and ${c.isDeleted}">
+													<a th:href="@{/admin/categories/enable(id=${c.id})}"
+														class="btn btn-success btn-sm"
+														onclick="if (!(confirm('Are you sure you want to enable this category?'))) return false">
+														Enable
+													</a>
+												</span>
+												<span th:if="${c.isActivated} and ${!c.isDeleted}">
+													<a th:href="@{/admin/categories/disable(id=${c.id})}"
+														class="btn btn-danger btn-sm"
+														onclick="if (!(confirm('Are you sure you want to disable this category?'))) return false">
+														Disable
+													</a>
+												</span>
+												
 											</div>
 										</td>
 									</tr>
 								</tbody>
 							</table>
+							
+							<a class="btn btn-primary btn-sm" th:href="@{/categories/new-category}">Add New Category</a>
+							
 						</div>
 					</div>
 
