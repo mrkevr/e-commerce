@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import dev.mrkevr.ecommerce.dto.UserProfileDto;
 import dev.mrkevr.ecommerce.entity.User;
@@ -14,6 +15,7 @@ import dev.mrkevr.ecommerce.servioe.UserService;
 import lombok.RequiredArgsConstructor;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 	

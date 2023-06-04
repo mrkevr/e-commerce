@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import dev.mrkevr.ecommerce.dto.CategoryResponse;
@@ -26,4 +27,8 @@ public interface CategoryRepository extends JpaRepository<Category, String> {
             "WHERE c.isActivated = true AND c.isDeleted = false " +
             "GROUP BY c.id ")
 	List<CategoryResponse> getCategoriesAndSize();	
+	
+	@Modifying
+	@Query("UPDATE Category c SET isActivated = true, isDeleted = false")
+	void enableAll();
 }

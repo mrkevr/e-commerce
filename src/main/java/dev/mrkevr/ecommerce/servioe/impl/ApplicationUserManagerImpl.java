@@ -4,11 +4,11 @@ import java.util.Collection;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import dev.mrkevr.ecommerce.dto.UserProfileDto;
 import dev.mrkevr.ecommerce.dto.UserRegistrationRequest;
@@ -22,6 +22,7 @@ import dev.mrkevr.ecommerce.servioe.ApplicationUserManager;
 import lombok.RequiredArgsConstructor;
 
 @Service
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class ApplicationUserManagerImpl implements ApplicationUserManager {
 
@@ -35,17 +36,20 @@ public class ApplicationUserManagerImpl implements ApplicationUserManager {
 	}
 
 	@Override
+	@Transactional
 	public void createUser(UserDetails user) {
 		User newUser = (User) user;
 		userRepo.save(newUser);
 	}
 
 	@Override
+	@Transactional
 	public void deleteUser(String username) {
 		// TODO Auto-generated method stub
 	}
 
 	@Override
+	@Transactional
 	public void updateUser(UserDetails user) {
 		User toUpdate = (User) user;
 		userRepo.save(toUpdate);
@@ -82,12 +86,14 @@ public class ApplicationUserManagerImpl implements ApplicationUserManager {
 	}
 
 	@Override
+	@Transactional
 	public void deleteUserById(String id) {
 		User toDelete = userRepo.findById(id).orElseThrow();
 		userRepo.delete(toDelete);
 	}
 
 	@Override
+	@Transactional
 	public UserProfileDto registerUser(UserRegistrationRequest userRegistrationRequest) {
 		Role role = roleRepo.findByRoleIgnoreCase("ROLE_USER").orElseThrow();
 		User user = userMapper.toUser(userRegistrationRequest, role);
@@ -97,6 +103,7 @@ public class ApplicationUserManagerImpl implements ApplicationUserManager {
 	
 
 	@Override
+	@Transactional
 	public UserProfileDto updateUser(UserProfileDto dto) {
 		User userToUpdate = userRepo.findById(dto.getId()).orElseThrow(() -> new UserNotFoundException(dto.getId()));
 		userToUpdate.setFirstName(dto.getFirstName());

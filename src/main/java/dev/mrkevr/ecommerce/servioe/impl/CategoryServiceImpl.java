@@ -1,9 +1,9 @@
 package dev.mrkevr.ecommerce.servioe.impl;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import dev.mrkevr.ecommerce.dto.CategoryResponse;
 import dev.mrkevr.ecommerce.entity.Category;
@@ -13,17 +13,20 @@ import dev.mrkevr.ecommerce.servioe.CategoryService;
 import lombok.RequiredArgsConstructor;
 
 @Service
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class CategoryServiceImpl implements CategoryService {
 	
 	private final CategoryRepository categoryRepo;
 	
 	@Override
+	@Transactional
 	public Category save(Category category) {
-		return categoryRepo.save(new Category(category.getName()));
+		return categoryRepo.save(category);
 	}
 
 	@Override
+	@Transactional
 	public Category updateName(String id, String name) {
 		Category toUpdate = categoryRepo.findById(id).orElseThrow(() -> new CategoryNotFoundException(id));
 		toUpdate.setName(name);
@@ -48,12 +51,14 @@ public class CategoryServiceImpl implements CategoryService {
 	
 	// do not use, use disableById method instead
 	@Override
+	@Transactional
 	public void deleteById(String id) {
 		Category toDelete = categoryRepo.findById(id).orElseThrow(() -> new CategoryNotFoundException(id));
 		categoryRepo.delete(toDelete);
 	}
 
 	@Override
+	@Transactional
 	public Category enableById(String id) {
 		Category toEnable = categoryRepo.findById(id).orElseThrow(() -> new CategoryNotFoundException(id));
 		toEnable.setActivated(true);
@@ -62,6 +67,13 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 	
 	@Override
+	@Transactional
+	public void enableAll() {
+		categoryRepo.enableAll();
+	}
+	
+	@Override
+	@Transactional
 	public Category disableById(String id) {
 		Category toDisable = categoryRepo.findById(id).orElseThrow(() -> new CategoryNotFoundException(id));
 		toDisable.setActivated(false);
@@ -73,6 +85,8 @@ public class CategoryServiceImpl implements CategoryService {
 	public List<CategoryResponse> getCategoriesAndSize() {
 		return categoryRepo.getCategoriesAndSize();
 	}
+
+	
 
 
 

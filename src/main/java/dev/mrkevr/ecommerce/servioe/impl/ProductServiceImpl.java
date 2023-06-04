@@ -8,6 +8,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import dev.mrkevr.ecommerce.dto.ProductRequest;
@@ -21,6 +22,7 @@ import dev.mrkevr.ecommerce.utils.ImageUploader;
 import lombok.RequiredArgsConstructor;
 
 @Service
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService {
 
@@ -44,6 +46,7 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
+	@Transactional
 	public ProductResponse save(ProductRequest productRequest, MultipartFile imageFile) {
 		Product product = new Product();
 		try {
@@ -72,6 +75,7 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
+	@Transactional
 	public ProductResponse update(String id, ProductRequest productRequest, MultipartFile imageFile) {
 		try {
 			
@@ -105,6 +109,7 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
+	@Transactional
 	public void enableById(String id) {
 
 		Product product = productRepo.findById(id).orElseThrow(() -> new ProductNotFoundException(id));
@@ -114,6 +119,7 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
+	@Transactional
 	public void deleteById(String id) {
 		Product product = productRepo.findById(id).orElseThrow(() -> new ProductNotFoundException(id));
 		product.setActivated(false);
