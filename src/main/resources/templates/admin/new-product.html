@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>Dashboard - Admin</title>
+        <title>New Product - Admin</title>
         <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
         <link rel="stylesheet" type="text/css" th:href="@{/css/styles.css}"/>
         <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
@@ -73,7 +73,7 @@
                                     <a class="nav-link" th:href="@{/admin/products}"><i class="fas fa-table me-2"></i>Products</a>
                                 </nav>
                                 <nav class="sb-sidenav-menu-nested nav">
-                                    <a class="nav-link" th:href="@{/admin/products/new-product}"><i class="fas fa-plus-square me-2"></i>Add Product</a>
+                                    <a class="nav-link" th:href="@{/admin/new-product}"><i class="fas fa-plus-square me-2"></i>Add Product</a>
                                 </nav>
                             </div>
                             <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts4" aria-expanded="false" aria-controls="collapseLayouts">
@@ -96,93 +96,92 @@
             </div>
             <div id="layoutSidenav_content">
                 <main>
-                    <div class="container-fluid px-4">
-                        <h1 class="mt-4">Dashboard</h1>
-                        <!-- Dashboard Cards -->
-                        <div class="row">
-                           <div class="col-xl-3 col-md-6">
-                               <div class="card bg-primary text-white mb-4">
-                               	<div class="card-body fs-5">
-                                    	<div class="d-flex justify-content-between">
-   											 <div><i class="fas fa-user me-1"></i>Users</div>
-    										 <div><span th:text="${totalUsers}"></span></div>
-										</div>        	
-                                    </div>
-                                    <div class="card-footer d-flex align-items-center justify-content-between">
-                                        <a class="small text-white stretched-link" th:href="@{/admin/users}">View Details</a>
-                                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                                    </div>
-                               </div>
-                            </div>
-                            <div class="col-xl-3 col-md-6">
-                               <div class="card bg-danger text-white mb-4">
-                               	<div class="card-body fs-5">
-                                    	<div class="d-flex justify-content-between">
-   											 <div><i class="fas fa-sitemap me-1"></i>Categories</div>
-    										 <div><span th:text="${totalCategories}"></span></div>
-										</div>        	
-                                    </div>
-                                    <div class="card-footer d-flex align-items-center justify-content-between">
-                                        <a class="small text-white stretched-link" th:href="@{/admin/categories}">View Details</a>
-                                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                                    </div>
-                               </div>
-                            </div>
-                            <div class="col-xl-3 col-md-6">
-                                <div class="card bg-warning text-white mb-4">
-                                    <div class="card-body fs-5">
-                                    	<div class="d-flex justify-content-between">
-                                   			<div><i class="fas fa-boxes me-1"></i>Products</div>
-                                   			<div><span th:text="${totalProducts}"></span></div>
-                                   		</div>
-                                    </div>
-                                    <div class="card-footer d-flex align-items-center justify-content-between">
-                                        <a class="small text-white stretched-link" th:href="@{/admin/products}">View Details</a>
-                                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-3 col-md-6">
-                                <div class="card bg-success text-white mb-4">
-                                    <div class="card-body fs-5">
-                                    	<div class="d-flex justify-content-between">
-                                    		<div><i class="fas fa-truck me-1"></i>Orders</div>
-                                    		<div><span th:text="${totalOrders}"></span></div>
-                                    	</div>
-                                    </div>
-                                    <div class="card-footer d-flex align-items-center justify-content-between">
-                                        <a class="small text-white stretched-link" th:href="@{/orders}">View Details</a>
-                                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Dashboard Cards End -->
-                        
-                        <!-- Charts -->
-                        <div class="row">
-                            <div class="col-xl-6">
-                                <div class="card mb-4">
-                                    <div class="card-header">
-                                        <i class="fas fa-chart-area me-1"></i>
-                                        Area Chart Example
-                                    </div>
-                                    <div class="card-body"><canvas id="myAreaChart" width="100%" height="40"></canvas></div>
-                                </div>
-                            </div>
-                            <div class="col-xl-6">
-                                <div class="card mb-4">
-                                    <div class="card-header">
-                                        <i class="fas fa-chart-bar me-1"></i>
-                                        Bar Chart Example
-                                    </div>
-                                    <div class="card-body"><canvas id="myBarChart" width="100%" height="40"></canvas></div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                    </div>
-                </main>
+				<div class="container-fluid px-4 py-4">
+					<div class="col-12 col-lg-8 col-xl-6">
+						<!-- Alerts -->
+						<div class="alert alert-success p-1 text-center" th:if="${message}">
+							<strong>Success! </strong>Profile has been updated.
+						</div>
+	
+						<div class="card">
+							<div class="card-body">
+								<div class="row">
+									<div class="col-md-12">
+										<h4>New Product</h4>
+										<hr>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-12">
+										<form th:action="@{/admin/products/process-new-product}" th:object="${productRequest}" method="POST">
+										
+                                            <div class="form-floating mb-3">
+                                                <input type="text" th:field="*{name}" class="form-control" id="inputName" placeholder=""/>
+                                                <label for="inputName">Product Name</label>
+                                               	<p th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="alert alert-danger small p-1"></p>
+                                            </div>
+                                            
+                                            <div class="form-floating mb-3">
+                                                <input class="form-control" id="inputDesc" th:field="*{description}" />
+                                                <label for="inputEmail">Description</label>
+                                                <p th:if="${#fields.hasErrors('description')}" th:errors="*{description}" class="alert alert-danger small p-1"></p>
+                                            </div>
+                                            
+                                            <div class="row mb-3">
+                                                <div class="col-md-6">
+                                                    <div class="form-floating mb-3 mb-md-0">
+                                                        <input type="number" step=".01" th:field="*{costPrice}" class="form-control text-end" id="inputCostPrice" placeholder="" />
+                                                        <label for="inputCostPrice">Cost Price</label>
+                                                        <p th:if="${#fields.hasErrors('costPrice')}" th:errors="*{costPrice}" class="alert alert-danger small p-1"></p>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-floating">
+                                                    	<input type="number" step="1" th:field="*{currentQuantity}" class="form-control text-end" id="inputCurrentQuantity" placeholder="" />
+                                                        <label for="inputLastName">Current Quantity</label>
+                                                        <p th:if="${#fields.hasErrors('currentQuantity')}" th:errors="*{currentQuantity}" class="alert alert-danger small p-1"></p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="row mb-3">
+                                                <div class="col-md-6">
+                                                    <div class="form-floating mb-3 mb-md-0">
+                                                         <select id="selectCategory" th:field = "*{categoryId}" class="form-select">
+                                        					<option th:value = "null">--Choose Category--</option>
+                                        					<option th:each = "category : ${categories}"
+                                               					 th:value = "${category.id}"
+                                                				 th:text = "${category.name}">
+                                        					</option>
+                                    					</select>
+                                                        <label for="selectCategory">Category</label>
+                                                       <!--  <p th:if="${#fields.hasErrors('category')}" th:errors="*{category}" class="alert alert-danger small p-1"></p> -->
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-floating">
+                                                    	<input type="number" step="1" th:field="*{currentQuantity}" class="form-control text-end" id="inputCurrentQuantity" placeholder="" />
+                                                        <label for="inputLastName">Current Quantity</label>
+                                                        <p th:if="${#fields.hasErrors('currentQuantity')}" th:errors="*{currentQuantity}" class="alert alert-danger small p-1"></p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                      						
+                                           
+                                            <div class="mt-4 mb-0">
+                                                <div class="d-grid">
+                                               		<button type="submit" class="btn btn-primary btn-block">Submit</button>
+                                                </div>
+                                            </div>
+                                        </form>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</main>
                 <footer class="py-4 bg-light mt-auto">
                     <div class="container-fluid px-4">
                         <div class="d-flex align-items-center justify-content-between small">
