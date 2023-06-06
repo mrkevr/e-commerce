@@ -9,7 +9,7 @@ import dev.mrkevr.ecommerce.entity.Product;
 
 public interface ProductRepository extends JpaRepository<Product, String> {
 
-	@Query("SELECT p FROM Product p WHERE p.isDeleted = false and p.isActivated = true")
+	@Query("SELECT p FROM Product p WHERE p.isDeleted = false AND p.isActivated = true")
     List<Product> findAllAvailable();
 
     @Query("SELECT p FROM Product p WHERE p.name LIKE %?1% OR p.description LIKE %?1%")
@@ -29,13 +29,13 @@ public interface ProductRepository extends JpaRepository<Product, String> {
             "p.product_id, p.name, p.description, p.current_quantity, p.cost_price, p.category_id, p.sale_price, p.image, p.is_activated, p.is_deleted " +
             "FROM products p where p.is_deleted = false and p.is_activated = true ORDER BY p.cost_price DESC LIMIT :limit", 
             nativeQuery = true)
-    List<Product> filterHigherProducts(int limit);
+    List<Product> filterHigherPricedProducts(int limit);
 
     @Query(value = "SELECT " +
             "p.product_id, p.name, p.description, p.current_quantity, p.cost_price, p.category_id, p.sale_price, p.image, p.is_activated, p.is_deleted " +
             "FROM products p WHERE p.is_deleted = false AND p.is_activated = true ORDER BY p.cost_price ASC LIMIT :limit", 
             nativeQuery = true)
-    List<Product> filterLowerProducts(int limit);
+    List<Product> filterLowerPricedProducts(int limit);
 
 
     @Query(value = "SELECT "

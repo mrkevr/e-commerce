@@ -1,12 +1,9 @@
 package dev.mrkevr.ecommerce.controller;
 
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -14,7 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import dev.mrkevr.ecommerce.dto.UserProfileDto;
+import dev.mrkevr.ecommerce.dto.UserProfileResponse;
 import dev.mrkevr.ecommerce.entity.User;
 import dev.mrkevr.ecommerce.mapper.UserMapper;
 import dev.mrkevr.ecommerce.servioe.ApplicationUserManager;
@@ -32,7 +29,7 @@ public class UserProfileController {
 	private final UserMapper userMapper;
 
 	@ModelAttribute("userProfileDto")
-	private UserProfileDto userProfileDto() {
+	private UserProfileResponse userProfileDto() {
 
 		System.out.println("AT MODEL PROFILE");
 
@@ -67,7 +64,7 @@ public class UserProfileController {
 	}
 
 	@PostMapping
-	String userProfile(@ModelAttribute("userProfileDto") @Valid UserProfileDto userProfileDto, BindingResult result,
+	String userProfile(@ModelAttribute("userProfileDto") @Valid UserProfileResponse userProfileDto, BindingResult result,
 			RedirectAttributes redirectAttrs) {
 
 		if (result.hasErrors()) {

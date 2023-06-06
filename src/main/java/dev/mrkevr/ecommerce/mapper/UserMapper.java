@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import dev.mrkevr.ecommerce.dto.UserProfileDto;
+import dev.mrkevr.ecommerce.dto.UserProfileResponse;
 import dev.mrkevr.ecommerce.dto.UserRegistrationRequest;
 import dev.mrkevr.ecommerce.entity.Role;
 import dev.mrkevr.ecommerce.entity.User;
@@ -31,8 +31,8 @@ public class UserMapper {
 		return user;
 	}
 
-	public UserProfileDto toUserProfileResponse(User user) {
-		UserProfileDto response = new UserProfileDto();
+	public UserProfileResponse toUserProfileResponse(User user) {
+		UserProfileResponse response = new UserProfileResponse();
 		response.setId(user.getId());
 		response.setUsername(user.getUsername());
 		response.setEmail(user.getEmail());
@@ -40,10 +40,13 @@ public class UserMapper {
 		response.setLastName(user.getLastName());
 		response.setAddress(user.getAddress());
 		response.setPhone(user.getPhone());
+		response.setCreated(user.getCreated());
+		response.setModified(user.getModified());
+		
 		return response;
 	}
 
-	public List<UserProfileDto> toUserProfileResponse(List<User> users) {
+	public List<UserProfileResponse> toUserProfileResponse(List<User> users) {
 		return users.stream().map(user -> this.toUserProfileResponse(user)).collect(Collectors.toList());
 	}
 }

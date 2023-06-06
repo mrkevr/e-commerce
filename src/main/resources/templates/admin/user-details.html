@@ -146,44 +146,132 @@
 			<main>
 				<div class="container-fluid px-4">
 					<div class="row mt-4">
+					
+						<!-- PERSONAL INFO -->
 						<div class="col-xl-6">
 							<div class="card mb-4">
 								<div class="card-header">
-									<strong>Personal Info</strong>
+									<i class="fas fa-info-circle me-1"></i> <strong>Personal Info</strong>
 								</div>
 								<div class="card-body">
-									<div class="d-flex justify-content-between mb-1">
-										<div><i class="fas fa-id-card text-primary me-2"></i><strong>User ID</strong></div>
-										<span class="text-end" th:text="${user.id}"></span>
-									</div>
-									<div class="d-flex justify-content-between mb-1">
-										<div><i class="fas fa-id-card text-primary me-2"></i><strong>Username</strong></div>
-										<span class="text-end" th:text="${user.username}"></span>
-									</div>
-									<div class="d-flex justify-content-between mb-1">
-										<div><i class="fas fa-user text-primary me-2"></i><strong>Name</strong></div>
-										<span th:text="${user.firstName}+' '+${user.lastName}"></span>
-									</div>
-									<div class="d-flex justify-content-between mb-1">
-										<div><i class="fas fa-home text-primary me-2"></i><strong>Address</strong></div>
-										<span th:text="${user.address?.street}+' '+${user.address?.barangay}+' '+${user.address?.municipality}+' '+${user.address?.province}+' '+${user.address?.zipcode}"></span>
-									</div>
-									<div class="d-flex justify-content-between mb-1">
-										<div><i class="fas fa-phone-square-alt text-primary me-2"></i><strong>Phone</strong></div>
-										<span th:text="${user.phone}"></span>
-									</div>
-									<div class="d-flex justify-content-between mb-1">
-										<div><i class="fas fa-at text-primary me-2"></i><strong>Email</strong></div>
-										<span th:text="${user.email}"></span>
+									<div style="font-size: 1rem;">
+  										<div data-toggle="tooltip" title="Username">
+  											<i class="fas fa-user fa-fw text-primary me-1"></i>
+  											<span class="text-end" th:text="${user.username}"></span>
+  										</div>
+  										<div data-toggle="tooltip" title="Name">
+  											<i class="fas fa-id-card fa-fw text-primary me-1"></i>
+  											<span th:text="${user.firstName}+' '+${user.lastName}"></span>
+  										</div>
+  										<div data-toggle="tooltip" title="Address">
+  											<i class="fas fa-home fa-fw text-primary me-1"></i>
+  											<span th:text="${user.address?.street}+' '+${user.address?.barangay}+' '+${user.address?.municipality}+' '+${user.address?.province}+' '+${user.address?.zipcode}"></span>
+  										</div>
+  										<div data-toggle="tooltip" title="Phone">
+  											<i class="fas fa-phone-square-alt fa-fw text-primary me-1"></i>
+  											<span th:text="${user.phone}"></span>
+  										</div>
+  										<div data-toggle="tooltip" title="Email">
+  											<i class="fas fa-at fa-fw text-primary me-1"></i>
+  											<span th:text="${user.email}"></span>
+  										</div>
 									</div>
 								</div>
 							</div>
 						</div>
+						<!-- PERSONAL INFO END-->
+						
+						<!-- PURCHASE -->
+						<div class="col-xl-6">
+							<div class="card mb-4">
+								<div class="card-header">
+									<i class="fas fa-history me-1"></i> <strong>User History</strong>
+								</div>
+								<div class="card-body">
+									<div style="font-size: 1rem;">
+  										<div data-toggle="tooltip" title="Created">
+  											<i class="fas fa-user-plus fa-fw text-primary me-1"></i>
+  											<span th:text="${#temporals.format(user.created, 'MMMM dd, yyyy hh:mm a')}"></span>
+  										</div>
+  										<div data-toggle="tooltip" title="Modified">
+  											<i class="fas fa-user-edit fa-fw text-primary me-1"></i>
+  											<span th:text="${#temporals.format(user.modified, 'MMMM dd, yyyy hh:mm a')}"></span>
+  										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- PURCHASE END -->
+						
+						<!-- CART ITEMS -->
+						<div class="col-12">
+							<div class="card mb-4">
+								<div class="card-header">
+									<i class="fas fa-shopping-cart me-1"></i> <strong>Items On Cart</strong>
+								</div>
+								<div class="card-body">
+									<table class="table table-hover">
+  										<thead>
+    										<tr>
+     											<th scope="col">ID</th>
+      											<th scope="col">Product</th>
+      											<th scope="col">Description</th>
+      											<th scope="col">Quantity</th>
+      											<th scope="col">Unit Price</th>
+    										</tr>
+  										</thead>
+  										<tbody>
+    										<tr>
+      											<td>ID</td>
+												<td>PRODUCT</td>
+												<td>DESCRIPTION</td>
+												<td>5</td>
+												<td>55.55</td>
+    										</tr>
+  										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+						<!-- CART ITEMS END -->
+						
+						<!-- ORDERS -->
+						<div class="col-12">
+							<div class="card mb-4">
+								<div class="card-header">
+									<i class="fas fa-truck me-1"></i> <strong>Orders</strong>
+								</div>
+								<div class="card-body">
+									<table class="table table-hover">
+  										<thead>
+    										<tr>
+     											<th scope="col">ID</th>
+      											<th scope="col">Ordered On</th>
+      											<th scope="col">Status</th>
+      											<th scope="col">Delivery Date</th>
+      											<th scope="col">Total Price</th>
+      											<th scope="col">Payment Method</th>
+      											<th scope="col">Action</th>
+    										</tr>
+  										</thead>
+  										<tbody>
+    										<tr>
+      											<td>ID</td>
+												<td>date</td>
+												<td>status</td>
+												<td>date</td>
+												<td>55.55</td>
+												<td>cod</td>
+												<td>action</td>
+    										</tr>
+  										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+						<!-- ORDERS END -->
+						
 					</div>
-
-
-
-
 				</div>
 			</main>
 			<footer class="py-4 bg-light mt-auto">
@@ -200,14 +288,14 @@
 			</footer>
 		</div>
 	</div>
-	<script
-		src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
-		crossorigin="anonymous"></script>
-	<script
-		src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"
-		crossorigin="anonymous"></script>
-	<script type="text/javascript"
-		th:src="@{/js/datatables-simple-demo.js}"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+	<script	src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
+	<script type="text/javascript" th:src="@{/js/datatables-simple-demo.js}"></script>
 	<script type="text/javascript" th:src="@{/js/scripts.js}"></script>
+	<script>
+		$(document).ready(function(){
+    	$('[data-toggle="tooltip"]').tooltip(); 
+		});
+	</script>
 </body>
 </html>

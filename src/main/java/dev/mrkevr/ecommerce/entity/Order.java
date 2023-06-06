@@ -71,7 +71,7 @@ public class Order extends GenericEntity {
 	private User user;
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "order")
-	private List<OrderItem> orderDetails;
+	private List<OrderItem> orderItems;
 
 	@Override
 	public String getIdPrefix() {

@@ -13,9 +13,12 @@ import org.springframework.web.multipart.MultipartFile;
 
 import dev.mrkevr.ecommerce.dto.ProductRequest;
 import dev.mrkevr.ecommerce.dto.ProductResponse;
+import dev.mrkevr.ecommerce.entity.Category;
 import dev.mrkevr.ecommerce.entity.Product;
+import dev.mrkevr.ecommerce.exception.CategoryNotFoundException;
 import dev.mrkevr.ecommerce.exception.ProductNotFoundException;
 import dev.mrkevr.ecommerce.mapper.ProductMapper;
+import dev.mrkevr.ecommerce.repository.CategoryRepository;
 import dev.mrkevr.ecommerce.repository.ProductRepository;
 import dev.mrkevr.ecommerce.servioe.ProductService;
 import dev.mrkevr.ecommerce.utils.ImageUploader;
@@ -27,12 +30,13 @@ import lombok.RequiredArgsConstructor;
 public class ProductServiceImpl implements ProductService {
 
 	private final ProductRepository productRepo;
+	private final CategoryRepository categoryRepo;
 	private final ProductMapper productMapper;
 	private final ImageUploader imageUploader;
 
 	@Override
-	public List<Product> findAll() {
-		return productRepo.findAll();
+	public List<ProductResponse> findAll() {
+		return productMapper.toResponse(productRepo.findAll());
 	}
 
 	@Override
@@ -61,9 +65,8 @@ public class ProductServiceImpl implements ProductService {
 			product.setDescription(productRequest.getDescription());
 			product.setCurrentQuantity(productRequest.getCurrentQuantity());
 			product.setCostPrice(productRequest.getCostPrice());
-			product.setCategory(productRequest.getCategory());
-			product.setDeleted(false);
-			product.setActivated(true);
+			Category category = categoryRepo.findById(productRequest.getCategoryId()).orElseThrow(() -> new CategoryNotFoundException(productRequest.getCategoryId()));
+			product.setCategory(category);
 
 			Product savedProduct = productRepo.save(product);
 			return productMapper.toResponse(savedProduct);
@@ -91,8 +94,9 @@ public class ProductServiceImpl implements ProductService {
 					productToUpdate.setImage(Base64.getEncoder().encodeToString(imageFile.getBytes()));
 				}
 			}
-
-			productToUpdate.setCategory(productRequest.getCategory());
+			
+			Category category = categoryRepo.findById(productRequest.getCategoryId()).orElseThrow(() -> new CategoryNotFoundException(productRequest.getCategoryId()));
+			productToUpdate.setCategory(category);
 			productToUpdate.setName(productRequest.getName());
 			productToUpdate.setDescription(productRequest.getDescription());
 			productToUpdate.setCostPrice(productRequest.getCostPrice());
@@ -172,13 +176,13 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public List<ProductResponse> filterHighProducts(int limit) {
-		List<Product> products = productRepo.filterHigherProducts(limit);
+		List<Product> products = productRepo.filterHigherPricedProducts(limit);
 		return productMapper.toResponse(products);
 	}
 
 	@Override
 	public List<ProductResponse> filterLowerProducts(int limit) {
-		List<Product> products = productRepo.filterLowerProducts(limit);
+		List<Product> products = productRepo.filterLowerPricedProducts(limit);
 		return productMapper.toResponse(products);
 	}
 

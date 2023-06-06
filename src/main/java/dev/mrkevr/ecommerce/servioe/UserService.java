@@ -2,11 +2,11 @@ package dev.mrkevr.ecommerce.servioe;
 
 import java.util.List;
 
-import dev.mrkevr.ecommerce.dto.UserProfileDto;
+import dev.mrkevr.ecommerce.dto.UserProfileResponse;
 
 public interface UserService {
 	
-	UserProfileDto getProfileDto(String id);
+	UserProfileResponse getProfileDto(String id);
 	
-	List<UserProfileDto> getAllUsersDto();
+	List<UserProfileResponse> getAllUsersDto();
 }

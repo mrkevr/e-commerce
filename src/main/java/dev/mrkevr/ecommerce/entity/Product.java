@@ -23,7 +23,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Entity
-@Table(name = "products", uniqueConstraints = @UniqueConstraint(columnNames = {"name"}))
+@Table(name = "products", uniqueConstraints = @UniqueConstraint(columnNames = { "name" }))
 @ToString
 @Getter
 @Setter
@@ -53,13 +53,13 @@ public class Product extends GenericEntity {
 	private double salePrice;
 
 	@Lob
-    @Column(columnDefinition = "MEDIUMBLOB")
-    private String image;
+	@Column(columnDefinition = "MEDIUMBLOB")
+	private String image;
 
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = "category_id", referencedColumnName = "category_id")
 	private Category category;
-	
+
 	@Column(name = "is_activated")
 	private boolean isActivated;
 
@@ -69,5 +69,12 @@ public class Product extends GenericEntity {
 	@Override
 	public String getIdPrefix() {
 		return "PROD";
+	}
+
+	@Override
+	public void prePersist() {
+		super.prePersist();
+		isActivated = true;
+		isDeleted = false;
 	}
 }

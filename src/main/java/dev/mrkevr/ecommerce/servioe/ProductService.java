@@ -11,7 +11,7 @@ import dev.mrkevr.ecommerce.entity.Product;
 
 public interface ProductService {
 
-	List<Product> findAll();
+	List<ProductResponse> findAll();
 
 	List<ProductResponse> getAvailableProducts();
 

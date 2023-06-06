@@ -1,5 +1,7 @@
 package dev.mrkevr.ecommerce.dto;
 
+import java.time.LocalDateTime;
+
 import org.hibernate.validator.constraints.Length;
 
 import dev.mrkevr.ecommerce.entity.embeddable.Address;
@@ -15,7 +17,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserProfileDto {
+public class UserProfileResponse {
 	
 	private String id;
 	
@@ -38,4 +40,8 @@ public class UserProfileDto {
 	@Length(min = 8,max = 45, message = "Phone must be 8-45 characters long.")
 	@NotBlank(message = "Phone must not be blank.")
 	private String phone;
+	
+	private LocalDateTime created;
+
+	private LocalDateTime modified;
 }

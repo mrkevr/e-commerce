@@ -53,5 +53,4 @@ public class CartItem extends GenericEntity {
 	public String getIdPrefix() {
 		return "CITM";
 	}
-
 }
