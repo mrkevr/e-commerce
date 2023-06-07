@@ -29,6 +29,7 @@ public class AdminDashboardController {
 	ModelAndView dashboard() {
 		
 		ModelAndView mav = new ModelAndView("admin/admin-dashboard");
+		mav.addObject("title", "Dashboard - Admin");
 		mav.addObject("totalUsers", adminServ.getTotalUsers());
 		mav.addObject("totalCategories", adminServ.getTotalCategories());
 		mav.addObject("totalProducts", adminServ.getTotalProducts());
