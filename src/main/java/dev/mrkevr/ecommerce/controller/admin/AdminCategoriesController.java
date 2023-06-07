@@ -26,7 +26,12 @@ import lombok.RequiredArgsConstructor;
 public class AdminCategoriesController {
 
 	private final CategoryService categoryServ;
-
+	
+	@ModelAttribute("title")
+	String title() {
+		return "Categories - Admin";
+	}
+	
 	@GetMapping
 	ModelAndView categories() {
 

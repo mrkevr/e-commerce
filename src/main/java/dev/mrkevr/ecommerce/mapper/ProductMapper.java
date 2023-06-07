@@ -20,7 +20,7 @@ public class ProductMapper {
 		response.setSalePrice(product.getSalePrice());
 		response.setDescription(product.getDescription());
 		response.setImage(product.getImage());
-		response.setCategory(product.getCategory());
+		response.setCategory(product.getCategory().getName());
 		response.setActivated(product.isActivated());
 		response.setDeleted(product.isDeleted());
 		return response;

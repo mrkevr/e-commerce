@@ -1,25 +1,29 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thyleaf.org">
 
-    <head th:replace="~{admin/admin-fragments::header}"></head>
-    
-    <body class="sb-nav-fixed">
-    
-        <nav th:replace="~{admin/admin-fragments::topNav}"></nav>
-        
-        <div id="layoutSidenav">
-        
-            <div th:replace="~{admin/admin-fragments::sideNav}"></div>
-            
-            <div id="layoutSidenav_content">
-                <main>
+<!-- Fragment : Header -->
+<head th:replace="~{admin/admin-fragments::header}"></head>
+
+<body class="sb-nav-fixed">
+	
+	<!-- Fragment : Top Nav -->
+	<nav th:replace="~{admin/admin-fragments::topNav}"></nav>
+
+	<div id="layoutSidenav">
+	
+		<!-- Fragment : Side Nav -->
+		<div th:replace="~{admin/admin-fragments::sideNav}"></div>
+
+		<div id="layoutSidenav_content">
+			<main>
 				<div class="container-fluid px-4 py-4">
 					<div class="col-12 col-lg-8 col-xl-6">
 						<!-- Alerts -->
-						<div class="alert alert-success p-1 text-center" th:if="${message}">
+						<div class="alert alert-success p-1 text-center"
+							th:if="${message}">
 							<strong>Success! </strong>Profile has been updated.
 						</div>
-	
+
 						<div class="card">
 							<div class="card-body">
 								<div class="row">
@@ -30,68 +34,83 @@
 								</div>
 								<div class="row">
 									<div class="col-md-12">
-										<form th:action="@{/admin/products/process-new-product}" th:object="${productRequest}" method="POST">
-										
-                                            <div class="form-floating mb-3">
-                                                <input type="text" th:field="*{name}" class="form-control" id="inputName" placeholder=""/>
-                                                <label for="inputName">Product Name</label>
-                                               	<p th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="alert alert-danger small p-1"></p>
-                                            </div>
-                                            
-                                            <div class="form-floating mb-3">
-                                                <input class="form-control" id="inputDesc" th:field="*{description}" />
-                                                <label for="inputEmail">Description</label>
-                                                <p th:if="${#fields.hasErrors('description')}" th:errors="*{description}" class="alert alert-danger small p-1"></p>
-                                            </div>
-                                            
-                                            <div class="row mb-3">
-                                                <div class="col-md-6">
-                                                    <div class="form-floating mb-3 mb-md-0">
-                                                        <input type="number" step=".01" th:field="*{costPrice}" class="form-control text-end" id="inputCostPrice" placeholder="" />
-                                                        <label for="inputCostPrice">Cost Price</label>
-                                                        <p th:if="${#fields.hasErrors('costPrice')}" th:errors="*{costPrice}" class="alert alert-danger small p-1"></p>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="form-floating">
-                                                    	<input type="number" step="1" th:field="*{currentQuantity}" class="form-control text-end" id="inputCurrentQuantity" placeholder="" />
-                                                        <label for="inputLastName">Current Quantity</label>
-                                                        <p th:if="${#fields.hasErrors('currentQuantity')}" th:errors="*{currentQuantity}" class="alert alert-danger small p-1"></p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            
-                                            <div class="row mb-3">
-                                                <div class="col-md-6">
-                                                    <div class="form-floating mb-3 mb-md-0">
-                                                         <select id="selectCategory" th:field = "*{categoryId}" class="form-select">
-                                        					<option th:value = "null">--Choose Category--</option>
-                                        					<option th:each = "category : ${categories}"
-                                               					 th:value = "${category.id}"
-                                                				 th:text = "${category.name}">
-                                        					</option>
-                                    					</select>
-                                                        <label for="selectCategory">Category</label>
-                                                       <!--  <p th:if="${#fields.hasErrors('category')}" th:errors="*{category}" class="alert alert-danger small p-1"></p> -->
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="form-floating">
-                                                    	<input type="number" step="1" th:field="*{currentQuantity}" class="form-control text-end" id="inputCurrentQuantity" placeholder="" />
-                                                        <label for="inputLastName">Current Quantity</label>
-                                                        <p th:if="${#fields.hasErrors('currentQuantity')}" th:errors="*{currentQuantity}" class="alert alert-danger small p-1"></p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            
-                      						
-                                           
-                                            <div class="mt-4 mb-0">
-                                                <div class="d-grid">
-                                               		<button type="submit" class="btn btn-primary btn-block">Submit</button>
-                                                </div>
-                                            </div>
-                                        </form>
+										<form th:action="@{/admin/products/process-new-product}" enctype="multipart/form-data"
+											th:object="${productRequest}" method="POST">
+
+											<div class="form-floating mb-3">
+												<input type="text" th:field="*{name}" class="form-control"
+													id="inputName" placeholder="" /> <label for="inputName">Product
+													Name</label>
+												<p th:if="${#fields.hasErrors('name')}" th:errors="*{name}"
+													class="alert alert-danger small p-1"></p>
+											</div>
+
+											<div class="form-floating mb-3">
+												<input class="form-control" id="inputDesc"
+													th:field="*{description}" /> <label for="inputEmail">Description</label>
+												<p th:if="${#fields.hasErrors('description')}"
+													th:errors="*{description}"
+													class="alert alert-danger small p-1"></p>
+											</div>
+
+											<div class="row mb-3">
+												<div class="col-md-6">
+													<div class="form-floating mb-3 mb-md-0">
+														<input type="number" step=".01" th:field="*{costPrice}"
+															class="form-control text-end" id="inputCostPrice"
+															placeholder="" /> <label for="inputCostPrice">Cost
+															Price</label>
+														<p th:if="${#fields.hasErrors('costPrice')}"
+															th:errors="*{costPrice}"
+															class="alert alert-danger small p-1"></p>
+													</div>
+												</div>
+												<div class="col-md-6">
+													<div class="form-floating">
+														<input type="number" step="1"
+															th:field="*{currentQuantity}"
+															class="form-control text-end" id="inputCurrentQuantity"
+															placeholder="" /> <label for="inputLastName">Current
+															Quantity</label>
+														<p th:if="${#fields.hasErrors('currentQuantity')}"
+															th:errors="*{currentQuantity}"
+															class="alert alert-danger small p-1"></p>
+													</div>
+												</div>
+											</div>
+
+											<div class="row mb-3">
+												<div class="col-md-6">
+													<div class="form-floating mb-3 mb-md-0">
+														<select id="selectCategory" th:field="*{categoryId}"
+															class="form-select">
+															<option th:value="null">-- Choose Category --</option>
+															<option th:each="category : ${categories}"
+																th:value="${category.id}" th:text="${category.name}">
+															</option>
+														</select> 
+														<label for="selectCategory">Category</label>
+														<p th:if="${#fields.hasErrors('categoryId')}" th:errors="*{categoryId}" class="alert alert-danger small p-1"></p>
+													</div>
+												</div>
+												<div class="col-md-6">
+													<div class="form-floating">
+                                        				<div class="mb-3">
+  															<label for="imageFile" style="font-size:15px" class="mt-0">Upload Image</label>
+  															<input class="form-control form-control-sm" name="productImage" type="file" accept="image/*" id="imageFile">
+														</div>
+													</div>
+												</div>
+											</div>
+
+
+
+											<div class="mt-4 mb-0">
+												<div class="d-grid">
+													<button type="submit" class="btn btn-primary btn-block">Submit</button>
+												</div>
+											</div>
+										</form>
 									</div>
 								</div>
 							</div>
@@ -99,14 +118,15 @@
 					</div>
 				</div>
 			</main>
-			
-                <footer th:replace="~{admin/admin-fragments::footer}"></footer>
-                
-            </div>
-        </div>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
-        <script type="text/javascript" th:src="@{/js/datatables-simple-demo.js}"></script>
-        <script type="text/javascript" th:src="@{/js/scripts.js}"></script>
-    </body>
+	
+			<!-- Fragment : Footer -->
+			<footer th:replace="~{admin/admin-fragments::footer}"></footer>
+
+		</div>
+	</div>
+
+	<!-- Fragment : Scripts -->
+	<div th:replace="~{admin/admin-fragments::scripts}"></div>
+
+</body>
 </html>

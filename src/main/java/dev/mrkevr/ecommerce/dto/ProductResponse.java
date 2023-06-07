@@ -1,6 +1,5 @@
 package dev.mrkevr.ecommerce.dto;
 
-import dev.mrkevr.ecommerce.entity.Category;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,7 +23,7 @@ public class ProductResponse {
 
 	private String image;
 
-	private Category category;
+	private String category;
 
 	private boolean isActivated;
 

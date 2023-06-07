@@ -20,6 +20,7 @@ public class AdminUserController {
 	ModelAndView users() {
 
 		ModelAndView mav = new ModelAndView("admin/users");
+		mav.addObject("title", "Users - Admin");
 		mav.addObject("users", userServ.getAllUsersDto());
 
 		return mav;
@@ -29,6 +30,7 @@ public class AdminUserController {
 	ModelAndView userDetails(@PathVariable String id) {
 
 		ModelAndView mav = new ModelAndView("admin/user-details");
+		mav.addObject("title", "User Details - Admin");
 		mav.addObject("user", userServ.getProfileDto(id));
 		
 		System.out.println(userServ.getProfileDto(id));
