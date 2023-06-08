@@ -1,5 +1,7 @@
 package dev.mrkevr.ecommerce.dto;
 
+import java.time.LocalDateTime;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -28,4 +30,8 @@ public class ProductResponse {
 	private boolean isActivated;
 
 	private boolean isDeleted;
+	
+	private LocalDateTime created;
+
+	private LocalDateTime modified;
 }
