@@ -17,13 +17,65 @@
 		<div id="layoutSidenav_content">
 			<main>
 				<div class="container-fluid px-4">
-					<h1 class="mt-4">Categories</h1>
-					<div class="alert alert-success p-1 text-center" th:if="${message}">
-						<strong>Success! </strong><span th:text="${message}"></span>
+					
+					<div class="d-flex justify-content-between mt-4">
+						<h1>Categories</h1>
+						<div>
+							<a type="button" class="btn btn-primary"
+								data-bs-toggle="modal"
+								th:attr="data-bs-target='#newCategoryModal'">
+								Add New Category
+							</a>
+							<a type="button" class="btn btn-success"
+								th:href="@{/admin/categories/enable-all}"
+								onclick="if (!(confirm('Are you sure you want to enable all the categories?'))) return false">
+								Enable All
+							</a>
+							
+							<!-- New Catetory Modal -->
+							<div class="modal fade" th:attr="id='newCategoryModal'"
+								tabindex="-1" aria-labelledby="newCategoryModalLabel"
+								aria-hidden="true">
+								<div class="modal-dialog modal-dialog-centered">
+									<div class="modal-content">
+										<div class="modal-header">
+											<h1 class="modal-title fs-5">
+												New Category
+											</h1>
+											<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+										</div>
+										<div class="modal-body">
+											<form th:action="@{/admin/categories/new-category}" th:object="${categoryRequestDto}" method="POST" id="newCategoryModalForm">
+												<div class="form-floating mb-3">
+                                                	<input class="form-control" id="inputName" type="text" th:field="*{name}" />
+                                                	<label for="inputName">Category Name (Must be 6-50 characters)</label>
+                                            	</div>
+                                            	<div class="d-flex justify-content-between">
+                                            		<button type="submit" class="btn btn-primary">Submit</button>
+                                            		<button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                                            	</div>				
+											</form>
+										</div>
+										<div class="modal-footer">
+											<!-- footer content here -->
+										</div>
+									</div>
+								</div>
+							</div>
+							
+						</div>
+					</div>
+					
+					<!-- Alerts -->
+					<div>
+						<div class="alert alert-success p-1 text-center" th:if="${success}">
+						<strong>Success! </strong><span th:text="${success}"></span>
 					</div>
 					<div class="alert alert-danger p-1 text-center" th:if="${error}">
-						<strong>Error </strong><span th:text="${error}"></span>
+						<strong>Error! </strong><span th:text="${error}"></span>
 					</div>
+					</div>
+					
 					<!-- Table -->
 					<div class="card mb-4">
 						<div class="card-header">
@@ -33,6 +85,7 @@
 							<table id="datatablesSimple">
 								<thead>
 									<tr>
+										<th>ID</th>
 										<th>Name</th>
 										<th>Activated</th>
 										<th>Deleted</th>
@@ -41,18 +94,9 @@
 										<th>Action</th>
 									</tr>
 								</thead>
-								<tfoot>
-									<tr>
-										<th>Name</th>
-										<th>Activated</th>
-										<th>Deleted</th>
-										<th class="d-none d-lg-table-cell">Created</th>
-										<th class="d-none d-lg-table-cell">Modified</th>
-										<th>Action</th>
-									</tr>
-								</tfoot>
 								<tbody>
 									<tr th:each="c: ${categories}">
+										<td><span th:text=${c.id}></span></td>
 										<td>
 											<div class="d-flex justify-content-between">
 												<span th:text="${c.name}"></span>
@@ -129,55 +173,11 @@
 														Disable
 													</a>
 												</span>
-												
 											</div>
 										</td>
 									</tr>
 								</tbody>
 							</table>
-							
-							<div class="d-flex justify-content-between mt-1">
-								<a type="button" class="btn btn-primary"
-									data-bs-toggle="modal"
-									th:attr="data-bs-target='#newCategoryModal'">
-									Add New Category
-								</a>
-								<a type="button" class="btn btn-success"
-									th:href="@{/admin/categories/enable-all}"
-									onclick="if (!(confirm('Are you sure you want to enable all the categories?'))) return false">
-									Enable All
-								</a>
-							</div>
-							
-							<div class="modal fade" th:attr="id='newCategoryModal'"
-								tabindex="-1" aria-labelledby="newCategoryModalLabel"
-								aria-hidden="true">
-								<div class="modal-dialog modal-dialog-centered">
-									<div class="modal-content">
-										<div class="modal-header">
-											<h1 class="modal-title fs-5">
-												New Category
-											</h1>
-											<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-										</div>
-										<div class="modal-body">
-											<form th:action="@{/admin/categories/new-category}" th:object="${categoryRequestDto}" method="POST" id="newCategoryModalForm">
-												<div class="form-floating mb-3">
-                                                	<input class="form-control" id="inputName" type="text" th:field="*{name}" />
-                                                	<label for="inputName">Category Name (Must be 6-50 characters)</label>
-                                            	</div>
-                                            	<div class="d-flex justify-content-between">
-                                            		<button type="submit" class="btn btn-primary">Submit</button>
-                                            		<button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-                                            	</div>				
-											</form>
-										</div>
-										<div class="modal-footer">
-											<!-- footer content -->
-										</div>
-									</div>
-								</div>
-							</div> 
 						</div>
 					</div>
 				</div>

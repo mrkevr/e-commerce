@@ -21,9 +21,9 @@ public interface CategoryService {
 
 	Category enableById(String id);
 	
-	void enableAll();
-	
 	Category disableById(String id);
+	
+	void enableAll();
 
 	List<CategoryResponse> getCategoriesAndSize();
 }

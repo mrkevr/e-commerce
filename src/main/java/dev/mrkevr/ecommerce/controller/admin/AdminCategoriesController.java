@@ -56,7 +56,7 @@ public class AdminCategoriesController {
 		}
 		Category savedCategory = categoryServ.save(new Category(dto.getName()));
 		System.out.println(savedCategory);
-		redirectAttrs.addFlashAttribute("message", savedCategory.getName() + " has been added.");
+		redirectAttrs.addFlashAttribute("success", savedCategory.getName() + " has been added.");
 		return "redirect:/admin/categories";
 	}
 	
@@ -73,7 +73,7 @@ public class AdminCategoriesController {
 			return "redirect:/admin/categories";
 		}
 		String newName = categoryServ.updateName(dto.getId(), dto.getName()).getName();
-		redirectAttrs.addFlashAttribute("message", "Category name updated to "+newName);
+		redirectAttrs.addFlashAttribute("success", "Category name updated to "+newName);
 		return "redirect:/admin/categories";
 	}
 	
@@ -84,17 +84,10 @@ public class AdminCategoriesController {
 			RedirectAttributes redirectAttrs) 
 	{
 		String name = categoryServ.enableById(id).getName();
-		redirectAttrs.addFlashAttribute("message", name + " has been enabled.");
+		redirectAttrs.addFlashAttribute("success", name + " has been enabled.");
 		return "redirect:/admin/categories";
 	}
 	
-	@RequestMapping(value = "/enable-all", method = { RequestMethod.GET, RequestMethod.POST })
-	String enableAllCategories(RedirectAttributes redirectAttrs) {
-		
-		categoryServ.enableAll();
-		redirectAttrs.addFlashAttribute("message", "All Categories have been enabled.");
-		return "redirect:/admin/categories";
-	}
 
 	@RequestMapping(value = "/disable", method = { RequestMethod.GET, RequestMethod.POST })
 	String disableCategoryById(
@@ -103,7 +96,15 @@ public class AdminCategoriesController {
 			RedirectAttributes redirectAttrs)
 	{
 		String name = categoryServ.disableById(id).getName();
-		redirectAttrs.addFlashAttribute("message", name + " has been disabled.");
+		redirectAttrs.addFlashAttribute("success", name + " has been disabled.");
+		return "redirect:/admin/categories";
+	}
+	
+	@RequestMapping(value = "/enable-all", method = { RequestMethod.GET, RequestMethod.POST })
+	String enableAllCategories(RedirectAttributes redirectAttrs) {
+		
+		categoryServ.enableAll();
+		redirectAttrs.addFlashAttribute("success", "All Categories have been enabled.");
 		return "redirect:/admin/categories";
 	}
 }

@@ -21,9 +21,9 @@ public interface ProductService {
 
 	ProductResponse update(String id, ProductRequest productRequest, MultipartFile imageFile);
 
-	void enableById(String id);
+	ProductResponse enableById(String id);
 
-	void deleteById(String id);
+	ProductResponse disableById(String id);
 
 	ProductResponse getById(String id);
 

@@ -17,7 +17,14 @@
 		<div id="layoutSidenav_content">
 			<main>
 				<div class="container-fluid px-4">
-					<h1 class="mt-4">Products</h1>
+				
+					<div class="d-flex justify-content-between mt-4">
+						<h1>Products</h1>
+						<div>
+							<a class="btn btn-primary" th:href="@{/admin/products/new-product}">Add New Product</a>
+						</div>
+					</div>
+					
 					
 					<!-- Table -->
 					<div class="card mb-4">
@@ -30,6 +37,7 @@
 									<tr>
 										<th>ID</th>
 										<th>Name</th>
+										<th>Image</th>
 										<th>Category</th>
 										<th>Stock</th>
 										<th>Price</th>
@@ -39,27 +47,51 @@
 										<th>Action</th>
 									</tr>
 								</thead>
-								<tfoot>
-									<tr>
-										<th>ID</th>
-										<th>Name</th>
-										<th>Category</th>
-										<th>Stock</th>
-										<th>Price</th>
-										<th>Sale Price</th>
-										<th>Activated</th>
-										<th>Deleted</th>
-										<th>Action</th>
-									</tr>
-								</tfoot>
 								<tbody>
 									<tr th:each="p: ${products}">
 										<td th:text="${p.id}"></td>
-										<td th:text="${p.name}"></td>
-										<td th:text="${p.category}"></td>
-										<td th:text="${p.currentQuantity}"></td>
-										<td th:text="${p.costPrice}"></td>
-										<td th:text="${p.salePrice}"></td>
+										<td><a th:text="${p.name}" th:href="@{products/{id}(id=${p.id})}"></a></td>
+										<td>
+										
+											<!-- Image : Button -->
+											<div style="text-align: center">
+												<a type="button" class="text-primary me-2" 
+													data-bs-toggle="modal"
+													th:attr="data-bs-target='#'+'imageProductModal'+${p.id}">
+													<i class="fas fa-image fs-6"></i>
+												</a> 
+											</div>
+											
+											<!-- Image : Modal -->
+											<div class="modal fade" th:attr="id='imageProductModal'+${p.id}"
+												tabindex="-1" aria-labelledby="detailsModalLabel"
+												aria-hidden="true">
+												<div class="modal-dialog modal-dialog-centered">
+													<div class="modal-content">
+														<div class="modal-header">
+															<h1 class="modal-title fs-5">
+																<span th:text="'#'+${p.id}+' '+${p.name}"></span>
+															</h1>
+															<button type="button" class="btn-close"
+																data-bs-dismiss="modal" aria-label="Close"></button>
+														</div>
+														<div class="modal-body m-auto">
+															<img style="max-height:250px;" alt="" th:src="@{'data:image/jpeg;base64,' +${p.image}}" />
+														</div>
+														<div class="modal-footer">
+															<button type="button" class="btn btn-danger"
+																data-bs-dismiss="modal">Close</button>
+														</div>
+													</div>
+												</div>
+											</div> 
+											<!-- Image : End -->
+											
+										</td>
+										<td><span th:text="${p.category}"></span></td>
+										<td><div style="text-align: right"><span th:text="${p.currentQuantity}"></span></div></td>
+										<td><div style="text-align: right"><span th:text="${p.costPrice}"></span></div></td>
+										<td><div style="text-align: right"><span th:text="${p.salePrice}"></span></div></td>
 										<td>
 											<div style="text-align: center">
     											<div th:switch="${p.isActivated}">
@@ -76,7 +108,25 @@
 												</div>
     										</div>
 										</td>
-										<td>Action</td>
+										<td class="d-flex">
+											<div style="text-align: center">
+	
+												<span th:if="${!p.isActivated} and ${p.isDeleted}">
+													<a th:href="@{/admin/products/enable(id=${p.id})}"
+														class="btn btn-success btn-sm"
+														onclick="if (!(confirm('Are you sure you want to enable this product?'))) return false">
+														Enable
+													</a>
+												</span>
+												<span th:if="${p.isActivated} and ${!p.isDeleted}">
+													<a th:href="@{/admin/products/disable(id=${p.id})}"
+														class="btn btn-danger btn-sm"
+														onclick="if (!(confirm('Are you sure you want to disable this product?'))) return false">
+														Disable
+													</a>
+												</span>
+											</div>
+										</td>
 									</tr>
 								</tbody>
 							</table>

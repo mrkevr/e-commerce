@@ -53,6 +53,7 @@ public class ProductServiceImpl implements ProductService {
 	@Transactional
 	public ProductResponse save(ProductRequest productRequest, MultipartFile imageFile) {
 		Product product = new Product();
+		
 		try {
 			if (imageFile == null) {
 				product.setImage(null);
@@ -115,21 +116,22 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	@Transactional
-	public void enableById(String id) {
-
+	public ProductResponse enableById(String id) {
 		Product product = productRepo.findById(id).orElseThrow(() -> new ProductNotFoundException(id));
 		product.setActivated(true);
 		product.setDeleted(false);
-		productRepo.save(product);
+		Product savedProduct = productRepo.save(product);
+		return productMapper.toResponse(savedProduct);
 	}
-
+	
 	@Override
 	@Transactional
-	public void deleteById(String id) {
+	public ProductResponse disableById(String id) {
 		Product product = productRepo.findById(id).orElseThrow(() -> new ProductNotFoundException(id));
 		product.setActivated(false);
 		product.setDeleted(true);
-		productRepo.save(product);
+		Product savedProduct = productRepo.save(product);
+		return productMapper.toResponse(savedProduct);
 	}
 
 	@Override
