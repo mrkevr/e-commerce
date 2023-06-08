@@ -17,11 +17,21 @@
 		<div id="layoutSidenav_content">
 			<main>
 				<div class="container-fluid px-4">
-					<div class="row mt-4">
+				
+					<!-- Breadcrumb -->
+					<ol class="breadcrumb mt-4">
+						<li class="breadcrumb-item"><a th:href="@{/admin/dashboard}">Dashboard</a></li>
+						<li class="breadcrumb-item"><a th:href="@{/admin/users}">Users</a></li>
+						<li class="breadcrumb-item active"><span th:text="${user.firstName}+' '+${user.lastName}"></span></li>
+                  	</ol>
+				
+				
+				
+					<div class="row mt-4 justify-content-center">
 					
 						<!-- PERSONAL INFO -->
-						<div class="col-xl-6">
-							<div class="card mb-4">
+						<div class="col-lg-4">
+							<div class="card mb-5">
 								<div class="card-header">
 									<i class="fas fa-info-circle me-1"></i> <strong>Personal Info</strong>
 								</div>
@@ -53,9 +63,9 @@
 						</div>
 						<!-- PERSONAL INFO END-->
 						
-						<!-- PURCHASE -->
-						<div class="col-xl-6">
-							<div class="card mb-4">
+						<!-- History -->
+						<div class="col-lg-4">
+							<div class="card mb-3">
 								<div class="card-header">
 									<i class="fas fa-history me-1"></i> <strong>User History</strong>
 								</div>
@@ -73,10 +83,10 @@
 								</div>
 							</div>
 						</div>
-						<!-- PURCHASE END -->
+						<!-- History End -->
 						
-						<!-- CART ITEMS -->
-						<div class="col-12">
+						<!-- Shopping Cart -->
+						<div class="col-lg-8">
 							<div class="card mb-4">
 								<div class="card-header">
 									<i class="fas fa-shopping-cart me-1"></i> <strong>Items On Cart</strong>
@@ -101,14 +111,23 @@
 												<td>55.55</td>
     										</tr>
   										</tbody>
+  										<tfoot>
+  											<tr>
+      											<td>-</td>
+												<td>-</td>
+												<td>-</td>
+												<td><strong>Total Items:</strong></td>
+												<td><strong>Total Price:</strong></td>
+    										</tr>
+  										</tfoot>
 									</table>
 								</div>
 							</div>
 						</div>
-						<!-- CART ITEMS END -->
+						<!-- Shopping Cart End -->
 						
 						<!-- ORDERS -->
-						<div class="col-12">
+						<div class="col-lg-8">
 							<div class="card mb-4">
 								<div class="card-header">
 									<i class="fas fa-truck me-1"></i> <strong>Orders</strong>

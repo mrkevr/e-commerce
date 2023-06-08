@@ -46,8 +46,9 @@
 											</div>
 
 											<div class="form-floating mb-3">
-												<input class="form-control" id="inputDesc"
-													th:field="*{description}" /> <label for="inputEmail">Description</label>
+												<textarea class="form-control" id="inputDesc"
+													th:field="*{description}" rows="5" style="height:100%;"></textarea> 
+												<label for="inputEmail">Description</label>
 												<p th:if="${#fields.hasErrors('description')}"
 													th:errors="*{description}"
 													class="alert alert-danger small p-1"></p>

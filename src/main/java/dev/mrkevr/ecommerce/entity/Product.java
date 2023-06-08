@@ -39,8 +39,9 @@ public class Product extends GenericEntity {
 
 	@Column(name = "name")
 	private String name;
-
-	@Column(name = "description")
+	
+	@Lob
+	@Column(name = "description", length = 1500)
 	private String description;
 
 	@Column(name = "current_quantity")

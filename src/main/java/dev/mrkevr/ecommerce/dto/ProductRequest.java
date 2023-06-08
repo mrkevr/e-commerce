@@ -22,7 +22,7 @@ public class ProductRequest {
 	@NotBlank(message = "Please choose a category.")
 	private String categoryId;
 
-	@Size(min = 6, max = 120, message = "Description must be 6-120 characters long.")
+	@Size(min = 10, max = 1500, message = "Description must be 10-1500 characters long.")
 	private String description;
 	
 	@Min(value = 1, message = "Quantity must be 1 to 100,000.")
