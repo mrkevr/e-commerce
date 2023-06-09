@@ -16,9 +16,16 @@
 		
 		<div id="layoutSidenav_content">
 			<main>
-				<div class="container-fluid px-4">
+				<div class="container-fluid p-4">
+				
+					<!-- Breadcrumb -->
+					<ol class="breadcrumb mb-4">
+						<li class="breadcrumb-item"><a th:href="@{/admin/dashboard}">Dashboard</a></li>
+						<li class="breadcrumb-item active">Categories</li>
+                  	</ol>
 					
-					<div class="d-flex justify-content-between mt-4">
+					<!-- Title -->
+					<div class="d-flex justify-content-between mb-4">
 						<h1>Categories</h1>
 						<div>
 							<a type="button" class="btn btn-primary"
@@ -66,11 +73,7 @@
 						</div>
 					</div>
 					
-					<!-- Breadcrumb -->
-					<ol class="breadcrumb mt-4">
-						<li class="breadcrumb-item"><a th:href="@{/admin/dashboard}">Dashboard</a></li>
-						<li class="breadcrumb-item active">Categories</li>
-                  	</ol>
+					
 					
 					<!-- Alerts -->
 					<div>

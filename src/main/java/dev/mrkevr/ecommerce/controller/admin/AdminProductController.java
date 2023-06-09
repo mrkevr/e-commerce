@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -72,23 +73,50 @@ public class AdminProductController {
 			@ModelAttribute("productRequest") 
 			ProductRequest productRequest,
 			BindingResult result, 
-			RedirectAttributes redirectAttrs) 
+			RedirectAttributes redirectAttrs,
+			Model model) 
 	{
+		
+		
+		model.addAttribute("title", "New Product - Admin");
 		if(result.hasErrors()) {
-			redirectAttrs.addFlashAttribute("error", "Adding new product failed.");
-			redirectAttrs.addFlashAttribute("title", "New Product - Admin");
+			result.getAllErrors().forEach(e -> System.out.println(e.getDefaultMessage()));
+			
 			return "/admin/new-product";
 		}
 		
-		try {
-			productServ.save(productRequest, productImage);
-			redirectAttrs.addFlashAttribute("success", "New product has been added!");
-		} catch (Exception e) {
-            e.printStackTrace();
-            redirectAttrs.addFlashAttribute("error", "Failed to add new product!");
-        }
+		if(productImage.isEmpty()) {
+			model.addAttribute("productImageError", "Must upload product photo.");
+			return "/admin/new-product";
+		} else {
+			long sizeInKb = productImage.getSize() / 1024;
+			if(sizeInKb > 500) {
+				model.addAttribute("productImageError", "Image is too large."); 
+				return "/admin/new-product"; 
+			}
+		}
 		
-		return "redirect:/admin/products";
+		
+		/*
+		 * long sizeInKb = productImage.getSize() / 1024; if(sizeInKb > 500) {
+		 * model.addAttribute("productImageTooLarge", "Image is too large."); return
+		 * "/admin/new-product"; }
+		 */
+		
+		
+		
+		return "/admin/new-product";
+		
+//		try {
+//			ProductResponse response = productServ.save(productRequest, productImage);
+//			redirectAttrs.addFlashAttribute("success", "New product has been added!");
+//			return "redirect:/admin/products/"+response.getId();
+//		} catch (Exception e) {
+//            e.printStackTrace();
+//            redirectAttrs.addFlashAttribute("error", "Failed to add new product!");
+//            redirectAttrs.addFlashAttribute("title", "New Product - Admin");
+//            return "/admin/new-product";
+//        }
 	}
 	
 	@RequestMapping(value = "/enable", method = { RequestMethod.GET, RequestMethod.POST })

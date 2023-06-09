@@ -1,6 +1,7 @@
 package dev.mrkevr.ecommerce.dto.validation;
 
 import static java.lang.annotation.ElementType.FIELD;
+import static java.lang.annotation.ElementType.PARAMETER;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 import java.lang.annotation.Documented;
@@ -12,15 +13,13 @@ import jakarta.validation.Payload;
 
 @Documented
 @Retention(RUNTIME)
-@Target(FIELD)
-@Constraint(validatedBy = UsernameConstraintValidator.class)
-public @interface UsernameConstraint {
+@Target({FIELD, PARAMETER})
+@Constraint(validatedBy = MultipartFileConstraintValidator.class)
+public @interface MultipartFileConstraint {
 	
-	String message() default "Username must be 6-12 characters long, can only start with a letter, and has no special characters.";
+	String message() default "File is too large.";
 	
-	int min() default 6;
-	
-	int max() default 12;
+	long maximumInKb() default 500;
 	
 	Class<?>[] groups() default {};
 

@@ -5,121 +5,125 @@
 <head th:replace="~{admin/admin-fragments::header}"></head>
 
 <body class="sb-nav-fixed">
-	
+
 	<!-- Fragment : Top Nav -->
 	<nav th:replace="~{admin/admin-fragments::topNav}"></nav>
 
 	<div id="layoutSidenav">
-	
+
 		<!-- Fragment : Side Nav -->
 		<div th:replace="~{admin/admin-fragments::sideNav}"></div>
 
 		<div id="layoutSidenav_content">
 			<main>
-				<div class="container-fluid px-4 py-4">
-					<div class="col-12 col-lg-8 col-xl-6">
-						<!-- Alerts -->
-						<div class="alert alert-success p-1 text-center"
-							th:if="${message}">
-							<strong>Success! </strong>Profile has been updated.
-						</div>
+				<div class="container-fluid p-4">
+				
+					<!-- Breadcrumb -->
+					<ol class="breadcrumb mb-4">
+						<li class="breadcrumb-item"><a th:href="@{/admin/dashboard}">Dashboard</a></li>
+						<li class="breadcrumb-item"><a th:href="@{/admin/products}">Products</a></li>
+						<li class="breadcrumb-item active">New Product</li>
+					</ol>
+					
+					<!-- Title -->
+					<div class="mb-4">
+						<h1>New Product</h1>
+					</div>
+					
+					<!-- Alerts -->
+					<div class="alert alert-success p-1 text-center" th:if="${success}">
+						<strong>Success! </strong><span th:text="${success}"></span>
+					</div>
 
-						<div class="card">
+					<div class="row">
+						<div class="card col-xl-8">
 							<div class="card-body">
-								<div class="row">
-									<div class="col-md-12">
-										<h4>New Product</h4>
-										<hr>
+								<form th:action="@{/admin/products/process-new-product}" enctype="multipart/form-data"
+									th:object="${productRequest}" method="POST">
+
+									<!-- Category -->
+									<div class="form-group mb-1">
+										<label for="selectCategory" class="col-sm-3 control-label">Category</label>
+										<select id="selectCategory" th:field="*{categoryId}" class="form-select">
+											<option th:value="null">-- Choose Category --</option>
+											<option th:each="category : ${categories}"
+													th:value="${category.id}" 
+													th:text="${category.name}">
+											</option>
+										</select>
+										<p th:if="${#fields.hasErrors('categoryId')}" th:errors="*{categoryId}" class="alert alert-danger small p-1"></p>
 									</div>
-								</div>
-								<div class="row">
-									<div class="col-md-12">
-										<form th:action="@{/admin/products/process-new-product}" enctype="multipart/form-data"
-											th:object="${productRequest}" method="POST">
-
-											<div class="form-floating mb-3">
-												<input type="text" th:field="*{name}" class="form-control"
-													id="inputName" placeholder="" /> <label for="inputName">Product
-													Name</label>
-												<p th:if="${#fields.hasErrors('name')}" th:errors="*{name}"
-													class="alert alert-danger small p-1"></p>
-											</div>
-
-											<div class="form-floating mb-3">
-												<textarea class="form-control" id="inputDesc"
-													th:field="*{description}" rows="5" style="height:100%;"></textarea> 
-												<label for="inputEmail">Description</label>
-												<p th:if="${#fields.hasErrors('description')}"
-													th:errors="*{description}"
-													class="alert alert-danger small p-1"></p>
-											</div>
-
-											<div class="row mb-3">
-												<div class="col-md-6">
-													<div class="form-floating mb-3 mb-md-0">
-														<input type="number" step=".01" th:field="*{costPrice}"
-															class="form-control text-end" id="inputCostPrice"
-															placeholder="" /> <label for="inputCostPrice">Cost
-															Price</label>
-														<p th:if="${#fields.hasErrors('costPrice')}"
-															th:errors="*{costPrice}"
-															class="alert alert-danger small p-1"></p>
-													</div>
-												</div>
-												<div class="col-md-6">
-													<div class="form-floating">
-														<input type="number" step="1"
-															th:field="*{currentQuantity}"
-															class="form-control text-end" id="inputCurrentQuantity"
-															placeholder="" /> <label for="inputLastName">Current
-															Quantity</label>
-														<p th:if="${#fields.hasErrors('currentQuantity')}"
-															th:errors="*{currentQuantity}"
-															class="alert alert-danger small p-1"></p>
-													</div>
-												</div>
-											</div>
-
-											<div class="row mb-3">
-												<div class="col-md-6">
-													<div class="form-floating mb-3 mb-md-0">
-														<select id="selectCategory" th:field="*{categoryId}"
-															class="form-select">
-															<option th:value="null">-- Choose Category --</option>
-															<option th:each="category : ${categories}"
-																th:value="${category.id}" th:text="${category.name}">
-															</option>
-														</select> 
-														<label for="selectCategory">Category</label>
-														<p th:if="${#fields.hasErrors('categoryId')}" th:errors="*{categoryId}" class="alert alert-danger small p-1"></p>
-													</div>
-												</div>
-												<div class="col-md-6">
-													<div class="form-floating">
-                                        				<div class="mb-3">
-  															<label for="imageFile" style="font-size:15px" class="mt-0">Upload Image</label>
-  															<input class="form-control form-control-sm" name="productImage" type="file" accept="image/*" id="imageFile">
-														</div>
-													</div>
-												</div>
-											</div>
-
-
-
-											<div class="mt-4 mb-0">
-												<div class="d-grid">
-													<button type="submit" class="btn btn-primary btn-block">Submit</button>
-												</div>
-											</div>
-										</form>
+									
+									<!--Name -->
+									<div class="form-group mb-1">
+										<label for="inputName" class="col-sm-3 control-label">Name</label>
+										<div class="col-sm-9">
+											<input type="text" class="form-control" name="name" id="inputName" placeholder="6-50 characters">
+										</div>
+										<p th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="alert alert-danger small p-1"></p>
 									</div>
-								</div>
+									
+									<!-- Description -->
+									<div class="form-group mb-1">
+										<label for="inputDescription" class="col-sm-3 control-label">Description</label>
+										<div class="col-sm-9">
+											<textarea class="form-control" id="inputDesccription"
+												th:field="*{description}" 
+												rows="5" style="height:100%;">
+											</textarea> 
+										</div>
+										<p th:if="${#fields.hasErrors('description')}" th:errors="*{description}" class="alert alert-danger small p-1"></p>
+									</div>
+									
+									<!-- Cost Price -->
+									<div class="form-group mb-1">
+										<label for="inputCostPrice" class="col-sm-3 control-label">Cost Price</label>
+										<div class="col-sm-3">
+											<input type="number" step=".01" 
+												th:field="*{costPrice}"
+												class="form-control text-end" id="inputCostPrice"
+												placeholder="" />
+										</div>
+										<p th:if="${#fields.hasErrors('costPrice')}" th:errors="*{costPrice}" class="alert alert-danger small p-1"></p>
+									</div>
+									
+									<!-- Current Quantity -->
+									<div class="form-group mb-1">
+										<label for="inputCurrentQuantity" class="col-sm-3 control-label">Current Quantity</label>
+										<div class="col-sm-3">
+											<input type="number" step="1"
+												th:field="*{currentQuantity}"
+												class="form-control text-end" id="inputCurrentQuantity"
+												placeholder="" />
+										</div>
+										<p th:if="${#fields.hasErrors('currentQuantity')}" th:errors="*{currentQuantity}" class="alert alert-danger small p-1"></p>
+									</div>
+									
+									<!-- Product Image -->
+									<div class="form-group mb-1">
+										<label for="name" class="col-sm-3 control-label">Product Image</label>
+										<div class="col-sm-3">
+											<label class="control-label small">(jpg/png):</label> 
+											<input class="form-control form-control-sm" name="productImage" type="file" accept="image/*" id="imageFile">
+										</div>
+										<p th:if="${productImageError}" class="alert alert-danger small p-1"><span th:text="${productImageError}"></span></p>
+									</div>
+									
+									<hr>
+									
+									<!-- Submit -->
+									<div class="form-group mb-1">
+										<div class="col-sm-offset-3 col-sm-9">
+											<button type="submit" class="btn btn-primary">Submit</button>
+										</div>
+									</div>
+								</form>
 							</div>
 						</div>
 					</div>
 				</div>
 			</main>
-	
+
 			<!-- Fragment : Footer -->
 			<footer th:replace="~{admin/admin-fragments::footer}"></footer>
 
