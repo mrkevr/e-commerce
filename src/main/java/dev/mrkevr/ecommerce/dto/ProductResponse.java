@@ -22,7 +22,9 @@ public class ProductResponse {
 	private double costPrice;
 
 	private double salePrice;
-
+	
+	private boolean isOnSale;
+	
 	private String image;
 
 	private String category;

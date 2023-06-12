@@ -53,7 +53,9 @@ public class SecurityConfig {
 	
 	@Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {    
-		http.csrf(c -> c.disable());
+		http.csrf(c -> c
+			.disable()
+		);
 		
         http.authorizeHttpRequests(auth -> {
         	auth
@@ -62,9 +64,21 @@ public class SecurityConfig {
         	.anyRequest().authenticated();
         });
         
-        http.formLogin(c -> c.loginPage("/login").successHandler(successHandler).usernameParameter("usernameEmail"));
-        http.oauth2Login(c -> c.loginPage("/login").successHandler(successHandler));
-        http.logout(c -> c.logoutUrl("/logout").logoutSuccessUrl("/login"));
+        http.formLogin(c -> c
+        	.loginPage("/login")
+        	.successHandler(successHandler)
+        	.usernameParameter("usernameEmail")
+        );
+        
+        http.oauth2Login(c -> c
+        	.loginPage("/login")
+        	.successHandler(successHandler)
+        );
+        
+        http.logout(c -> c
+        	.logoutUrl("/logout")
+        	.logoutSuccessUrl("/login")
+        );
         
         return http.build();
     }

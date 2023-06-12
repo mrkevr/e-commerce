@@ -1,51 +1,60 @@
 package dev.mrkevr.ecommerce.controller;
 
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.servlet.ModelAndView;
 
-import dev.mrkevr.ecommerce.dto.LoggedInUserDetails;
-import dev.mrkevr.ecommerce.entity.User;
-import dev.mrkevr.ecommerce.servioe.ApplicationUserManager;
+import dev.mrkevr.ecommerce.servioe.impl.AdminServiceImpl;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 
 @Controller
 @RequiredArgsConstructor
 public class HomeController {
 
-	private final ApplicationUserManager applicationUserManager;
+	private final AdminServiceImpl adminServ;
 
-	@ModelAttribute(name = "userDetails")
-	LoggedInUserDetails loggedInUserDetails() {
-		
-		SecurityContext securityContext = SecurityContextHolder.getContext();
-		
-		if (securityContext.getAuthentication().getPrincipal() instanceof DefaultOAuth2User) {
-			
-			DefaultOAuth2User principal = (DefaultOAuth2User) securityContext.getAuthentication().getPrincipal();
-			String login = principal.getAttribute("email");
-			if (login == null) {
-				login = principal.getAttribute("login");
-			}
-			
-			User user = (User) applicationUserManager.loadUserByUsername(login);
-			return new LoggedInUserDetails(user.getUsername(), user.getEmail());
-			
-		} else {
-			
-			User user = (User) securityContext.getAuthentication().getPrincipal();
-			return new LoggedInUserDetails(user.getUsername(), user.getEmail());
-		}
-	}
-
+//	@GetMapping({ "/", "/dashboard" })
+//	ModelAndView displayDashboard(HttpServletRequest request) {
+//		
+//		// Redirects to admin dashboard if the user's role is ADMIN
+//		if (request.isUserInRole("ROLE_ADMIN")) {
+//			ModelAndView mav = new ModelAndView("admin/admin-dashboard");
+//			mav.addObject("title", "Dashboard - Admin");
+//			mav.addObject("totalUsers", adminServ.getTotalUsers());
+//			mav.addObject("totalCategories", adminServ.getTotalCategories());
+//			mav.addObject("totalProducts", adminServ.getTotalProducts());
+//			mav.addObject("totalOrders", adminServ.getTotalOrders());
+//			return mav;
+//		}
+//
+//		ModelAndView mav = new ModelAndView("index");
+//		return mav;
+//	}
+	
 	@GetMapping({ "/", "/dashboard" })
-	ModelAndView displayDashboard() {
+	ModelAndView displayDashboard(HttpServletRequest request) {
+		
+		// Redirects to admin dashboard if the user's role is ADMIN
+		if (request.isUserInRole("ROLE_ADMIN")) {
+			return new ModelAndView("redirect:/admin/dashboard");
+		}
 
 		ModelAndView mav = new ModelAndView("index");
+		return mav;
+	}
+	
+	@GetMapping({"/admin/dashboard"})
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	ModelAndView dashboard() {
+
+		ModelAndView mav = new ModelAndView("admin/admin-dashboard");
+		mav.addObject("title", "Dashboard - Admin");
+		mav.addObject("totalUsers", adminServ.getTotalUsers());
+		mav.addObject("totalCategories", adminServ.getTotalCategories());
+		mav.addObject("totalProducts", adminServ.getTotalProducts());
+		mav.addObject("totalOrders", adminServ.getTotalOrders());
 
 		return mav;
 	}

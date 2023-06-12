@@ -60,7 +60,10 @@ public class Product extends GenericEntity {
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = "category_id", referencedColumnName = "category_id")
 	private Category category;
-
+	
+	@Column(name = "is_on_sale")
+	private boolean isOnSale;
+	
 	@Column(name = "is_activated")
 	private boolean isActivated;
 
@@ -77,5 +80,6 @@ public class Product extends GenericEntity {
 		super.prePersist();
 		isActivated = true;
 		isDeleted = false;
+		isOnSale = false;
 	}
 }

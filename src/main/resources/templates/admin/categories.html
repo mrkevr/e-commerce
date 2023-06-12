@@ -78,12 +78,13 @@
 					<!-- Alerts -->
 					<div>
 						<div class="alert alert-success p-1 text-center" th:if="${success}">
-						<strong>Success! </strong><span th:text="${success}"></span>
+							<strong>Success! </strong><span th:text="${success}"></span>
+						</div>
+						<div class="alert alert-danger p-1 text-center" th:if="${error}">
+							<strong>Error! </strong><span th:text="${error}"></span>
+						</div>
 					</div>
-					<div class="alert alert-danger p-1 text-center" th:if="${error}">
-						<strong>Error! </strong><span th:text="${error}"></span>
-					</div>
-					</div>
+					
 					
 					<!-- Table -->
 					<div class="card mb-4">

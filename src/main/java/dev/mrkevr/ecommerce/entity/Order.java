@@ -65,7 +65,10 @@ public class Order extends GenericEntity {
 
 	@Column(name = "is_accepted")
 	private boolean isAccepted;
-
+	
+	@Column(name = "message")
+	private String message;
+	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "user_id", referencedColumnName = "user_id")
 	private User user;

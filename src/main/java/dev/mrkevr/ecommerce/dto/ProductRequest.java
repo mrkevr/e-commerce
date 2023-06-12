@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ProductRequest {
 
-	@Size(min = 6, max = 50, message = "Name must be 6-50 characters long.")
+	@Size(min = 6, max = 150, message = "Name must be 6-150 characters long.")
 	private String name;
 
 	@NotBlank(message = "Please choose a category.")

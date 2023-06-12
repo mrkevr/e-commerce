@@ -55,13 +55,6 @@ public class ProductServiceImpl implements ProductService {
 		Product product = new Product();
 		
 		try {
-			if (imageFile == null) {
-				product.setImage(null);
-			} else {
-				imageUploader.uploadFile(imageFile);
-				product.setImage(Base64.getEncoder().encodeToString(imageFile.getBytes()));
-			}
-
 			product.setName(productRequest.getName());
 			product.setDescription(productRequest.getDescription());
 			product.setCurrentQuantity(productRequest.getCurrentQuantity());
@@ -69,8 +62,16 @@ public class ProductServiceImpl implements ProductService {
 			product.setSalePrice(productRequest.getCostPrice());
 			Category category = categoryRepo.findById(productRequest.getCategoryId()).orElseThrow(() -> new CategoryNotFoundException(productRequest.getCategoryId()));
 			product.setCategory(category);
-
 			Product savedProduct = productRepo.save(product);
+			
+			if (imageFile == null) {
+				product.setImage(null);
+			} else {
+				imageUploader.uploadFile(imageFile, savedProduct.getId());
+				product.setImage(Base64.getEncoder().encodeToString(imageFile.getBytes()));
+			}
+			
+			
 			return productMapper.toResponse(savedProduct);
 
 		} catch (Exception e) {
@@ -92,7 +93,7 @@ public class ProductServiceImpl implements ProductService {
 				if (imageUploader.fileExists(imageFile)) {
 					productToUpdate.setImage(productToUpdate.getImage());
 				} else {
-					imageUploader.uploadFile(imageFile);
+					imageUploader.uploadFile(imageFile, productToUpdate.getId());
 					productToUpdate.setImage(Base64.getEncoder().encodeToString(imageFile.getBytes()));
 				}
 			}
@@ -130,6 +131,24 @@ public class ProductServiceImpl implements ProductService {
 		Product product = productRepo.findById(id).orElseThrow(() -> new ProductNotFoundException(id));
 		product.setActivated(false);
 		product.setDeleted(true);
+		Product savedProduct = productRepo.save(product);
+		return productMapper.toResponse(savedProduct);
+	}
+	
+	@Override
+	@Transactional
+	public ProductResponse putOnSaleById(String id) {
+		Product product = productRepo.findById(id).orElseThrow(() -> new ProductNotFoundException(id));
+		product.setOnSale(true);
+		Product savedProduct = productRepo.save(product);
+		return productMapper.toResponse(savedProduct);
+	}
+
+	@Override
+	@Transactional
+	public ProductResponse putOffSaleById(String id) {
+		Product product = productRepo.findById(id).orElseThrow(() -> new ProductNotFoundException(id));
+		product.setOnSale(false);
 		Product savedProduct = productRepo.save(product);
 		return productMapper.toResponse(savedProduct);
 	}
@@ -221,5 +240,4 @@ public class ProductServiceImpl implements ProductService {
 		PageImpl<ProductResponse> page = new PageImpl<>(subList, pageable, list.size());
 		return page;
 	}
-
 }

@@ -36,7 +36,6 @@ public class ApplicationConfig {
 
 			this.addRoles();
 			this.addAdminAccount();
-
 		};
 	}
 

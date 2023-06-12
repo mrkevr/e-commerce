@@ -13,14 +13,30 @@ public class ImageUploader {
 
 	private final String UPLOAD_FOLDER = "D:\\Programming Applications\\eclipse-workspace\\e-commerce\\src\\main\\resources\\static\\img";
 
-	public boolean uploadFile(MultipartFile file) {
+//	public boolean uploadFile(MultipartFile file) {
+//		boolean uploadSuccess = false;
+//		try {
+//			Files.copy(
+//				file.getInputStream(), 
+//				Paths.get(UPLOAD_FOLDER + File.separator + file.getOriginalFilename()),
+//				StandardCopyOption.REPLACE_EXISTING);
+//			
+//			uploadSuccess = true;
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//		return uploadSuccess;
+//	}
+	
+	public boolean uploadFile(MultipartFile file, String fileName) {
 		boolean uploadSuccess = false;
 		try {
-			Files.copy(file.getInputStream(), 
-				Paths.get(UPLOAD_FOLDER + File.separator + file.getOriginalFilename()),
+			Files.copy(
+				file.getInputStream(), 
+				Paths.get(UPLOAD_FOLDER + File.separator + fileName + this.getFileExtension(file.getOriginalFilename())),
 				StandardCopyOption.REPLACE_EXISTING);
-			uploadSuccess = true;
 			
+			uploadSuccess = true;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -36,5 +52,20 @@ public class ImageUploader {
 			e.printStackTrace();
 		}
 		return isExist;
+	}
+
+	/**
+	   * Removes all characters before the last 'DOT' from the name.
+	   * @param name as the file name
+	   * @return the extension of the file.
+	   */
+	public String getFileExtension(String name) {
+		String extension;
+		try {
+			extension = name.substring(name.lastIndexOf("."));
+		} catch (Exception e) {
+			extension = "";
+		}
+		return extension;
 	}
 }

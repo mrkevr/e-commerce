@@ -1,4 +1,4 @@
-package dev.mrkevr.ecommerce.controller.handler;
+package dev.mrkevr.ecommerce.controller.advice;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;

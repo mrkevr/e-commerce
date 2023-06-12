@@ -31,7 +31,7 @@
 						<!-- Image -->
 						<div class="col-xl-3">
 							<div class="card mb-3">
-								<img style="max-height:500px;" alt="" th:src="@{'data:image/jpeg;base64,' +${product.image}}" />
+								<img class="img-thumbnail" style="max-height:500px;" alt="" th:src="@{'data:image/jpeg;base64,' +${product.image}}" />
 							</div>
 						</div>
 						<!-- Image End -->
@@ -43,7 +43,7 @@
 							</div>
 							<div class="card mb-3">
 								<div class="card-header">
-									<i class="fas fa-info-circle me-1"></i> <strong>Product Info</strong>
+									<strong>Product Info</strong>
 								</div>
 								<div class="card-body">
 									<div style="font-size: 1rem;">
@@ -77,10 +77,10 @@
 						<div class="col-xl-8">
 							<div class="card mb-3">
 								<div class="card-header">
-									<i class="fas fa-info-circle me-1"></i> <strong>Product Description</strong>
+									<strong>Product Description</strong>
 								</div>
 								<div class="card-body">
-									<p th:text="${product.description}"></p>
+									<p th:text="${product.description}" style="white-space: pre-line"></p>
 								</div>
 							</div>
 						</div>

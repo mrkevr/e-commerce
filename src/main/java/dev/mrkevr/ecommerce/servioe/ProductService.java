@@ -24,7 +24,11 @@ public interface ProductService {
 	ProductResponse enableById(String id);
 
 	ProductResponse disableById(String id);
-
+	
+	ProductResponse putOnSaleById(String id);
+	
+	ProductResponse putOffSaleById(String id);
+	
 	ProductResponse getById(String id);
 
 	Product findById(String id);

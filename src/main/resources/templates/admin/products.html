@@ -32,6 +32,16 @@
 						</div>
 					</div>
 					
+					<!-- Alerts -->
+					<div>
+						<div class="alert alert-success p-1 text-center" th:if="${success}">
+							<strong>Success! </strong><span th:text="${success}"></span>
+						</div>
+						<div class="alert alert-danger p-1 text-center" th:if="${error}">
+							<strong>Error! </strong><span th:text="${error}"></span>
+						</div>
+					</div>
+					
 					<!-- Table -->
 					<div class="card mb-4">
 						<div class="card-header">
@@ -49,7 +59,7 @@
 										<th>Price</th>
 										<th>Sale Price</th>
 										<th>Activated</th>
-										<th>Deleted</th>
+										<th>On Sale</th>
 										<th>Action</th>
 									</tr>
 								</thead>
@@ -108,15 +118,15 @@
 										</td>
 										<td>
 											<div style="text-align: center">
-    											<div th:switch="${p.isDeleted}">
+    											<div th:switch="${p.isOnSale}">
   													<i th:case="${true}" class="fas fa-check-circle text-success fs-4"></i>
   													<i th:case="*" class="fas fa-times-circle text-danger fs-4"></i>
 												</div>
     										</div>
 										</td>
-										<td class="d-flex">
-											<div style="text-align: center">
-	
+										<td>
+											<!-- Activate / Deactivate -->
+											<div class="btn-group" role="group" aria-label="Basic example">
 												<span th:if="${!p.isActivated} and ${p.isDeleted}">
 													<a th:href="@{/admin/products/enable(id=${p.id})}"
 														class="btn btn-success btn-sm"
@@ -129,6 +139,23 @@
 														class="btn btn-danger btn-sm"
 														onclick="if (!(confirm('Are you sure you want to disable this product?'))) return false">
 														Disable
+													</a>
+												</span>
+											
+											<!-- On Sale / Off Sale -->
+										
+												<span th:if="${!p.isOnSale}">
+													<a th:href="@{/admin/products/turnOnSale(id=${p.id})}"
+														class="btn btn-success btn-sm"
+														onclick="if (!(confirm('Are you sure you want to set this product on sale?'))) return false">
+														On Sale
+													</a>
+												</span>
+												<span th:if="${p.isOnSale}">
+													<a th:href="@{/admin/products/turnOffSale(id=${p.id})}"
+														class="btn btn-danger btn-sm"
+														onclick="if (!(confirm('Are you sure you want to set this product off sale?'))) return false">
+														Off Sale
 													</a>
 												</span>
 											</div>

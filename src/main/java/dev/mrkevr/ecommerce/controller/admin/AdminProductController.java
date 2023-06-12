@@ -18,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import dev.mrkevr.ecommerce.dto.ProductRequest;
+import dev.mrkevr.ecommerce.dto.ProductResponse;
 import dev.mrkevr.ecommerce.entity.Category;
 import dev.mrkevr.ecommerce.servioe.CategoryService;
 import dev.mrkevr.ecommerce.servioe.ProductService;
@@ -90,33 +91,22 @@ public class AdminProductController {
 			return "/admin/new-product";
 		} else {
 			long sizeInKb = productImage.getSize() / 1024;
-			if(sizeInKb > 500) {
+			if(sizeInKb > 800) {
 				model.addAttribute("productImageError", "Image is too large."); 
 				return "/admin/new-product"; 
 			}
 		}
 		
-		
-		/*
-		 * long sizeInKb = productImage.getSize() / 1024; if(sizeInKb > 500) {
-		 * model.addAttribute("productImageTooLarge", "Image is too large."); return
-		 * "/admin/new-product"; }
-		 */
-		
-		
-		
-		return "/admin/new-product";
-		
-//		try {
-//			ProductResponse response = productServ.save(productRequest, productImage);
-//			redirectAttrs.addFlashAttribute("success", "New product has been added!");
-//			return "redirect:/admin/products/"+response.getId();
-//		} catch (Exception e) {
-//            e.printStackTrace();
-//            redirectAttrs.addFlashAttribute("error", "Failed to add new product!");
-//            redirectAttrs.addFlashAttribute("title", "New Product - Admin");
-//            return "/admin/new-product";
-//        }
+		try {
+			ProductResponse response = productServ.save(productRequest, productImage);
+			redirectAttrs.addFlashAttribute("success", "New product has been added!");
+			return "redirect:/admin/products/"+response.getId();
+		} catch (Exception e) {
+            e.printStackTrace();
+            redirectAttrs.addFlashAttribute("error", "Failed to add new product!");
+            redirectAttrs.addFlashAttribute("title", "New Product - Admin");
+            return "/admin/new-product";
+        }
 	}
 	
 	@RequestMapping(value = "/enable", method = { RequestMethod.GET, RequestMethod.POST })
@@ -139,6 +129,28 @@ public class AdminProductController {
 	{
 		String name = productServ.disableById(id).getName();
 		redirectAttrs.addFlashAttribute("success", name + " has been disabled.");
+		return "redirect:/admin/products";
+	}
+	
+	@RequestMapping(value = "/turnOnSale", method = { RequestMethod.GET, RequestMethod.POST })
+	String setProductOnSaleById(
+			@RequestParam 
+			String id, 
+			RedirectAttributes redirectAttrs) 
+	{
+		String name = productServ.putOnSaleById(id).getName();
+		redirectAttrs.addFlashAttribute("success", name + " is set on sale.");
+		return "redirect:/admin/products";
+	}
+	
+	@RequestMapping(value = "/turnOffSale", method = { RequestMethod.GET, RequestMethod.POST })
+	String setProductOffSaleById(
+			@RequestParam 
+			String id, 
+			RedirectAttributes redirectAttrs) 
+	{
+		String name = productServ.putOffSaleById(id).getName();
+		redirectAttrs.addFlashAttribute("success", name + " is set off sale.");
 		return "redirect:/admin/products";
 	}
 }

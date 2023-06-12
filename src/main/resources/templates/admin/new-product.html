@@ -58,7 +58,7 @@
 									<div class="form-group mb-1">
 										<label for="inputName" class="col-sm-3 control-label">Name</label>
 										<div class="col-sm-9">
-											<input type="text" class="form-control" name="name" id="inputName" placeholder="6-50 characters">
+											<input type="text" class="form-control" name="name" id="inputName" placeholder="6-150 characters">
 										</div>
 										<p th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="alert alert-danger small p-1"></p>
 									</div>
@@ -69,7 +69,8 @@
 										<div class="col-sm-9">
 											<textarea class="form-control" id="inputDesccription"
 												th:field="*{description}" 
-												rows="5" style="height:100%;">
+												rows="5" 
+												style="height:100%; white-space: pre-wrap;">
 											</textarea> 
 										</div>
 										<p th:if="${#fields.hasErrors('description')}" th:errors="*{description}" class="alert alert-danger small p-1"></p>
@@ -103,7 +104,7 @@
 									<div class="form-group mb-1">
 										<label for="name" class="col-sm-3 control-label">Product Image</label>
 										<div class="col-sm-3">
-											<label class="control-label small">(jpg/png):</label> 
+											<!-- <label class="control-label small">(jpeg/png)</label>  -->
 											<input class="form-control form-control-sm" name="productImage" type="file" accept="image/*" id="imageFile">
 										</div>
 										<p th:if="${productImageError}" class="alert alert-danger small p-1"><span th:text="${productImageError}"></span></p>

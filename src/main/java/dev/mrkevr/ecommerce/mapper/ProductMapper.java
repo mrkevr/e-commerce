@@ -22,6 +22,7 @@ public class ProductMapper {
 		response.setImage(product.getImage());
 		response.setCategory(product.getCategory().getName());
 		response.setActivated(product.isActivated());
+		response.setOnSale(product.isOnSale());
 		response.setDeleted(product.isDeleted());
 		response.setCreated(product.getCreated());
 		response.setModified(product.getModified());
