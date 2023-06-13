@@ -1,6 +1,7 @@
 package dev.mrkevr.ecommerce.controller.admin;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -22,6 +23,7 @@ import dev.mrkevr.ecommerce.dto.ProductResponse;
 import dev.mrkevr.ecommerce.entity.Category;
 import dev.mrkevr.ecommerce.servioe.CategoryService;
 import dev.mrkevr.ecommerce.servioe.ProductService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
@@ -45,6 +47,16 @@ public class AdminProductController {
 		ModelAndView mav = new ModelAndView("admin/products");
 		mav.addObject("title", "Products - Admin");
 		mav.addObject("products", productServ.findAll());
+		return mav;
+	}
+	
+	@GetMapping("/category/{category}")
+	ModelAndView productsByCategory(@PathVariable String category)
+	{
+		ModelAndView mav = new ModelAndView("admin/products-by-category");
+		mav.addObject("title", category+" - Admin");
+		mav.addObject("category", category);
+		mav.addObject("products", productServ.findAllByCategory(category));
 		return mav;
 	}
 	
@@ -113,11 +125,13 @@ public class AdminProductController {
 	String enableProductById(
 			@RequestParam 
 			String id, 
-			RedirectAttributes redirectAttrs) 
+			RedirectAttributes redirectAttrs,
+			HttpServletRequest request)
 	{
 		String name = productServ.enableById(id).getName();
 		redirectAttrs.addFlashAttribute("success", name + " has been enabled.");
-		return "redirect:/admin/products";
+		
+		return getPreviousPageByRequest(request).orElse("/redirect:/admin/products");
 	}
 	
 
@@ -125,32 +139,50 @@ public class AdminProductController {
 	String disableProductById(
 			@RequestParam 
 			String id, 
-			RedirectAttributes redirectAttrs)
+			RedirectAttributes redirectAttrs,
+			HttpServletRequest request)
 	{
 		String name = productServ.disableById(id).getName();
 		redirectAttrs.addFlashAttribute("success", name + " has been disabled.");
-		return "redirect:/admin/products";
+		
+		return getPreviousPageByRequest(request).orElse("/redirect:/admin/products");
 	}
 	
 	@RequestMapping(value = "/turnOnSale", method = { RequestMethod.GET, RequestMethod.POST })
 	String setProductOnSaleById(
 			@RequestParam 
 			String id, 
-			RedirectAttributes redirectAttrs) 
+			RedirectAttributes redirectAttrs,
+			HttpServletRequest request)
 	{
 		String name = productServ.putOnSaleById(id).getName();
-		redirectAttrs.addFlashAttribute("success", name + " is set on sale.");
-		return "redirect:/admin/products";
+		redirectAttrs.addFlashAttribute("success", name + " is now on sale.");
+		
+		return getPreviousPageByRequest(request).orElse("/redirect:/admin/products");
 	}
 	
 	@RequestMapping(value = "/turnOffSale", method = { RequestMethod.GET, RequestMethod.POST })
 	String setProductOffSaleById(
 			@RequestParam 
 			String id, 
-			RedirectAttributes redirectAttrs) 
+			RedirectAttributes redirectAttrs,
+			HttpServletRequest request)
 	{
 		String name = productServ.putOffSaleById(id).getName();
-		redirectAttrs.addFlashAttribute("success", name + " is set off sale.");
-		return "redirect:/admin/products";
+		redirectAttrs.addFlashAttribute("success", name + " is now off sale.");
+		
+		return getPreviousPageByRequest(request).orElse("/redirect:/admin/products");
+	}
+	
+	/**
+	* Returns the viewName to return for coming back to the sender url
+	*
+	* @param request Instance of {@link HttpServletRequest} or use an injected instance
+	* @return Optional with the view name. Recomended to use an alternativa url with
+	* {@link Optional#orElse(java.lang.Object)}
+	*/
+	protected Optional<String> getPreviousPageByRequest(HttpServletRequest request)
+	{
+	   return Optional.ofNullable(request.getHeader("Referer")).map(requestUrl -> "redirect:" + requestUrl);
 	}
 }

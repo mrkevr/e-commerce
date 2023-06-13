@@ -73,26 +73,16 @@
 						</div>
 					</div>
 					
-					
-					
 					<!-- Alerts -->
-					<div>
-						<div class="alert alert-success p-1 text-center" th:if="${success}">
-							<strong>Success! </strong><span th:text="${success}"></span>
-						</div>
-						<div class="alert alert-danger p-1 text-center" th:if="${error}">
-							<strong>Error! </strong><span th:text="${error}"></span>
-						</div>
-					</div>
-					
+					<div th:replace="~{admin/admin-fragments::alerts}"></div>
 					
 					<!-- Table -->
 					<div class="card mb-4">
-						<div class="card-header">
+						<!-- <div class="card-header">
 							<i class="fas fa-table me-1"></i> Categories Table
-						</div>
+						</div> -->
 						<div class="card-body">
-							<table id="datatablesSimple">
+							<table id="dataTable" class="display compact" style="width:100%">
 								<thead>
 									<tr>
 										<th>ID</th>

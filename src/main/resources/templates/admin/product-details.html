@@ -22,7 +22,7 @@
 					<ol class="breadcrumb mb-4">
 						<li class="breadcrumb-item"><a th:href="@{/admin/dashboard}">Dashboard</a></li>
 						<li class="breadcrumb-item"><a th:href="@{/admin/products}">Products</a></li>
-						<li class="breadcrumb-item"><a th:href="@{/admin/products/category?category=}"><span th:text="${product.category}"></span></a></li>
+						<li class="breadcrumb-item"><a th:href="@{/admin/products/category/{category}(category=${product.category})}"><span th:text="${product.category}"></span></a></li>
 						<li class="breadcrumb-item active"><span th:text="${product.name}"></span></li>
                   	</ol>
 					

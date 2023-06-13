@@ -195,6 +195,12 @@ public class ProductServiceImpl implements ProductService {
 		List<Product> products = productRepo.findAllByCategoryIgnoreCase(category);
 		return productMapper.toResponse(products);
 	}
+	
+	@Override
+	public List<ProductResponse> findAllActivatedByCategory(String category) {
+		List<Product> products = productRepo.findAllActivatedByCategoryIgnoreCase(category);
+		return productMapper.toResponse(products);
+	}
 
 	@Override
 	public List<ProductResponse> filterHighProducts(int limit) {

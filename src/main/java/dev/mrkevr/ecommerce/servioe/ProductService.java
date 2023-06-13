@@ -42,7 +42,9 @@ public interface ProductService {
 	Page<ProductResponse> getAllProductsForCustomer(int page, int limit);
 
 	List<ProductResponse> findAllByCategory(String category);
-
+	
+	List<ProductResponse> findAllActivatedByCategory(String category);
+	
 	List<ProductResponse> filterHighProducts(int limit);
 
 	List<ProductResponse> filterLowerProducts(int limit);

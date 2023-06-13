@@ -31,11 +31,11 @@
 								
 					<!-- Table -->
 					<div class="card mb-4">
-						<div class="card-header">
+						<!-- <div class="card-header">
 							<i class="fas fa-table me-1"></i> Users Table
-						</div>
+						</div> -->
 						<div class="card-body">
-							<table id="datatablesSimple">
+							<table id="dataTable" class="display compact" style="width:100%">
 								<thead>
 									<tr>
 										<th>Username</th>
@@ -46,7 +46,7 @@
 										<th>Action</th>
 									</tr>
 								</thead>
-								<tfoot>
+								<!-- <tfoot>
 									<tr>
 										<th>Username</th>
 										<th>Name</th>
@@ -55,7 +55,7 @@
 										<th class="d-none d-md-table-cell">Address</th>
 										<th>Action</th>
 									</tr>
-								</tfoot>
+								</tfoot> -->
 								<tbody>
 									<tr th:each="u: ${users}">
 										<td><a th:text="${u.username}" th:href="@{users/{id}(id=${u.id})}"></a></td>
