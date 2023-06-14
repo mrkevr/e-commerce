@@ -20,7 +20,7 @@ public interface ProductService {
 
 	ProductResponse save(ProductRequest productRequest, MultipartFile imageFile);
 
-	ProductResponse update(String id, ProductRequest productRequest, MultipartFile imageFile);
+	ProductResponse update(String id, ProductUpdateRequest productRequest, MultipartFile imageFile);
 
 	ProductResponse enableById(String id);
 

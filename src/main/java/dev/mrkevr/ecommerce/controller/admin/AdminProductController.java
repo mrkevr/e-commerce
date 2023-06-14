@@ -71,37 +71,6 @@ public class AdminProductController {
 		return mav;
 	}
 	
-	@GetMapping("/update")
-	ModelAndView updateProduct(@RequestParam String id) 
-	{
-		
-		System.out.println(id);
-		
-		ModelAndView mav = new ModelAndView("admin/update-product");
-		ProductUpdateRequest productUpdateRequest = productServ.getUpdateRequestById(id);
-		mav.addObject("productUpdateRequest", productUpdateRequest);
-		mav.addObject("title", "Update Product - Admin");
-		return mav;
-	}
-	
-	@PostMapping(value = "/process-update-product", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-	String updateProduct(
-			@RequestParam("productImage") 
-			MultipartFile productImage,
-			@Valid 
-			@ModelAttribute("updateProductRequest") 
-			ProductRequest productRequest,
-			BindingResult result, 
-			RedirectAttributes redirectAttrs,
-			Model mode) 
-	{
-		
-		System.out.println();
-		
-		return "redirect:/admin/products";
-	}
-	
-	
 	@GetMapping("/new-product")
 	ModelAndView newProduct() 
 	{
@@ -122,8 +91,6 @@ public class AdminProductController {
 			RedirectAttributes redirectAttrs,
 			Model model) 
 	{
-		
-		
 		model.addAttribute("title", "New Product - Admin");
 		if(result.hasErrors()) {
 			result.getAllErrors().forEach(e -> System.out.println(e.getDefaultMessage()));
@@ -151,6 +118,45 @@ public class AdminProductController {
             redirectAttrs.addFlashAttribute("error", "Failed to add new product!");
             redirectAttrs.addFlashAttribute("title", "New Product - Admin");
             return "/admin/new-product";
+        }
+	}
+	
+	@GetMapping("/update")
+	ModelAndView updateProduct(@RequestParam String id) 
+	{
+		ModelAndView mav = new ModelAndView("admin/update-product");
+		ProductUpdateRequest productUpdateRequest = productServ.getUpdateRequestById(id);
+		mav.addObject("productUpdateRequest", productUpdateRequest);
+		mav.addObject("title", "Update Product - Admin");
+		return mav;
+	}
+	
+	@PostMapping(value = "/process-update", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+	String updateProduct(
+			@RequestParam("productImage") 
+			MultipartFile productImage,
+			@Valid 
+			@ModelAttribute("productUpdateRequest") 
+			ProductUpdateRequest productUpdateRequest,
+			BindingResult result, 
+			RedirectAttributes redirectAttrs,
+			Model model) 
+	{
+		
+		model.addAttribute("title", "Update Product - Admin");
+		if(result.hasErrors()) {
+			return "/admin/update-product";
+		}
+		
+		try {
+			ProductResponse response = productServ.update(productUpdateRequest.getId(), productUpdateRequest, productImage);
+			redirectAttrs.addFlashAttribute("success", "Product has been updated!");
+			return "redirect:/admin/products/"+response.getId();
+		} catch (Exception e) {
+            e.printStackTrace();
+            redirectAttrs.addFlashAttribute("error", "Failed to add new product!");
+            redirectAttrs.addFlashAttribute("title", "Update - Admin");
+            return "/admin/update-product";
         }
 	}
 	

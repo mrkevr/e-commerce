@@ -33,9 +33,7 @@ public class ImageUploader {
 		try {
 			Files.copy(
 				file.getInputStream(), 
-				Paths.get(UPLOAD_FOLDER + File.separator + fileName + this.getFileExtension(file.getOriginalFilename())),
-				StandardCopyOption.REPLACE_EXISTING);
-			
+				Paths.get(UPLOAD_FOLDER + File.separator + fileName + this.getFileExtension(file.getOriginalFilename())), StandardCopyOption.REPLACE_EXISTING);
 			uploadSuccess = true;
 		} catch (Exception e) {
 			e.printStackTrace();

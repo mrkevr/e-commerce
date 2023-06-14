@@ -80,10 +80,10 @@ public class ProductServiceImpl implements ProductService {
 			return null;
 		}
 	}
-
+	
 	@Override
 	@Transactional
-	public ProductResponse update(String id, ProductRequest productRequest, MultipartFile imageFile) {
+	public ProductResponse update(String id, ProductUpdateRequest productUpdateRequest, MultipartFile imageFile) {
 		try {
 			
 			Product productToUpdate = productRepo.findById(id).orElseThrow(() -> new ProductNotFoundException(id));
@@ -99,13 +99,13 @@ public class ProductServiceImpl implements ProductService {
 				}
 			}
 			
-			Category category = categoryRepo.findById(productRequest.getCategoryId()).orElseThrow(() -> new CategoryNotFoundException(productRequest.getCategoryId()));
+			Category category = categoryRepo.findById(productUpdateRequest.getCategoryId()).orElseThrow(() -> new CategoryNotFoundException(productUpdateRequest.getCategoryId()));
 			productToUpdate.setCategory(category);
-			productToUpdate.setName(productRequest.getName());
-			productToUpdate.setDescription(productRequest.getDescription());
-			productToUpdate.setCostPrice(productRequest.getCostPrice());
-			productToUpdate.setSalePrice(productRequest.getCostPrice());
-			productToUpdate.setCurrentQuantity(productRequest.getCurrentQuantity());
+			productToUpdate.setName(productUpdateRequest.getName());
+			productToUpdate.setDescription(productUpdateRequest.getDescription());
+			productToUpdate.setCostPrice(productUpdateRequest.getCostPrice());
+			productToUpdate.setSalePrice(productUpdateRequest.getSalePrice());
+			productToUpdate.setCurrentQuantity(productUpdateRequest.getCurrentQuantity());
 
 			Product savedProduct = productRepo.save(productToUpdate);
 			return productMapper.toResponse(savedProduct);
