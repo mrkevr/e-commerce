@@ -7,6 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import dev.mrkevr.ecommerce.dto.ProductRequest;
 import dev.mrkevr.ecommerce.dto.ProductResponse;
+import dev.mrkevr.ecommerce.dto.ProductUpdateRequest;
 import dev.mrkevr.ecommerce.entity.Product;
 
 public interface ProductService {
@@ -30,7 +31,9 @@ public interface ProductService {
 	ProductResponse putOffSaleById(String id);
 	
 	ProductResponse getById(String id);
-
+	
+	ProductUpdateRequest getUpdateRequestById(String id);
+	
 	Product findById(String id);
 
 	List<ProductResponse> randomProduct(int limit);

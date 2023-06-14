@@ -8,13 +8,17 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProductRequest {
+public class ProductUpdateRequest {
+	
+	private String id;
 	
 	@Size(min = 6, max = 150, message = "Name must be 6-150 characters long.")
 	private String name;
@@ -33,4 +37,9 @@ public class ProductRequest {
 	@DecimalMax(value = "1000000", message = "Cost price must be 1-1,000,000.00.")
 	@NotNull(message = "Cost price must be 1-1,000,000.00.")
 	private Double costPrice;
+	
+	@DecimalMin(value = "1.00", message = "Sale price must be 1-1,000,000.00.")
+	@DecimalMax(value = "1000000", message = "Sale price must be 1-1,000,000.00.")
+	@NotNull(message = "Sale price must be 1-1,000,000.00.")
+	private Double salePrice;
 }

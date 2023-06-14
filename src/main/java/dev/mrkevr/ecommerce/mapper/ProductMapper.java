@@ -6,26 +6,29 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;
 
 import dev.mrkevr.ecommerce.dto.ProductResponse;
+import dev.mrkevr.ecommerce.dto.ProductUpdateRequest;
 import dev.mrkevr.ecommerce.entity.Product;
 
 @Component
 public class ProductMapper {
 
 	public ProductResponse toResponse(Product product) {
-		ProductResponse response = new ProductResponse();
-		response.setId(product.getId());
-		response.setName(product.getName());
-		response.setCurrentQuantity(product.getCurrentQuantity());
-		response.setCostPrice(product.getCostPrice());
-		response.setSalePrice(product.getSalePrice());
-		response.setDescription(product.getDescription());
-		response.setImage(product.getImage());
-		response.setCategory(product.getCategory().getName());
-		response.setActivated(product.isActivated());
-		response.setOnSale(product.isOnSale());
-		response.setDeleted(product.isDeleted());
-		response.setCreated(product.getCreated());
-		response.setModified(product.getModified());
+		ProductResponse response =  ProductResponse.builder()
+			.id(product.getId())
+			.category(product.getCategory().getName())
+			.name(product.getName())
+			.description(product.getDescription())
+			.currentQuantity(product.getCurrentQuantity())
+			.costPrice(product.getCostPrice())
+			.salePrice(product.getSalePrice())
+			.image(product.getImage())
+			.isActivated(product.isActivated())
+			.isDeleted(product.isDeleted())
+			.isOnSale(product.isOnSale())
+			.created(product.getCreated())
+			.modified(product.getModified())
+			.build();
+		
 		return response;
 	}
 
@@ -33,5 +36,17 @@ public class ProductMapper {
 		return list.stream().map(product -> this.toResponse(product)).collect(Collectors.toList());
 	}
 	
-	
+	public ProductUpdateRequest toUpdateRequest(Product product) {
+		ProductUpdateRequest request = ProductUpdateRequest.builder()
+			.id(product.getId())
+			.categoryId(product.getCategory().getId())
+			.name(product.getName())
+			.description(product.getDescription())
+			.currentQuantity(product.getCurrentQuantity())
+			.costPrice(product.getCostPrice())
+			.salePrice(product.getSalePrice())
+			.build();
+		
+		return request;
+	}
 }

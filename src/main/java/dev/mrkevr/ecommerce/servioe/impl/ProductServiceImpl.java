@@ -13,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import dev.mrkevr.ecommerce.dto.ProductRequest;
 import dev.mrkevr.ecommerce.dto.ProductResponse;
+import dev.mrkevr.ecommerce.dto.ProductUpdateRequest;
 import dev.mrkevr.ecommerce.entity.Category;
 import dev.mrkevr.ecommerce.entity.Product;
 import dev.mrkevr.ecommerce.exception.CategoryNotFoundException;
@@ -158,7 +159,13 @@ public class ProductServiceImpl implements ProductService {
 		Product product = productRepo.findById(id).orElseThrow(() -> new ProductNotFoundException(id));
 		return productMapper.toResponse(product);
 	}
-
+	
+	@Override
+	public ProductUpdateRequest getUpdateRequestById(String id) {
+		Product product = productRepo.findById(id).orElseThrow(() -> new ProductNotFoundException(id));
+		return productMapper.toUpdateRequest(product);
+	}
+	
 	@Override
 	public Product findById(String id) {
 		return productRepo.findById(id).orElseThrow(() -> new ProductNotFoundException(id));

@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import dev.mrkevr.ecommerce.dto.UserProfileResponse;
 import dev.mrkevr.ecommerce.servioe.UserService;
 import lombok.RequiredArgsConstructor;
 
@@ -22,19 +23,16 @@ public class AdminUserController {
 		ModelAndView mav = new ModelAndView("admin/users");
 		mav.addObject("title", "Users - Admin");
 		mav.addObject("users", userServ.getAllUsersDto());
-
 		return mav;
 	}
 
 	@GetMapping("/{id}")
 	ModelAndView userDetails(@PathVariable String id) {
-
+		
 		ModelAndView mav = new ModelAndView("admin/user-details");
-		mav.addObject("title", "User Details - Admin");
-		mav.addObject("user", userServ.getProfileDto(id));
-		
-		System.out.println(userServ.getProfileDto(id));
-		
+		UserProfileResponse user = userServ.getProfileDto(id);
+		mav.addObject("title", user.getUsername()+" - Admin");
+		mav.addObject("user", user);
 		return mav;
 	}
 }

@@ -65,10 +65,10 @@
 										
 											<!-- Image : Button -->
 											<div style="text-align: center">
-												<a type="button" class="text-primary me-2" 
+												<a type="button" class="btn btn-primary btn-sm" 
 													data-bs-toggle="modal"
 													th:attr="data-bs-target='#'+'imageProductModal'+${p.id}">
-													<i class="fas fa-image fs-6"></i>
+													<i class="fas fa-eye"></i>
 												</a> 
 											</div>
 											
@@ -122,38 +122,50 @@
     										</div>
 										</td>
 										<td>
-											<!-- Activate / Deactivate -->
-											<div class="btn-group" role="group" aria-label="Basic example" style="display: inline-block;">
+											<!-- Action Button Grouo -->
+											<div class="btn-group" role="group" aria-label="Basic example" style="display: inline-block; text-align:center;">
+												<!-- Activate / Deactivate -->
 												<span th:if="${!p.isActivated} and ${p.isDeleted}">
 													<a th:href="@{/admin/products/enable(id=${p.id})}"
 														class="btn btn-success btn-sm"
-														onclick="if (!(confirm('Are you sure you want to enable this product?'))) return false">
-														Enable
+														onclick="if (!(confirm('Are you sure you want to enable this product?'))) return false"
+														data-toggle="tooltip" title="Enable">
+														<i class="fas fa-power-off"></i>
 													</a>
 												</span>
 												<span th:if="${p.isActivated} and ${!p.isDeleted}">
 													<a th:href="@{/admin/products/disable(id=${p.id})}"
 														class="btn btn-danger btn-sm"
-														onclick="if (!(confirm('Are you sure you want to disable this product?'))) return false">
-														Disable
+														onclick="if (!(confirm('Are you sure you want to disable this product?'))) return false"
+														data-toggle="tooltip" title="Disable">
+														<i class="fas fa-power-off"></i>
 													</a>
 												</span>
 											
-											<!-- On Sale / Off Sale -->
+												<!-- On Sale / Off Sale -->
 												<span th:if="${!p.isOnSale}">
 													<a th:href="@{/admin/products/turnOnSale(id=${p.id})}"
 														class="btn btn-success btn-sm"
-														onclick="if (!(confirm('Are you sure you want to set this product on sale?'))) return false">
-														Put On Sale
+														onclick="if (!(confirm('Are you sure you want to set this product on sale?'))) return false"
+														data-toggle="tooltip" title="Enable Sale">
+														<i class="fas fa-hand-holding-usd"></i>
 													</a>
 												</span>
 												<span th:if="${p.isOnSale}">
 													<a th:href="@{/admin/products/turnOffSale(id=${p.id})}"
 														class="btn btn-danger btn-sm"
-														onclick="if (!(confirm('Are you sure you want to set this product off sale?'))) return false">
-														Disable Sale
+														onclick="if (!(confirm('Are you sure you want to set this product off sale?'))) return false"
+														data-toggle="tooltip" title="Disabke Sake">
+														<i class="fas fa-hand-holding-usd"></i>
 													</a>
 												</span>
+												
+												<!-- Edit -->
+												<a th:href="@{/admin/products/update(id=${p.id})}"
+													class="btn btn-primary btn-sm"
+													data-toggle="tooltip" title="Update">
+													<i class="fas fa-edit"></i>
+												</a>
 											</div>
 										</td>
 									</tr>

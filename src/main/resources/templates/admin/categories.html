@@ -88,7 +88,6 @@
 										<th>ID</th>
 										<th>Name</th>
 										<th>Activated</th>
-										<th>Deleted</th>
 										<th class="d-none d-lg-table-cell">Created</th>
 										<th class="d-none d-lg-table-cell">Modified</th>
 										<th>Action</th>
@@ -144,14 +143,6 @@
   													<i th:case="*" class="fas fa-times-circle text-danger fs-4"></i>
 												</div>
 											</div>
-										</td>
-										<td>
-											<div style="text-align: center">
-    											<div th:switch="${c.isDeleted}">
-  													<i th:case="${true}" class="fas fa-check-circle text-success fs-4"></i>
-  													<i th:case="*" class="fas fa-times-circle text-danger fs-4"></i>
-												</div>
-    										</div>
 										</td>
 										<td class="d-none d-lg-table-cell"><span th:text="${#temporals.format(c.created, 'MMMM dd, yyyy hh:mm a')}"></span></td>
 										<td class="d-none d-lg-table-cell"><span th:text="${#temporals.format(c.modified, 'MMMM dd, yyyy hh:mm a')}"></span></td>

@@ -20,6 +20,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import dev.mrkevr.ecommerce.dto.ProductRequest;
 import dev.mrkevr.ecommerce.dto.ProductResponse;
+import dev.mrkevr.ecommerce.dto.ProductUpdateRequest;
 import dev.mrkevr.ecommerce.entity.Category;
 import dev.mrkevr.ecommerce.servioe.CategoryService;
 import dev.mrkevr.ecommerce.servioe.ProductService;
@@ -64,10 +65,42 @@ public class AdminProductController {
 	ModelAndView productDetails(@PathVariable String id) 
 	{
 		ModelAndView mav = new ModelAndView("admin/product-details");
-		mav.addObject("title", "Product Details - Admin");
-		mav.addObject("product", productServ.getById(id));
+		ProductResponse product = productServ.getById(id);
+		mav.addObject("product", product);
+		mav.addObject("title", product.getName()+" - Admin");
 		return mav;
 	}
+	
+	@GetMapping("/update")
+	ModelAndView updateProduct(@RequestParam String id) 
+	{
+		
+		System.out.println(id);
+		
+		ModelAndView mav = new ModelAndView("admin/update-product");
+		ProductUpdateRequest productUpdateRequest = productServ.getUpdateRequestById(id);
+		mav.addObject("productUpdateRequest", productUpdateRequest);
+		mav.addObject("title", "Update Product - Admin");
+		return mav;
+	}
+	
+	@PostMapping(value = "/process-update-product", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+	String updateProduct(
+			@RequestParam("productImage") 
+			MultipartFile productImage,
+			@Valid 
+			@ModelAttribute("updateProductRequest") 
+			ProductRequest productRequest,
+			BindingResult result, 
+			RedirectAttributes redirectAttrs,
+			Model mode) 
+	{
+		
+		System.out.println();
+		
+		return "redirect:/admin/products";
+	}
+	
 	
 	@GetMapping("/new-product")
 	ModelAndView newProduct() 
