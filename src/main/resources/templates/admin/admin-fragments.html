@@ -10,7 +10,7 @@
 	<meta name="author" content="" />
 	
 	<title th:text="${title}"></title>
-	<link rel="stylesheet" type="text/css" th:href="@{/css/styles.css}" />
+	<link rel="stylesheet" type="text/css" th:href="@{/css/admin-styles.css}" />
 	
 	<!-- Original Table -->
 	<!-- <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" /> -->
@@ -165,12 +165,19 @@
 		</div>
 	</footer>
 	
+	<!-- ALERTS -->
 	<div th:fragment="alerts">
 		<div class="alert alert-success p-1 text-center" th:if="${success}">
 			<strong>Success! </strong><span th:text="${success}"></span>
 		</div>
 		<div class="alert alert-danger p-1 text-center" th:if="${error}">
 			<strong>Error! </strong><span th:text="${error}"></span>
+		</div>
+		<div class="alert alert-warning p-1 text-center" th:if="${warning}">
+			<strong>Warning! </strong><span th:text="${warning}"></span>
+		</div>
+		<div class="alert alert-info p-1 text-center" th:if="${info}">
+			<strong>Info: </strong><span th:text="${info}"></span>
 		</div>
 	</div>
 	
@@ -181,7 +188,7 @@
 		<!-- Bootstrap JS -->
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 		<!-- Custom JS -->
-		<script type="text/javascript" th:src="@{/js/scripts.js}"></script>
+		<script type="text/javascript" th:src="@{/js/admin-scripts.js}"></script>
 		
 		<!-- Original Table JS -->
 		<!-- <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script> -->

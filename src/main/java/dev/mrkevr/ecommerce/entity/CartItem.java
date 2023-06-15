@@ -15,6 +15,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -25,6 +26,7 @@ import lombok.ToString;
 @ToString
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class CartItem extends GenericEntity {
@@ -37,7 +39,7 @@ public class CartItem extends GenericEntity {
 
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name = "shopping_cart_id", referencedColumnName = "shopping_cart_id")
-	private ShoppingCart cart;
+	private ShoppingCart shoppingCart;
 
 	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "product_id", referencedColumnName = "product_id")

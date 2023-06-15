@@ -50,7 +50,6 @@ public class ShoppingCart extends GenericEntity {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "cart")
     private Set<CartItem> cartItems;
     
-    
 	@Override
 	public String getIdPrefix() {
 		return "SCRT";

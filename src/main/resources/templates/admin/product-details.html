@@ -27,7 +27,10 @@
                   	</ol>
 					
 					<div class="row mt-4 justify-content-center">
-					
+						
+						<!-- Alerts -->
+						<div th:replace="~{admin/admin-fragments::alerts}"></div>
+						
 						<!-- Image -->
 						<div class="col-xl-3">
 							<div class="card mb-3">
@@ -52,11 +55,11 @@
   											<span class="text-end" th:text="${product.currentQuantity}"></span>
   										</div>
   										<div data-toggle="tooltip" title="Cost Price">
-  											<i class="fas fa-dollar-sign fa-fw text-primary me-1"></i>
+  											<i class="fas fa-tag fa-fw text-primary me-1"></i>
   											<span class="text-end" th:text="${product.costPrice}"></span>
   										</div>
   										<div data-toggle="tooltip" title="Sale Price">
-  											<i class="fas fa-hand-holding-usd fa-fw text-primary me-1"></i>
+  											<i class="fas fa-percentage fa-fw text-primary me-1"></i>
   											<span class="text-end" th:text="${product.salePrice}"></span>
   										</div>
   										<div data-toggle="tooltip" title="Created">
@@ -67,6 +70,20 @@
   											<i class="fas fa-user-edit fa-fw text-primary me-1"></i>
   											<span th:text="${#temporals.format(product.modified, 'MMMM dd, yyyy hh:mm a')}"></span>
   										</div>
+  										<div data-toggle="tooltip" title="Activated">
+  											<i class="fas fa-check-square fa-fw text-primary me-1"></i>
+    										<span th:switch="${product.isActivated}">
+  												<span th:case="${true}">Active</span>
+  												<span th:case="*">Inactive</span>
+											</span>
+										</div>
+										<div data-toggle="tooltip" title="On Sale">
+  											<i class="fas fa-percentage fa-fw text-primary me-1"></i>
+    										<span th:switch="${product.isOnSale}">
+  												<span th:case="${true}">On Sale</span>
+  												<span th:case="*">Not On Sale</span>
+											</span>
+										</div>
 									</div>
 								</div>
 							</div>
@@ -85,7 +102,57 @@
 							</div>
 						</div>
 						<!-- Description End -->
-							
+						
+						<!-- Action Button Grouo -->
+									<div class="btn-group" role="group" aria-label="Basic example" style="display: inline-block; text-align:center;">
+												<!-- Activate / Deactivate -->
+												<span th:if="${!product.isActivated} and ${product.isDeleted}">
+													<a th:href="@{/admin/products/enable(id=${product.id})}"
+														class="btn btn-success"
+														onclick="if (!(confirm('Are you sure you want to enable this product?'))) return false">
+														<i class="fas fa-power-off"></i>
+														Activate
+													</a>
+												</span>
+												<span th:if="${product.isActivated} and ${!product.isDeleted}">
+													<a th:href="@{/admin/products/disable(id=${product.id})}"
+														class="btn btn-danger"
+														onclick="if (!(confirm('Are you sure you want to disable this product?'))) return false">
+														<i class="fas fa-power-off"></i>
+														Deactivate
+													</a>
+												</span>
+											
+												<!-- On Sale / Off Sale -->
+												<span th:if="${!product.isOnSale}">
+													<a th:href="@{/admin/products/turnOnSale(id=${product.id})}"
+														class="btn btn-success"
+														onclick="if (!(confirm('Are you sure you want to set this product on sale?'))) return false">
+														<i class="fas fa-hand-holding-usd"></i>
+														Put On Sale
+													</a>
+												</span>
+												<span th:if="${product.isOnSale}">
+													<a th:href="@{/admin/products/turnOffSale(id=${product.id})}"
+														class="btn btn-danger"
+														onclick="if (!(confirm('Are you sure you want to set this product off sale?'))) return false">
+														<i class="fas fa-hand-holding-usd"></i>
+														Remove Sale
+													</a>
+												</span>
+												
+												<!-- Edit -->
+												<span>
+													<a th:href="@{/admin/products/update(id=${product.id})}"
+														class="btn btn-primary">
+														<i class="fas fa-edit"></i>
+														Update
+													</a>
+												</span>
+												
+											</div>
+						
+						
 					</div>
 				</div>
 			</main>

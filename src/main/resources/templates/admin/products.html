@@ -42,62 +42,31 @@
 						</div> -->
 						<div class="card-body">
 							<!-- <table id="datatablesSimple" class="table table-sm"> -->
-							<table id="dataTable" class="display compact" style="width:100%">
+							<table id="productTable" class="display compact" style="width:100%">
 								<thead>
 									<tr>
 										<th>ID</th>
 										<th>Name</th>
-										<th>Image</th>
 										<th>Category</th>
 										<th>Stock</th>
 										<th>Cost Price</th>
 										<th>Sale Price</th>
-										<th>Activated</th>
+										<th>Active</th>
 										<th>On Sale</th>
 										<th>Action</th>
 									</tr>
 								</thead>
 								<tbody>
 									<tr th:each="p: ${products}">
-										<td th:text="${p.id}"></td>
-										<td><a th:text="${p.name}" th:href="@{products/{id}(id=${p.id})}"></a></td>
-										<td>
-										
-											<!-- Image : Button -->
-											<div style="text-align: center">
-												<a type="button" class="btn btn-primary btn-sm" 
-													data-bs-toggle="modal"
-													th:attr="data-bs-target='#'+'imageProductModal'+${p.id}">
-													<i class="fas fa-eye"></i>
-												</a> 
-											</div>
-											
-											<!-- Image : Modal -->
-											<div class="modal fade" th:attr="id='imageProductModal'+${p.id}"
-												tabindex="-1" aria-labelledby="detailsModalLabel"
-												aria-hidden="true">
-												<div class="modal-dialog modal-dialog-centered">
-													<div class="modal-content">
-														<div class="modal-header">
-															<h1 class="modal-title fs-5">
-																<span th:text="'#'+${p.id}+' '+${p.name}"></span>
-															</h1>
-															<button type="button" class="btn-close"
-																data-bs-dismiss="modal" aria-label="Close"></button>
-														</div>
-														<div class="modal-body m-auto">
-															<img style="max-height:250px;" alt="" th:src="@{'data:image/jpeg;base64,' +${p.image}}" />
-														</div>
-														<div class="modal-footer">
-															<button type="button" class="btn btn-danger"
-																data-bs-dismiss="modal">Close</button>
-														</div>
-													</div>
-												</div>
-											</div> 
-											<!-- Image : End -->
-											
+										<td th:text="${p.id}" class="fs-6"></td>
+										<td style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis; width: 30%">
+											<a th:text="${p.name}" th:href="@{products/{id}(id=${p.id})}"></a>
 										</td>
+									
+										
+											
+											
+										
 										<td><span th:text="${p.category}"></span></td>
 										<td><div style="text-align: right"><span th:text="${p.currentQuantity}"></span></div></td>
 										<td>
@@ -126,6 +95,42 @@
 										<td>
 											<!-- Action Button Grouo -->
 											<div class="btn-group" role="group" aria-label="Basic example" style="display: inline-block; text-align:center;">
+											
+												<!-- Image : Button -->
+												<span>
+													<a type="button" class="btn btn-primary btn-sm" 
+														data-bs-toggle="modal"
+														th:attr="data-bs-target='#'+'imageProductModal'+${p.id}">
+														<i class="fas fa-eye"></i>
+													</a> 
+												</span>
+											
+												<!-- Image : Modal -->
+												<div class="modal fade" th:attr="id='imageProductModal'+${p.id}"
+												tabindex="-1" aria-labelledby="detailsModalLabel"
+												aria-hidden="true">
+												<div class="modal-dialog modal-dialog-centered">
+													<div class="modal-content">
+														<div class="modal-header">
+															<h1 class="modal-title fs-5">
+																<span th:text="'#'+${p.id}+' '+${p.name}"></span>
+															</h1>
+															<button type="button" class="btn-close"
+																data-bs-dismiss="modal" aria-label="Close"></button>
+														</div>
+														<div class="modal-body m-auto">
+															<img style="max-height:250px;" alt="" th:src="@{'data:image/jpeg;base64,' +${p.image}}" />
+														</div>
+														<div class="modal-footer">
+															<button type="button" class="btn btn-danger"
+																data-bs-dismiss="modal">Close</button>
+														</div>
+													</div>
+												</div>
+											</div> 
+											<!-- Image : End -->
+												
+												
 												<!-- Activate / Deactivate -->
 												<span th:if="${!p.isActivated} and ${p.isDeleted}">
 													<a th:href="@{/admin/products/enable(id=${p.id})}"
@@ -186,6 +191,32 @@
 	
 	<!-- Fragment : Scripts -->
 	<div th:replace="~{admin/admin-fragments::scripts}"></div>
+	<script>
+		$(document).ready(function () {
+		    $('#productTable').DataTable();
+		});
+	</script>
+	
+	<script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+	<script type="text/javascript" src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+	<script type="text/javascript" src="https://cdn.datatables.net/fixedcolumns/4.2.2/js/dataTables.fixedColumns.min.js"></script>
+	
+	<script>
+	<script>
+		$(document).ready(function() {
+	    	var table = $('#productTable').removeAttr('width').DataTable( {
+	        	scrollY:        "300px",
+	        	scrollX:        true,
+	        	scrollCollapse: true,
+	        	paging:         false,
+	        	columnDefs: [
+	            	{ width: 500, targets: 0 }
+	        	],
+	        	fixedColumns: true
+	    	} );
+		} );
+	</script>
+	
 	
 </body>
 </html>
