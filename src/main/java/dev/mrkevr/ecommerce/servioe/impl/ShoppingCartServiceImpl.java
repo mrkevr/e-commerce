@@ -46,10 +46,10 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 	public ShoppingCartResponse getByUserId(String id) 
 	{
 		User user = userRepo.findById(id).orElseThrow(() -> new UserNotFoundException(id));
-		if(user.getCart() == null) {
+		if(user.getShoppingCart() == null) {
 			throw new ShoppingCartNotFoundException();
 		}
-		return shoppingCartMapper.toResponse(user.getCart());
+		return shoppingCartMapper.toResponse(user.getShoppingCart());
 	}
 
 	@Override
@@ -61,11 +61,16 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 		Product product = productRepo.findById(productId).orElseThrow(() -> new ProductNotFoundException(productId));
 		
 		// Fetch the shopping cart, create new instance if it doesnt exist
-		ShoppingCart shoppingCart = shoppingCartRepo.findByUser(user).orElseGet(() -> {
-			ShoppingCart newCart = new ShoppingCart();
-			newCart.setUser(user);
-			return newCart;
-		});
+//		ShoppingCart shoppingCart = shoppingCartRepo.findByUser(user).orElseGet(() -> {
+//			ShoppingCart newCart = new ShoppingCart();
+//			newCart.setUser(user);
+//			return newCart;
+//		});
+		
+		ShoppingCart shoppingCart = user.getShoppingCart();
+		if(shoppingCart == null) {
+			shoppingCart = new ShoppingCart();
+		}
 		
 		// Define new cart item set if null
 		Set<CartItem> cartItems = shoppingCart.getCartItems();
@@ -87,17 +92,20 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 			.unitPrice(unitPrice)
 			.build();
 		cartItems.add(cartItem);
-		
-		// Persist the cart item to database
+		// Persist the cart item
 		cartItemRepo.save(cartItem);
 		
 		shoppingCart.setCartItems(cartItems);
 		shoppingCart.setTotalItems(this.computeTotalItems(shoppingCart.getCartItems()));
-		shoppingCart.setTotalPrice(this.computeTotalPrice(shoppingCart.getCartItems()));
+		shoppingCart.setTotalPrice(this.computeTotalPrice(shoppingCart.getCartItems()));		
+		shoppingCart.setUser(user);
+		user.setShoppingCart(shoppingCart);
 		
 		ShoppingCart savedShoppingCart = shoppingCartRepo.save(shoppingCart);
 		
-		return shoppingCartMapper.toResponse(savedShoppingCart);
+		// Map the persisted entity to dto and return
+//		return shoppingCartMapper.toResponse(savedShoppingCart);
+		return null;
 	}
 
 	@Override

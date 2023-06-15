@@ -15,6 +15,8 @@ import dev.mrkevr.ecommerce.repository.ShoppingCartRepository;
 import dev.mrkevr.ecommerce.repository.UserRepository;
 import dev.mrkevr.ecommerce.servioe.ApplicationUserManager;
 import dev.mrkevr.ecommerce.servioe.CategoryService;
+import dev.mrkevr.ecommerce.servioe.ProductService;
+import dev.mrkevr.ecommerce.servioe.ShoppingCartService;
 import lombok.RequiredArgsConstructor;
 
 @Configuration
@@ -27,26 +29,36 @@ public class ApplicationConfig {
 	private final ShoppingCartRepository shoppingCartRepo;
 
 	private final ApplicationUserManager applicationUserManager;
-	private final PasswordEncoder passwordEncoder;
+	private final ProductService productServ;
 	private final CategoryService categoryServ;
+	private final ShoppingCartService shoppingCartServ;
+	
+	
+	
+	
+	private final PasswordEncoder passwordEncoder;
 
 	@Bean
 	CommandLineRunner init() {
 		return args -> {
-
-			this.addRoles();
-			this.addAdminAccount();
+			this.addRolesIfNotExists();
+			this.addAdminAccountIfNotExist();
+			
+			
+			shoppingCartServ.addCartItem("USER-5318-5461", "PROD-0739-6310", 3);
+			
+			
 		};
 	}
 
-	private void addRoles() {
+	private void addRolesIfNotExists() {
 		if (roleRepo.count() == 0) {
 			roleRepo.save(new Role("ROLE_ADMIN"));
 			roleRepo.save(new Role("ROLE_USER"));
 		}
 	}
 
-	private void addAdminAccount() {
+	private void addAdminAccountIfNotExist() {
 
 		if (!userRepo.existsByUsername("admin")) {
 			User user = new User();

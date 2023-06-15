@@ -47,7 +47,7 @@ public class ShoppingCart extends GenericEntity {
 	@Column(name = "total_items")
     private int totalItems;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "cart")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "shoppingCart")
     private Set<CartItem> cartItems;
     
 	@Override

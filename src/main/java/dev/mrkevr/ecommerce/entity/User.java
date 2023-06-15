@@ -94,7 +94,7 @@ public class User extends GenericEntity implements UserDetails {
 	Set<Role> roles = new HashSet<Role>();
 	
 	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
-    private ShoppingCart cart;
+    private ShoppingCart shoppingCart;
 	
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 	private List<Order> orders;

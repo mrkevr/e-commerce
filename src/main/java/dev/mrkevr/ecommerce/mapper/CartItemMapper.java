@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 import dev.mrkevr.ecommerce.dto.CartItemResponse;
@@ -11,11 +12,16 @@ import dev.mrkevr.ecommerce.entity.CartItem;
 import lombok.RequiredArgsConstructor;
 
 @Component
-@RequiredArgsConstructor
 public class CartItemMapper {
 	
 	private final ProductMapper productMapper;
 	private final ShoppingCartMapper shoppingCartMapper;
+	
+	public CartItemMapper(ProductMapper productMapper, @Lazy ShoppingCartMapper shoppingCartMapper) {
+		this.productMapper = productMapper;
+		this.shoppingCartMapper = shoppingCartMapper;
+	}
+	
 	
 	public CartItemResponse toResponse(CartItem entity) {
 		return CartItemResponse.builder()
@@ -32,4 +38,6 @@ public class CartItemMapper {
 			.map(item -> this.toResponse(item))
 			.collect(Collectors.toList());
 	}
+
+	
 }
