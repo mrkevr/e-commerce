@@ -2,6 +2,7 @@ package dev.mrkevr.ecommerce.servioe.impl;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.stereotype.Service;
@@ -12,6 +13,7 @@ import dev.mrkevr.ecommerce.entity.CartItem;
 import dev.mrkevr.ecommerce.entity.Product;
 import dev.mrkevr.ecommerce.entity.ShoppingCart;
 import dev.mrkevr.ecommerce.entity.User;
+import dev.mrkevr.ecommerce.exception.CartItemNotFoundException;
 import dev.mrkevr.ecommerce.exception.ProductNotFoundException;
 import dev.mrkevr.ecommerce.exception.ShoppingCartNotFoundException;
 import dev.mrkevr.ecommerce.exception.UserNotFoundException;
@@ -51,7 +53,15 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 		}
 		return shoppingCartMapper.toResponse(user.getShoppingCart());
 	}
-
+	
+	/**
+	 * Add cart item to user's shopping cart
+	 * 
+	 * @param userId id of the User
+	 * @param productId id of the Product
+	 * @param quantity quantity of the Product
+	 * 
+	 */
 	@Override
 	@Transactional
 	public ShoppingCartResponse addCartItem(String userId, String productId, int quantity) 
@@ -60,17 +70,9 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 		User user = userRepo.findById(userId).orElseThrow(() -> new UserNotFoundException(userId));
 		Product product = productRepo.findById(productId).orElseThrow(() -> new ProductNotFoundException(productId));
 		
-		// Fetch the shopping cart, create new instance if it doesnt exist
-//		ShoppingCart shoppingCart = shoppingCartRepo.findByUser(user).orElseGet(() -> {
-//			ShoppingCart newCart = new ShoppingCart();
-//			newCart.setUser(user);
-//			return newCart;
-//		});
-		
+		// Fetch the shopping cart, create new instance if it doesn't exist
 		ShoppingCart shoppingCart = user.getShoppingCart();
-		if(shoppingCart == null) {
-			shoppingCart = new ShoppingCart();
-		}
+		if(shoppingCart == null) shoppingCart = new ShoppingCart();
 		
 		// Define new cart item set if null
 		Set<CartItem> cartItems = shoppingCart.getCartItems();
@@ -92,32 +94,97 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 			.unitPrice(unitPrice)
 			.build();
 		cartItems.add(cartItem);
+		
 		// Persist the cart item
 		cartItemRepo.save(cartItem);
 		
+		// Updating the shopping cart
 		shoppingCart.setCartItems(cartItems);
 		shoppingCart.setTotalItems(this.computeTotalItems(shoppingCart.getCartItems()));
 		shoppingCart.setTotalPrice(this.computeTotalPrice(shoppingCart.getCartItems()));		
 		shoppingCart.setUser(user);
 		user.setShoppingCart(shoppingCart);
-		
 		ShoppingCart savedShoppingCart = shoppingCartRepo.save(shoppingCart);
 		
 		// Map the persisted entity to dto and return
-//		return shoppingCartMapper.toResponse(savedShoppingCart);
-		return null;
+		ShoppingCartResponse response = shoppingCartMapper.toResponse(savedShoppingCart);
+		return response;
 	}
-
+	
+	/*
+	 * Modify the product quantity of cart item
+	 */
 	@Override
-	public ShoppingCartResponse updateCart(String userId, String productId, int quantity) {
-		// TODO Auto-generated method stub
-		return null;
+	@Transactional
+	public ShoppingCartResponse updateCartItem(String userId, String cartItemId, int quantity) 
+	{	
+		User user = userRepo.findById(userId).orElseThrow(() -> new UserNotFoundException(userId));
+		ShoppingCart shoppingCart = user.getShoppingCart();
+		Set<CartItem> cartItems = shoppingCart.getCartItems();
+		CartItem cartItemToUpdate = cartItems.stream()
+			.filter(item -> item.getId().equals(cartItemId))
+			.findFirst()
+			.orElseThrow(() -> new CartItemNotFoundException(user, cartItemId));
+		
+		// Compute new unit price based on product price and new quantity
+		Product product = cartItemToUpdate.getProduct();
+		double unitPrice;
+		if(product.isOnSale()) {
+			unitPrice = product.getSalePrice() * quantity;
+		} else {
+			unitPrice = product.getCostPrice() * quantity;
+		}
+		
+		// Set new unit price and quantity
+		cartItemToUpdate.setUnitPrice(unitPrice);
+		cartItemToUpdate.setQuantity(quantity);
+			
+		// Save cart item to db
+		cartItemRepo.save(cartItemToUpdate);
+		
+		// Update shopping cart's total items and price
+		shoppingCart.setTotalItems(this.computeTotalItems(shoppingCart.getCartItems()));
+		shoppingCart.setTotalPrice(this.computeTotalPrice(shoppingCart.getCartItems()));
+		
+		// Save to shopping cart to db
+		ShoppingCart savedShoppingCart = shoppingCartRepo.save(shoppingCart);
+		// Map the persisted entity to dto and return
+		ShoppingCartResponse response = shoppingCartMapper.toResponse(savedShoppingCart);
+		return response;
 	}
-
+	
+	/**
+	 * Delete cart item from the user's shopping cart and db
+	 * 
+	 * @param userId id of the User
+	 * @param cartItemId id of the CartItem
+	 */
 	@Override
-	public ShoppingCartResponse removeItemFromCart(String userId, String productId) {
-		// TODO Auto-generated method stub
-		return null;
+	@Transactional
+	public ShoppingCartResponse deleteCartItem(String userId, String cartItemId) 
+	{	
+		User user = userRepo.findById(userId).orElseThrow(() -> new UserNotFoundException(userId));
+		ShoppingCart shoppingCart = user.getShoppingCart();
+		Set<CartItem> cartItems = shoppingCart.getCartItems();
+		CartItem cartItemToDelete = cartItems.stream()
+			.filter(item -> item.getId().equals(cartItemId))
+			.findFirst()
+			.orElseThrow(() -> new CartItemNotFoundException(user, cartItemId));
+		
+		// Remove/delete
+		cartItemRepo.delete(cartItemToDelete);
+		cartItems.remove(cartItemToDelete);
+		
+		// Update shopping cart's total items and price
+		shoppingCart.setCartItems(cartItems);
+		shoppingCart.setTotalItems(this.computeTotalItems(shoppingCart.getCartItems()));
+		shoppingCart.setTotalPrice(this.computeTotalPrice(shoppingCart.getCartItems()));
+		
+		// Save to shopping cart to db
+		ShoppingCart savedShoppingCart = shoppingCartRepo.save(shoppingCart);
+		// Map the persisted shopping cart to dto and return
+		ShoppingCartResponse response = shoppingCartMapper.toResponse(savedShoppingCart);
+		return response;
 	}
 
 	@Override
@@ -146,6 +213,8 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     private double computeTotalPrice(Collection<CartItem> cartItems) {
     	return cartItems.stream().mapToDouble(item -> item.getUnitPrice()).sum();
     }
+
+	
 
 	
 }

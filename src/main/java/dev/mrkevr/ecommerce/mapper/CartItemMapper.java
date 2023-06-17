@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component;
 
 import dev.mrkevr.ecommerce.dto.CartItemResponse;
 import dev.mrkevr.ecommerce.entity.CartItem;
-import lombok.RequiredArgsConstructor;
 
 @Component
 public class CartItemMapper {
@@ -26,8 +25,8 @@ public class CartItemMapper {
 	public CartItemResponse toResponse(CartItem entity) {
 		return CartItemResponse.builder()
 			.id(entity.getId())
-			.shoppingCartResponse(shoppingCartMapper.toResponse(entity.getShoppingCart()))
-			.productResponse(productMapper.toResponse(entity.getProduct()))
+			.shoppingCartId(entity.getShoppingCart().getId())
+			.productName(entity.getProduct().getName())
 			.quantity(entity.getQuantity())
 			.unitPrice(entity.getUnitPrice())
 			.build();

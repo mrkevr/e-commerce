@@ -8,6 +8,7 @@ import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
+import jakarta.persistence.ForeignKey;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -23,7 +24,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Entity
-@Table(name = "products", uniqueConstraints = @UniqueConstraint(columnNames = { "name" }))
+@Table(name = "products", uniqueConstraints = @UniqueConstraint(columnNames = "name", name = "uk_product_name"))
 @ToString
 @Getter
 @Setter
@@ -32,8 +33,8 @@ import lombok.ToString;
 public class Product extends GenericEntity {
 
 	@Id
-	@GenericGenerator(name = "product_id_seq", type = GeneticEntityIdentifierGenerator.class)
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "product_id_seq")
+	@GenericGenerator(name = "products_id_seq", type = GeneticEntityIdentifierGenerator.class)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "products_id_seq")
 	@Column(name = "product_id", updatable = false)
 	private String id;
 
@@ -58,7 +59,10 @@ public class Product extends GenericEntity {
 	private String image;
 
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	@JoinColumn(name = "category_id", referencedColumnName = "category_id")
+	@JoinColumn(
+		name = "category_id", 
+		referencedColumnName = "category_id",
+		foreignKey = @ForeignKey(name = "fk_products_category_id"))
 	private Category category;
 	
 	@Column(name = "is_on_sale")

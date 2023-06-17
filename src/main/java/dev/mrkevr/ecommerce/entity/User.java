@@ -24,6 +24,7 @@ import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
+import jakarta.persistence.ForeignKey;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -41,7 +42,11 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Entity(name = "User")
-@Table(name = "users", uniqueConstraints = @UniqueConstraint(columnNames = { "username", "email" }))
+@Table(name = "users", 
+	uniqueConstraints = {
+	@UniqueConstraint(columnNames = "username", name = "uk_username"),
+	@UniqueConstraint(columnNames = "email", name = "uk_email")
+})
 @ToString
 @Getter
 @Setter
@@ -52,8 +57,8 @@ public class User extends GenericEntity implements UserDetails {
 	private static final long serialVersionUID = -2268718342760256881L;
 	
 	@Id
-	@GenericGenerator(name = "user_id_seq", type = GeneticEntityIdentifierGenerator.class)
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_id_seq")
+	@GenericGenerator(name = "users_id_seq", type = GeneticEntityIdentifierGenerator.class)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "users_id_seq")
 	@Column(name = "user_id", updatable = false)
 	private String id;
 	
@@ -78,7 +83,7 @@ public class User extends GenericEntity implements UserDetails {
 			@AttributeOverride(name = "zipcode", column = @Column(name = "zipcode")) })
 	private Address Address;
 
-	@Column(name = "email", unique = true)
+	@Column(name = "email")
 	private String email;
 
 	@Column(name = "phone")
@@ -91,9 +96,9 @@ public class User extends GenericEntity implements UserDetails {
 	@JoinTable(name = "users_roles", 
 		joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "user_id"), 
 		inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "role_id"))
-	Set<Role> roles = new HashSet<Role>();
+	private Set<Role> roles = new HashSet<Role>();
 	
-	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+	@OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
     private ShoppingCart shoppingCart;
 	
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)

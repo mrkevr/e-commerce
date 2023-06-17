@@ -15,11 +15,11 @@ public class ShoppingCartResponse {
 
 	private String id;
 
-	private UserProfileResponse userProfileResponse;
-
-	private double totalPrice;
+	private String userId;
 
 	private int totalItems;
+
+	private double totalPrice;
 
 	private List<CartItemResponse> cartItemResponses;
 }

@@ -12,6 +12,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
+import jakarta.persistence.ForeignKey;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -35,8 +36,8 @@ import lombok.ToString;
 public class Order extends GenericEntity {
 
 	@Id
-	@GenericGenerator(name = "order_id_seq", type = GeneticEntityIdentifierGenerator.class)
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "order_id_seq")
+	@GenericGenerator(name = "orders_id_seq", type = GeneticEntityIdentifierGenerator.class)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "orders_id_seq")
 	@Column(name = "order_id", updatable = false)
 	private String id;
 
@@ -54,9 +55,6 @@ public class Order extends GenericEntity {
 	@Column(name = "total_price")
 	private double totalPrice;
 
-//	@Column(name = "tax")
-//	private double tax;
-
 	@Column(name = "quantity")
 	private int quantity;
 
@@ -70,7 +68,10 @@ public class Order extends GenericEntity {
 	private String message;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "user_id", referencedColumnName = "user_id")
+	@JoinColumn(
+		name = "user_id", 
+		referencedColumnName = "user_id",
+		foreignKey = @ForeignKey(name = "fk_orders_user_id"))
 	private User user;
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "order")

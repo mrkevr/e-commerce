@@ -9,6 +9,7 @@ import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
+import jakarta.persistence.ForeignKey;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -32,13 +33,16 @@ import lombok.ToString;
 public class ShoppingCart extends GenericEntity {
 
 	@Id
-	@GenericGenerator(name = "shopping_cart_id_seq", type = GeneticEntityIdentifierGenerator.class)
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "shopping_cart_id_seq")
+	@GenericGenerator(name = "shopping_carts_id_seq", type = GeneticEntityIdentifierGenerator.class)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "shopping_carts_id_seq")
 	@Column(name = "shopping_cart_id", updatable = false)
 	private String id;
 
 	@OneToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "user_id", referencedColumnName = "user_id")
+	@JoinColumn(
+		name = "user_id", 
+		referencedColumnName = "user_id",
+		foreignKey = @ForeignKey(name = "fk_shopping_carts_user_id"))
 	private User user;
 	
 	@Column(name = "total_price")

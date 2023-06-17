@@ -5,10 +5,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import dev.mrkevr.ecommerce.dto.ShoppingCartResponse;
 import dev.mrkevr.ecommerce.entity.Category;
 import dev.mrkevr.ecommerce.entity.Role;
 import dev.mrkevr.ecommerce.entity.User;
 import dev.mrkevr.ecommerce.entity.embeddable.Address;
+import dev.mrkevr.ecommerce.repository.CategoryRepository;
 import dev.mrkevr.ecommerce.repository.ProductRepository;
 import dev.mrkevr.ecommerce.repository.RoleRepository;
 import dev.mrkevr.ecommerce.repository.ShoppingCartRepository;
@@ -25,6 +27,7 @@ public class ApplicationConfig {
 
 	private final UserRepository userRepo;
 	private final RoleRepository roleRepo;
+	private final CategoryRepository categoryRepo;
 	private final ProductRepository productRepo;
 	private final ShoppingCartRepository shoppingCartRepo;
 
@@ -32,23 +35,47 @@ public class ApplicationConfig {
 	private final ProductService productServ;
 	private final CategoryService categoryServ;
 	private final ShoppingCartService shoppingCartServ;
-	
-	
-	
-	
+
 	private final PasswordEncoder passwordEncoder;
 
 	@Bean
 	CommandLineRunner init() {
 		return args -> {
-			this.addRolesIfNotExists();
-			this.addAdminAccountIfNotExist();
+			this.initialData();
 			
+			shoppingCartServ.addCartItem("USER-6801-5509", "PROD-5429-9990", 10);
 			
-			shoppingCartServ.addCartItem("USER-5318-5461", "PROD-0739-6310", 3);
+//			shoppingCartServ.updateCartItem("USER-6801-5509", "CITM-8163-8468", 2);
+			
+//			shoppingCartServ.deleteCartItem("USER-6801-5509", "CITM-8163-8468");
 			
 			
 		};
+	}
+	
+	private void initialData() {
+		this.addAdminAccountIfNotExist();
+		this.addRolesIfNotExists();
+		this.addCategoriesIfEmpty();
+	}
+	
+	private void addCategoriesIfEmpty() {
+		if (categoryRepo.count() == 0) {
+			categoryServ.save(new Category("Bags and Accessories"));
+			categoryServ.save(new Category("Children's Clothing and Accessories"));
+			categoryServ.save(new Category("Cosmetics and Body Care"));
+			categoryServ.save(new Category("Food and Beverage"));
+			categoryServ.save(new Category("Furniture and Decor"));
+			categoryServ.save(new Category("Health and Wellness"));
+			categoryServ.save(new Category("Household"));
+			categoryServ.save(new Category("Jewelries and Accessories"));
+			categoryServ.save(new Category("Media"));
+			categoryServ.save(new Category("Men's Clothing and Accessories"));
+			categoryServ.save(new Category("Office and School Supplies"));
+			categoryServ.save(new Category("Pet Care"));
+			categoryServ.save(new Category("Service"));
+			categoryServ.save(new Category("Women's Clothing and Accessories"));
+		}
 	}
 
 	private void addRolesIfNotExists() {
@@ -70,20 +97,5 @@ public class ApplicationConfig {
 			user.getRoles().add(roleRepo.findByRoleIgnoreCase("ROLE_ADMIN").get());
 			userRepo.save(user);
 		}
-	}
-
-//	@Bean
-	CommandLineRunner init2() {
-		return args -> {
-			categoryServ.save(new Category("Electronics/Tech"));
-			categoryServ.save(new Category("Cosmetics and Body Care"));
-			categoryServ.save(new Category("Food and Beverage"));
-			categoryServ.save(new Category("Furniture and Decor"));
-			categoryServ.save(new Category("Health and Wellness"));
-			categoryServ.save(new Category("Household"));
-			categoryServ.save(new Category("Pet Care"));
-			categoryServ.save(new Category("Office Equipment and Supplies"));
-			categoryServ.save(new Category("Entertainment"));
-		};
 	}
 }

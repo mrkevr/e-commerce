@@ -13,9 +13,9 @@ public class CartItemResponse {
 
 	private String id;
 
-	private ShoppingCartResponse shoppingCartResponse;
+	private String shoppingCartId;
 
-	private ProductResponse productResponse;
+	private String productName;
 
 	private int quantity;
 

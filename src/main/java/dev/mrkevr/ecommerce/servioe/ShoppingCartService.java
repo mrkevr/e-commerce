@@ -10,9 +10,9 @@ public interface ShoppingCartService {
 	
 	ShoppingCartResponse addCartItem(String userId, String productId, int quantity);
 
-	ShoppingCartResponse updateCart(String userId, String productId, int quantity);
+	ShoppingCartResponse updateCartItem(String userId, String cartItemId, int quantity);
 
-	ShoppingCartResponse removeItemFromCart(String userId, String productId);
+	ShoppingCartResponse deleteCartItem(String userId, String cartItemId);
 
 	ShoppingCartResponse addItemToCartSession(ShoppingCartResponse cartDto, String productId, int quantity);
 
@@ -24,5 +24,4 @@ public interface ShoppingCartService {
 
 //	void deleteCartById(Long id);
 
-	
 }
