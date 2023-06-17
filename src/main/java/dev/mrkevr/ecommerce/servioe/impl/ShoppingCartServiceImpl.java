@@ -23,6 +23,7 @@ import dev.mrkevr.ecommerce.repository.ProductRepository;
 import dev.mrkevr.ecommerce.repository.ShoppingCartRepository;
 import dev.mrkevr.ecommerce.repository.UserRepository;
 import dev.mrkevr.ecommerce.servioe.ShoppingCartService;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -111,8 +112,12 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 		return response;
 	}
 	
-	/*
-	 * Modify the product quantity of cart item
+	/**
+	 * Modifies {@link CartItem} from the {@link User}'s {@link ShoppingCart}
+	 * 
+	 * @param userId Id of the {@link User}
+	 * @param cartItemId Id of the {@link CartItem} to be updated
+	 * @return Instance of {@link ShoppingCartResponse} mapped from the updated {@link ShoppingCart}
 	 */
 	@Override
 	@Transactional
@@ -154,10 +159,11 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 	}
 	
 	/**
-	 * Delete cart item from the user's shopping cart and db
+	 * Deletes {@link CartItem} from the {@link User}'s {@link ShoppingCart}
 	 * 
-	 * @param userId id of the User
-	 * @param cartItemId id of the CartItem
+	 * @param userId Id of the {@link User}
+	 * @param cartItemId Id of the {@link CartItem} to be deleted
+	 * @return Instance of {@link ShoppingCartResponse} mapped from the updated {@link ShoppingCart}
 	 */
 	@Override
 	@Transactional

@@ -11,8 +11,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ShoppingCartResponse {
-
+public class OrderResponse {
+	
 	private String id;
 
 	private String userId;
@@ -21,5 +21,5 @@ public class ShoppingCartResponse {
 
 	private double totalPrice;
 
-	private List<CartItemResponse> cartItemsResponse;
+	private List<OrderItemResponse> orderItemsResponse;
 }

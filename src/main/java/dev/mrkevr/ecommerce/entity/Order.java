@@ -46,7 +46,10 @@ public class Order extends GenericEntity {
 
 	@Column(name = "delivery_date")
 	private LocalDate deliveryDate;
-
+	
+	@Column(name = "delivery_address")
+	private String deliveryAddress;
+	
 	@Column(name = "order_status", 
 		columnDefinition = "ENUM('PENDING', 'CANCELLED','ACCEPTED','DENIED','IN_PROGRESS','TO_SHIP','TO_RECEIVE','COMPLETED','RETURNED')")
 	@Enumerated(EnumType.STRING)
@@ -54,7 +57,7 @@ public class Order extends GenericEntity {
 
 	@Column(name = "total_price")
 	private double totalPrice;
-
+	
 	@Column(name = "quantity")
 	private int quantity;
 
@@ -80,5 +83,13 @@ public class Order extends GenericEntity {
 	@Override
 	public String getIdPrefix() {
 		return "ORDR";
+	}
+
+	@Override
+	public void prePersist() {
+		super.prePersist();
+		orderDate = LocalDate.now();
+		orderStatus = OrderStatus.PENDING;
+		isAccepted = false;
 	}
 }
