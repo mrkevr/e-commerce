@@ -6,16 +6,16 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
 
-import dev.mrkevr.ecommerce.dto.CartItemResponse;
-import dev.mrkevr.ecommerce.entity.CartItem;
+import dev.mrkevr.ecommerce.dto.OrderItemResponse;
+import dev.mrkevr.ecommerce.entity.OrderItem;
 
 @Component
-public class CartItemMapper {
+public class OrderItemMapper {
 	
-	public CartItemResponse toResponse(CartItem entity) {
-		return CartItemResponse.builder()
+	public OrderItemResponse toResponse(OrderItem entity) {
+		return OrderItemResponse.builder()
 			.id(entity.getId())
-			.shoppingCartId(entity.getShoppingCart().getId())
+			.orderId(entity.getOrder().getId())
 			.productId(entity.getProduct().getId())
 			.productName(entity.getProduct().getName())
 			.quantity(entity.getQuantity())
@@ -23,7 +23,7 @@ public class CartItemMapper {
 			.build();
 	}
 	
-	public List<CartItemResponse> toResponse(Collection<CartItem> list){
+	public List<OrderItemResponse> toResponse(Collection<OrderItem> list){
 		return list.stream()
 			.map(item -> this.toResponse(item))
 			.collect(Collectors.toList());

@@ -1,12 +1,13 @@
 package dev.mrkevr.ecommerce.entity;
 
+import static jakarta.persistence.CascadeType.ALL;
 import static jakarta.persistence.CascadeType.DETACH;
 import static jakarta.persistence.CascadeType.MERGE;
 import static jakarta.persistence.CascadeType.REFRESH;
 import static jakarta.persistence.FetchType.EAGER;
+import static jakarta.persistence.FetchType.LAZY;
 
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -24,7 +25,6 @@ import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
-import jakarta.persistence.ForeignKey;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -36,6 +36,7 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -50,6 +51,7 @@ import lombok.ToString;
 @ToString
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class User extends GenericEntity implements UserDetails {
@@ -96,12 +98,12 @@ public class User extends GenericEntity implements UserDetails {
 	@JoinTable(name = "users_roles", 
 		joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "user_id"), 
 		inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "role_id"))
-	private Set<Role> roles = new HashSet<Role>();
+	private Set<Role> roles;
 	
-	@OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
+	@OneToOne(cascade = ALL, mappedBy = "user")
     private ShoppingCart shoppingCart;
 	
-	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+	@OneToMany(fetch =  LAZY,mappedBy = "user", cascade = CascadeType.ALL)
 	private List<Order> orders;
 	
 	@Override

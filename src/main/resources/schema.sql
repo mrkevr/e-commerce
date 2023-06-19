@@ -103,7 +103,7 @@ CREATE TABLE orders (
   is_accepted bit(1) DEFAULT NULL,
   message varchar(255) DEFAULT NULL,
   payment_method varchar(255) DEFAULT NULL,
-  quantity int DEFAULT NULL,
+  total_items int DEFAULT NULL,
   total_price double DEFAULT NULL,
   user_id varchar(255) DEFAULT NULL,
   PRIMARY KEY (order_id),

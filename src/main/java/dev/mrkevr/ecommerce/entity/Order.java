@@ -58,8 +58,8 @@ public class Order extends GenericEntity {
 	@Column(name = "total_price")
 	private double totalPrice;
 	
-	@Column(name = "quantity")
-	private int quantity;
+	@Column(name = "total_items")
+    private int totalItems;
 
 	@Column(name = "payment_method")
 	private String paymentMethod;

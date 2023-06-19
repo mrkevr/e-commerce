@@ -48,11 +48,13 @@ public class UserRegistrationController {
 	
 	@PostMapping
 	public String registerUserAccount(
-			@ModelAttribute("registrationDto") 
 			@Valid 
+			@ModelAttribute("registrationDto") 
 			UserRegistrationRequest registrationDto,
 			BindingResult result,
 			RedirectAttributes redirectAttrs) {
+		
+		
 		
 		// Username availability check
 		if(userManager.usernameAlreadyTaken(registrationDto.getUsername())) {

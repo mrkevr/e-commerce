@@ -2,7 +2,6 @@ package dev.mrkevr.ecommerce.servioe.impl;
 
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.stereotype.Service;
@@ -23,7 +22,6 @@ import dev.mrkevr.ecommerce.repository.ProductRepository;
 import dev.mrkevr.ecommerce.repository.ShoppingCartRepository;
 import dev.mrkevr.ecommerce.repository.UserRepository;
 import dev.mrkevr.ecommerce.servioe.ShoppingCartService;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 
 @Service

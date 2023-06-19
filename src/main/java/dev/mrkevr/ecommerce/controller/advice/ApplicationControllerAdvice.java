@@ -1,9 +1,12 @@
 package dev.mrkevr.ecommerce.controller.advice;
 
+import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
 import dev.mrkevr.ecommerce.dto.LoggedInUserDetails;
@@ -40,6 +43,12 @@ public class ApplicationControllerAdvice {
 			return new LoggedInUserDetails(user.getUsername(), user.getEmail());
 		}
 	}
+	
+	@InitBinder
+	public void initBinder(WebDataBinder binder) {
+	  binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
+	}
+	
 	
 //	@ModelAttribute(name = "userDetails")
 //	LoggedInUserDetails loggedInUserDetails() {

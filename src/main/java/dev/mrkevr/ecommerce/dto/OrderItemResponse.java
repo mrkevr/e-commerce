@@ -14,7 +14,9 @@ public class OrderItemResponse {
 	private String id;
 
 	private String orderId;
-
+	
+	private String productId;
+	
 	private String productName;
 
 	private int quantity;
