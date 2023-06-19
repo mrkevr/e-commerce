@@ -21,16 +21,16 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Builder;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
 
-@Entity
+@Entity(name = "Order")
 @Table(name = "orders")
-@ToString
-@Getter
-@Setter
+@Data
+@EqualsAndHashCode(callSuper = true)
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class Order extends GenericEntity {
@@ -70,7 +70,7 @@ public class Order extends GenericEntity {
 	@Column(name = "message")
 	private String message;
 	
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
 	@JoinColumn(
 		name = "user_id", 
 		referencedColumnName = "user_id",

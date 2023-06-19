@@ -38,7 +38,7 @@ public class ShoppingCart extends GenericEntity {
 	@Column(name = "shopping_cart_id", updatable = false)
 	private String id;
 
-	@OneToOne(fetch = FetchType.EAGER)
+	@OneToOne(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
 	@JoinColumn(
 		name = "user_id", 
 		referencedColumnName = "user_id",
@@ -51,7 +51,7 @@ public class ShoppingCart extends GenericEntity {
 	@Column(name = "total_items")
     private int totalItems;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "shoppingCart")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "shoppingCart", fetch = FetchType.EAGER, orphanRemoval = true)
     private Set<CartItem> cartItems;
     
 	@Override

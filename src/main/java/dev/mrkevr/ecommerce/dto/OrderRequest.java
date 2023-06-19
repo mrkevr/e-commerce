@@ -25,6 +25,10 @@ public class OrderRequest {
 	@NotEmpty(message = "Cart Items must not be empty.")
 	private List<CartItemResponse> cartItems;
 	
+	private int totalItems;
+	
+	private double totalPrice;
+	
 	@NotBlank(message = "Payment Method must not be blank.")
 	private String paymentMethod;
 	

@@ -43,7 +43,9 @@ public class ApplicationConfig {
 		return args -> {
 			this.initialData();
 			
-//			shoppingCartServ.addCartItem("USER-6801-5509", "PROD-5429-9990", 10);
+		
+//			shoppingCartServ.addCartItem("USER-6346-9916", "PROD-6646-3020", 5);
+			
 			
 //			shoppingCartServ.updateCartItem("USER-6801-5509", "CITM-8163-8468", 2);
 			

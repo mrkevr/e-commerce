@@ -61,8 +61,8 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 	 * @param quantity quantity of the Product
 	 * 
 	 */
-	@Override
 	@Transactional
+	@Override
 	public ShoppingCartResponse addCartItem(String userId, String productId, int quantity) 
 	{
 		// Fetching the user and product
@@ -117,8 +117,8 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 	 * @param cartItemId Id of the {@link CartItem} to be updated
 	 * @return Instance of {@link ShoppingCartResponse} mapped from the updated {@link ShoppingCart}
 	 */
-	@Override
 	@Transactional
+	@Override
 	public ShoppingCartResponse updateCartItem(String userId, String cartItemId, int quantity) 
 	{	
 		User user = userRepo.findById(userId).orElseThrow(() -> new UserNotFoundException(userId));
@@ -163,8 +163,8 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 	 * @param cartItemId Id of the {@link CartItem} to be deleted
 	 * @return Instance of {@link ShoppingCartResponse} mapped from the updated {@link ShoppingCart}
 	 */
-	@Override
 	@Transactional
+	@Override
 	public ShoppingCartResponse deleteCartItem(String userId, String cartItemId) 
 	{	
 		User user = userRepo.findById(userId).orElseThrow(() -> new UserNotFoundException(userId));
@@ -191,6 +191,23 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 		return response;
 	}
 
+	
+	
+	@Transactional
+	@Override
+	public void clearShoppingCart(ShoppingCart shoppingCart) {
+
+		Set<CartItem> cartItems = shoppingCart.getCartItems();
+		cartItems.clear();
+		// Update shopping cart's total items and price
+		shoppingCart.setCartItems(cartItems);
+		shoppingCart.setTotalItems(0);
+		shoppingCart.setTotalPrice(0);
+		
+		// Save to shopping cart to db
+		shoppingCartRepo.save(shoppingCart);		
+	}
+	
 	@Override
 	public ShoppingCartResponse addItemToCartSession(ShoppingCartResponse cartDto, String productId, int quantity) {
 		// TODO Auto-generated method stub
@@ -210,6 +227,8 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 		return null;
 	}
 	
+	
+	
 	private int computeTotalItems(Collection<CartItem> cartItems) {
 		return cartItems.stream().mapToInt(item -> item.getQuantity()).sum();
     }
@@ -217,6 +236,10 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     private double computeTotalPrice(Collection<CartItem> cartItems) {
     	return cartItems.stream().mapToDouble(item -> item.getUnitPrice()).sum();
     }
+
+	
+
+	
 
 	
 

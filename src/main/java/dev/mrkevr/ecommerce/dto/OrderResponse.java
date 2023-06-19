@@ -1,7 +1,9 @@
 package dev.mrkevr.ecommerce.dto;
 
+import java.time.LocalDate;
 import java.util.List;
 
+import dev.mrkevr.ecommerce.entity.OrderStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,9 +19,21 @@ public class OrderResponse {
 
 	private String userId;
 
+	private List<OrderItemResponse> orderItemsResponse;
+	
 	private int totalItems;
 
 	private double totalPrice;
-
-	private List<OrderItemResponse> orderItemsResponse;
+	
+	private OrderStatus orderStatus;
+	
+	private String message;
+	
+	private LocalDate orderDate;
+	
+	private LocalDate deliveryDate;
+	
+	private String deliveryAddress;
+	
+	private String paymentMethod;
 }

@@ -1,10 +1,11 @@
 package dev.mrkevr.ecommerce.servioe;
 
 import dev.mrkevr.ecommerce.dto.OrderRequest;
+import dev.mrkevr.ecommerce.dto.OrderResponse;
 
 public interface OrderService {
 	
-	OrderRequest previewOrderRequest(String userId, String shoppingCartId);
+	OrderRequest previewOrderRequest();
 	
-	
+	OrderResponse addOrder(OrderRequest orderRequest);
 }
