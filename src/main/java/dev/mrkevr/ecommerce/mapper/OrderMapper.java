@@ -1,5 +1,9 @@
 package dev.mrkevr.ecommerce.mapper;
 
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.stereotype.Component;
 
 import dev.mrkevr.ecommerce.dto.OrderResponse;
@@ -15,7 +19,6 @@ public class OrderMapper {
 	private final UserRepository userRepo;
 	
 	public OrderResponse toResponse(Order order) {
-
 		return OrderResponse.builder()
 			.id(order.getId())
 			.userId(order.getUser().getId())
@@ -29,5 +32,11 @@ public class OrderMapper {
 			.orderStatus(order.getOrderStatus())
 			.message(order.getMessage())
 			.build();
+	}
+	
+	public List<OrderResponse> toResponse(Collection<Order> orders){
+		return orders.stream()
+			.map(order -> this.toResponse(order))
+			.collect(Collectors.toList());
 	}
 }

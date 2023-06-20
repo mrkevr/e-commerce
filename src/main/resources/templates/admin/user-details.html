@@ -22,7 +22,7 @@
 					<ol class="breadcrumb mt-4">
 						<li class="breadcrumb-item"><a th:href="@{/admin/dashboard}">Dashboard</a></li>
 						<li class="breadcrumb-item"><a th:href="@{/admin/users}">Users</a></li>
-						<li class="breadcrumb-item active"><span th:text="${user.firstName}+' '+${user.lastName}"></span></li>
+						<li class="breadcrumb-item active"><span th:text="${user.username}"></span></li>
                   	</ol>
 				
 				
@@ -97,28 +97,25 @@
     										<tr>
      											<th scope="col">ID</th>
       											<th scope="col">Product</th>
-      											<th scope="col">Description</th>
       											<th scope="col">Quantity</th>
       											<th scope="col">Unit Price</th>
     										</tr>
   										</thead>
   										<tbody>
-    										<tr>
-      											<td>ID</td>
-												<td>PRODUCT</td>
-												<td>DESCRIPTION</td>
-												<td>5</td>
-												<td>55.55</td>
+    										<tr th:each="item: ${shoppingCart.cartItems}">
+      											<td th:text="${item.id}" />
+      											<td><a th:text="${item.productName}" th:href="@{/admin/products/{id}(id=${item.productId})}"></a></td>
+      											<td class="text-end" th:text="${item.quantity}"/>
+      											<td class="text-end"><span th:text="${#numbers.formatDecimal(item.unitPrice, 0, 'COMMA', 2, 'POINT')}"></span></td>
     										</tr>
   										</tbody>
   										<tfoot>
   											<tr>
-      											<td>-</td>
-												<td>-</td>
-												<td>-</td>
-												<td><strong>Total Items:</strong></td>
-												<td><strong>Total Price:</strong></td>
-    										</tr>
+  												<td class="text-danger"><strong>Total: </strong></td>
+  												<td></td>
+												<td class="text-end text-danger"><strong><span th:text="${shoppingCart.totalItems}"></span></strong></td>
+												<td class="text-end text-danger"><span th:text="${#numbers.formatDecimal(shoppingCart.totalPrice, 0, 'COMMA', 2, 'POINT')}"></span></td>
+											</tr>
   										</tfoot>
 									</table>
 								</div>
@@ -137,23 +134,29 @@
   										<thead>
     										<tr>
      											<th scope="col">ID</th>
-      											<th scope="col">Ordered On</th>
-      											<th scope="col">Status</th>
-      											<th scope="col">Delivery Date</th>
+      											<th scope="col">Total Items</th>
       											<th scope="col">Total Price</th>
-      											<th scope="col">Payment Method</th>
+      											<th scope="col">Ordered On</th>
+      											<th scope="col">Delivery Date</th>
+      											<th scope="col">Delivery Address</th>
+      											<th scope="col">Payment</th>
+      											<th scope="col">Status</th>
       											<th scope="col">Action</th>
     										</tr>
   										</thead>
   										<tbody>
-    										<tr>
-      											<td>ID</td>
-												<td>date</td>
-												<td>status</td>
-												<td>date</td>
-												<td>55.55</td>
-												<td>cod</td>
-												<td>action</td>
+    										<tr th:each="order: ${orders}">
+      											<td th:text="${order.id}"/>
+												<td class="text-end" th:text="${order.totalItems}"/>
+												<td class="text-end"><span th:text="${#numbers.formatDecimal(order.totalPrice, 0, 'COMMA', 2, 'POINT')}"></span></td>
+												<td><span th:text="${#temporals.format(order.orderDate, 'MMMM dd, yyyy hh:mm a')}"></span></td>
+												<td><span th:text="${#temporals.format(order.deliveryDate, 'MMMM dd, yyyy hh:mm a')}"></span></td>
+												<td th:text="${order.deliveryAddress}"/>
+												<td th:text="${order.paymentMethod}"/>
+												<td th:text="${order.orderStatus}"/>
+												<td>
+													action button here
+												</td>
     										</tr>
   										</tbody>
 									</table>

@@ -16,7 +16,9 @@ import dev.mrkevr.ecommerce.entity.Order;
 import dev.mrkevr.ecommerce.entity.OrderItem;
 import dev.mrkevr.ecommerce.entity.ShoppingCart;
 import dev.mrkevr.ecommerce.entity.User;
+import dev.mrkevr.ecommerce.error.InsufficientStockError;
 import dev.mrkevr.ecommerce.exception.IllegalRequestException;
+import dev.mrkevr.ecommerce.exception.InsufficientStockException;
 import dev.mrkevr.ecommerce.exception.ShoppingCartNotFoundException;
 import dev.mrkevr.ecommerce.exception.UserNotFoundException;
 import dev.mrkevr.ecommerce.mapper.CartItemMapper;
@@ -82,15 +84,24 @@ public class OrderServiceImpl implements OrderService {
 	@Override
 	public OrderResponse addOrder(OrderRequest orderRequest) {
 		
+		// Fetch the User from the SecurityContext
 		User user = userServ.getCurrentUser();
-//		if(user.getId() != orderRequest.getUserId()) {
-//			throw new IllegalRequestException("Current user didn't match the order request");
-//		}
 		
+		// Fetch the cart from the User
 		ShoppingCart shoppingCart = user.getShoppingCart();
 		if(shoppingCart == null || shoppingCart.getCartItems() == null || shoppingCart.getCartItems().isEmpty()) {
-			throw new IllegalRequestException("User's shopping cart is empty.");
+			throw new IllegalRequestException("User cannot check out, shopping cart is empty.");
 		}
+		
+		/*
+		 * Check for the availability of the product(s) being ordered
+		 * Throws an exception with the list of the insufficient products
+		 */
+		List<InsufficientStockError> stockErrors = shoppingCartServ.checkProductAvailability(shoppingCart);
+		if(!stockErrors.isEmpty()) {
+			throw new InsufficientStockException(stockErrors);
+		}
+		
 		
 		Set<CartItem> cartItems = shoppingCart.getCartItems();
 		List<OrderItem> orderItems = orderItemMapper.toEntity(cartItems);
@@ -123,7 +134,11 @@ public class OrderServiceImpl implements OrderService {
 		return orderMapper.toResponse(savedOrder);
 	}
 	
-	private void clearShoppingCart() {
-		
+	@Override
+	public List<OrderResponse> getAllByUserId(String userId) {
+		List<Order> orders = orderRepo.findOrdersByUserId(userId);
+		return orderMapper.toResponse(orders);
 	}
+	
+	
 }

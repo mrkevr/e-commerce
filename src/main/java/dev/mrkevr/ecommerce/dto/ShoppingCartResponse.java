@@ -21,5 +21,5 @@ public class ShoppingCartResponse {
 
 	private double totalPrice;
 
-	private List<CartItemResponse> cartItemsResponse;
+	private List<CartItemResponse> cartItems;
 }

@@ -44,7 +44,7 @@ public class ApplicationConfig {
 			this.initialData();
 			
 		
-//			shoppingCartServ.addCartItem("USER-6346-9916", "PROD-6646-3020", 5);
+			shoppingCartServ.addCartItem("USER-6346-9916", "PROD-5429-9990", 3);
 			
 			
 //			shoppingCartServ.updateCartItem("USER-6801-5509", "CITM-8163-8468", 2);
@@ -65,6 +65,7 @@ public class ApplicationConfig {
 		if (categoryRepo.count() == 0) {
 			categoryServ.save(new Category("Bags and Accessories"));
 			categoryServ.save(new Category("Children's Clothing and Accessories"));
+			categoryServ.save(new Category("Consumer Electronics"));
 			categoryServ.save(new Category("Cosmetics and Body Care"));
 			categoryServ.save(new Category("Food and Beverage"));
 			categoryServ.save(new Category("Furniture and Decor"));

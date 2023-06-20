@@ -17,7 +17,7 @@ public class ShoppingCartMapper {
 		return ShoppingCartResponse.builder()
 			.id(entity.getId())
 			.userId(entity.getUser().getId())
-			.cartItemsResponse(cartItemMapper.toResponse(entity.getCartItems()))
+			.cartItems(cartItemMapper.toResponse(entity.getCartItems()))
 			.totalItems(entity.getTotalItems())
 			.totalPrice(entity.getTotalPrice())
 			.build();

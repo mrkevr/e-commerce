@@ -1,7 +1,10 @@
 package dev.mrkevr.ecommerce.servioe;
 
+import java.util.List;
+
 import dev.mrkevr.ecommerce.dto.ShoppingCartResponse;
 import dev.mrkevr.ecommerce.entity.ShoppingCart;
+import dev.mrkevr.ecommerce.error.InsufficientStockError;
 
 public interface ShoppingCartService {
 	
@@ -22,6 +25,8 @@ public interface ShoppingCartService {
 	ShoppingCartResponse removeItemFromCartSession(ShoppingCartResponse cartDto, String productId, int quantity);
 	
 	void clearShoppingCart(ShoppingCart shoppingCart);
+	
+	List<InsufficientStockError> checkProductAvailability(ShoppingCart shoppingCart);
 	
 //	ShoppingCart combineCart(ShoppingCartDto cartDto, ShoppingCart cart);
 

@@ -1,7 +1,10 @@
 package dev.mrkevr.ecommerce.servioe.impl;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.stereotype.Service;
@@ -12,6 +15,7 @@ import dev.mrkevr.ecommerce.entity.CartItem;
 import dev.mrkevr.ecommerce.entity.Product;
 import dev.mrkevr.ecommerce.entity.ShoppingCart;
 import dev.mrkevr.ecommerce.entity.User;
+import dev.mrkevr.ecommerce.error.InsufficientStockError;
 import dev.mrkevr.ecommerce.exception.CartItemNotFoundException;
 import dev.mrkevr.ecommerce.exception.ProductNotFoundException;
 import dev.mrkevr.ecommerce.exception.ShoppingCartNotFoundException;
@@ -85,17 +89,28 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 			unitPrice = product.getCostPrice() * quantity;
 		}
 		
-		// Define the cart item and add it to cart items
-		CartItem cartItem = CartItem.builder()
-			.shoppingCart(shoppingCart)
-			.product(product)
-			.quantity(quantity)
-			.unitPrice(unitPrice)
-			.build();
-		cartItems.add(cartItem);
+		Optional<CartItem> commonCartItem = this.findCommonCartItem(cartItems, productId);
+		if(commonCartItem.isPresent()) {
+			CartItem cartItemToUpdate = commonCartItem.get();
+			cartItemToUpdate.setQuantity(cartItemToUpdate.getQuantity() + quantity);
+			cartItemToUpdate.setUnitPrice(cartItemToUpdate.getUnitPrice() + unitPrice);
+			cartItemRepo.save(cartItemToUpdate);
+		} else {
+			// Create new cart item and add it to cart items
+			CartItem cartItem = CartItem.builder()
+				.shoppingCart(shoppingCart)
+				.product(product)
+				.quantity(quantity)
+				.unitPrice(unitPrice)
+				.build();
+			
+			// Add to Users' Shopping Cart
+			shoppingCart.addCartItem(cartItem);
+			// Persist the cart item
+			cartItemRepo.save(cartItem);
+		}
 		
-		// Persist the cart item
-		cartItemRepo.save(cartItem);
+		
 		
 		// Updating the shopping cart
 		shoppingCart.setCartItems(cartItems);
@@ -190,8 +205,23 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 		ShoppingCartResponse response = shoppingCartMapper.toResponse(savedShoppingCart);
 		return response;
 	}
-
 	
+	@Override
+	public List<InsufficientStockError> checkProductAvailability(ShoppingCart shoppingCart) 
+	{	
+		List<InsufficientStockError> errors = new ArrayList<>();
+		Set<CartItem> cartItems = shoppingCart.getCartItems();
+		cartItems.forEach(item -> {
+			int stock = item.getProduct().getCurrentQuantity();
+			if(stock < item.getQuantity()) {
+				errors.add(new InsufficientStockError(
+					item.getId(), 
+					item.getProduct().getId(), 
+					item.getProduct().getName()));
+			}
+		});
+		return errors;
+	}
 	
 	@Transactional
 	@Override
@@ -236,6 +266,15 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     private double computeTotalPrice(Collection<CartItem> cartItems) {
     	return cartItems.stream().mapToDouble(item -> item.getUnitPrice()).sum();
     }
+
+	private Optional<CartItem> findCommonCartItem(Collection<CartItem> cartItems, String productId) {
+		if (cartItems == null) {
+            return Optional.empty();
+        }
+		return cartItems.stream()
+				.filter(item -> item.getProduct().getId().equals(productId))
+				.findAny();
+	}
 
 	
 
