@@ -82,7 +82,7 @@
 							<i class="fas fa-table me-1"></i> Categories Table
 						</div> -->
 						<div class="card-body">
-							<table id="dataTable" class="display compact" style="width:100%">
+							<table id="categoriesTable" class="display compact" style="width:100%">
 								<thead>
 									<tr>
 										<th>ID</th>
@@ -96,16 +96,51 @@
 								<tbody>
 									<tr th:each="c: ${categories}">
 										<td><span th:text=${c.id}></span></td>
+										<td><span th:text="${c.name}"></span></td>
 										<td>
-											<div class="d-flex justify-content-between">
-												<span th:text="${c.name}"></span>
-												<span>
-													<a type="button" class="text-primary me-2" 
-														data-bs-toggle="modal"
-														th:attr="data-bs-target='#'+'updateCategoryModal'+${c.id}">
-														<i class="fas fa-edit fs-5"></i>
+											<div style="text-align: center">
+    											<div th:switch="${c.isActivated}">
+  													<i th:case="${true}" class="fas fa-check-circle text-success fs-4"></i>
+  													<i th:case="*" class="fas fa-times-circle text-danger fs-4"></i>
+												</div>
+											</div>
+										</td>
+										<td class="d-none d-lg-table-cell"><span th:text="${#temporals.format(c.created, 'MMMM dd, yyyy hh:mm a')}"></span></td>
+										<td class="d-none d-lg-table-cell"><span th:text="${#temporals.format(c.modified, 'MMMM dd, yyyy hh:mm a')}"></span></td>
+										<!-- Actions -->
+										<td>
+											<!-- Action Button Grouo -->
+											<div class="btn-group" role="group" aria-label="Basic example" style="display: inline-block; text-align:center;">
+												
+												<!-- Activate / Deactivate -->
+												<span th:if="${!c.isActivated} and ${c.isDeleted}">
+													<a th:href="@{/admin/categories/enable(id=${c.id})}"
+														class="btn btn-success btn-sm"
+														onclick="if (!(confirm('Are you sure you want to enable this category?'))) return false"
+														data-toggle="tooltip" title="Enable">
+														<i class="fas fa-power-off"></i>
 													</a>
 												</span>
+												<span th:if="${c.isActivated} and ${!c.isDeleted}">
+													<a th:href="@{/admin/categories/disable(id=${c.id})}"
+														class="btn btn-danger btn-sm"
+														onclick="if (!(confirm('Are you sure you want to disable this category?'))) return false"
+														data-toggle="tooltip" title="Disable">
+														<i class="fas fa-power-off"></i>
+													</a>
+												</span>
+												
+												<!-- Change Category Name -->
+												<!-- Button -->
+												<span>
+													<a type="button" class="btn btn-primary btn-sm"
+														data-bs-toggle="modal"
+														th:attr="data-bs-target='#'+'updateCategoryModal'+${c.id}"
+														data-toggle="tooltip" title="Edit Category">
+														<i class="fas fa-edit"></i>
+													</a>
+												</span>
+												<!-- Modal -->
 												<div class="modal fade" th:attr="id='updateCategoryModal'+${c.id}" tabindex="-1" aria-labelledby="newCategoryModalLabel" aria-hidden="true">
 													<div class="modal-dialog modal-dialog-centered">
 														<div class="modal-content">
@@ -134,36 +169,7 @@
 														</div>
 													</div>
 												</div> 
-											</div>
-										</td>
-										<td>
-											<div style="text-align: center">
-    											<div th:switch="${c.isActivated}">
-  													<i th:case="${true}" class="fas fa-check-circle text-success fs-4"></i>
-  													<i th:case="*" class="fas fa-times-circle text-danger fs-4"></i>
-												</div>
-											</div>
-										</td>
-										<td class="d-none d-lg-table-cell"><span th:text="${#temporals.format(c.created, 'MMMM dd, yyyy hh:mm a')}"></span></td>
-										<td class="d-none d-lg-table-cell"><span th:text="${#temporals.format(c.modified, 'MMMM dd, yyyy hh:mm a')}"></span></td>
-										<!-- Actions -->
-										<td class="d-flex">
-											<div style="text-align: center">
-	
-												<span th:if="${!c.isActivated} and ${c.isDeleted}">
-													<a th:href="@{/admin/categories/enable(id=${c.id})}"
-														class="btn btn-success btn-sm"
-														onclick="if (!(confirm('Are you sure you want to enable this category?'))) return false">
-														Enable
-													</a>
-												</span>
-												<span th:if="${c.isActivated} and ${!c.isDeleted}">
-													<a th:href="@{/admin/categories/disable(id=${c.id})}"
-														class="btn btn-danger btn-sm"
-														onclick="if (!(confirm('Are you sure you want to disable this category?'))) return false">
-														Disable
-													</a>
-												</span>
+												
 											</div>
 										</td>
 									</tr>
@@ -182,6 +188,13 @@
 	
 	<!-- Fragment : Scripts -->
 	<div th:replace="~{admin/admin-fragments::scripts}"></div>
+	<script>
+		$(document).ready(function () {
+			$('#categoriesTable').DataTable({
+		    	"iDisplayLength": 25
+		    });
+		});
+	</script>
 	
 </body>
 </html>

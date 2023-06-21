@@ -35,7 +35,7 @@
 							<i class="fas fa-table me-1"></i> Users Table
 						</div> -->
 						<div class="card-body">
-							<table id="dataTable" class="display compact" style="width:100%">
+							<table id="usersTable" class="display compact" style="width:100%">
 								<thead>
 									<tr>
 										<th>Username</th>
@@ -99,6 +99,13 @@
 	
 	<!-- Fragment : Scripts -->
 	<div th:replace="~{admin/admin-fragments::scripts}"></div>
+	<script>
+		$(document).ready(function () {
+			$('#usersTable').DataTable({
+		    	"iDisplayLength": 25
+		    });
+		});
+	</script>
 	
 </body>
 </html>

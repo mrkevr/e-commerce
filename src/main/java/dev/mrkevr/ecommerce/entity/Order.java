@@ -51,7 +51,7 @@ public class Order extends GenericEntity {
 	private String deliveryAddress;
 	
 	@Column(name = "order_status", 
-		columnDefinition = "ENUM('PENDING', 'CANCELLED','ACCEPTED','DENIED','IN_PROGRESS','TO_SHIP','TO_RECEIVE','COMPLETED','RETURNED')")
+		columnDefinition = "ENUM('PENDING', 'CANCELLED','ACCEPTED','DENIED','PREPARRING','TO_SHIP','TO_RECEIVE','COMPLETED','RETURNED')")
 	@Enumerated(EnumType.STRING)
 	private OrderStatus orderStatus;
 

@@ -42,7 +42,7 @@
 						</div> -->
 						<div class="card-body">
 							<!-- <table id="datatablesSimple" class="table table-sm"> -->
-							<table id="productTable" class="display compact" style="width:100%">
+							<table id="productsTable" class="display compact" style="width:100%">
 								<thead>
 									<tr>
 										<th>ID</th>
@@ -100,35 +100,35 @@
 												<span>
 													<a type="button" class="btn btn-primary btn-sm" 
 														data-bs-toggle="modal"
-														th:attr="data-bs-target='#'+'imageProductModal'+${p.id}">
+														th:attr="data-bs-target='#'+'imageProductModal'+${p.id}"
+														data-toggle="tooltip" title="View Image">
 														<i class="fas fa-eye"></i>
 													</a> 
 												</span>
 											
 												<!-- Image : Modal -->
 												<div class="modal fade" th:attr="id='imageProductModal'+${p.id}"
-												tabindex="-1" aria-labelledby="detailsModalLabel"
-												aria-hidden="true">
-												<div class="modal-dialog modal-dialog-centered">
-													<div class="modal-content">
-														<div class="modal-header">
-															<h1 class="modal-title fs-5">
-																<span th:text="'#'+${p.id}+' '+${p.name}"></span>
-															</h1>
-															<button type="button" class="btn-close"
+													tabindex="-1" aria-labelledby="detailsModalLabel"
+													aria-hidden="true">
+													<div class="modal-dialog modal-dialog-centered">
+														<div class="modal-content">
+															<div class="modal-header">
+																<h1 class="modal-title fs-5">
+																	<span th:text="'#'+${p.id}+' '+${p.name}"></span>
+																</h1>
+																<button type="button" class="btn-close"
 																data-bs-dismiss="modal" aria-label="Close"></button>
-														</div>
-														<div class="modal-body m-auto">
-															<img style="max-height:250px;" alt="" th:src="@{'data:image/jpeg;base64,' +${p.image}}" />
-														</div>
-														<div class="modal-footer">
-															<button type="button" class="btn btn-danger"
-																data-bs-dismiss="modal">Close</button>
+															</div>
+															<div class="modal-body m-auto">
+																<img style="max-height:250px;" alt="" th:src="@{'data:image/jpeg;base64,' +${p.image}}" />
+															</div>
+															<div class="modal-footer">
+																<button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+															</div>
 														</div>
 													</div>
-												</div>
-											</div> 
-											<!-- Image : End -->
+												</div> 
+												<!-- Image : End -->
 												
 												
 												<!-- Activate / Deactivate -->
@@ -193,30 +193,11 @@
 	<div th:replace="~{admin/admin-fragments::scripts}"></div>
 	<script>
 		$(document).ready(function () {
-		    $('#productTable').DataTable();
+			$('#productsTable').DataTable({
+		    	"iDisplayLength": 25
+		    });
 		});
 	</script>
-	
-	<script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
-	<script type="text/javascript" src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
-	<script type="text/javascript" src="https://cdn.datatables.net/fixedcolumns/4.2.2/js/dataTables.fixedColumns.min.js"></script>
-	
-	<script>
-	<script>
-		$(document).ready(function() {
-	    	var table = $('#productTable').removeAttr('width').DataTable( {
-	        	scrollY:        "300px",
-	        	scrollX:        true,
-	        	scrollCollapse: true,
-	        	paging:         false,
-	        	columnDefs: [
-	            	{ width: 500, targets: 0 }
-	        	],
-	        	fixedColumns: true
-	    	} );
-		} );
-	</script>
-	
 	
 </body>
 </html>

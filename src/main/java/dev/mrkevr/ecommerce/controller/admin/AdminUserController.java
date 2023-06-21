@@ -47,7 +47,6 @@ public class AdminUserController {
 		mav.addObject("shoppingCart", shoppingCart);
 		mav.addObject("orders", orders);
 		
-		
 		return mav;
 	}
 }

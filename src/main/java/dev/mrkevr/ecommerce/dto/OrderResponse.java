@@ -19,7 +19,7 @@ public class OrderResponse {
 
 	private String userId;
 
-	private List<OrderItemResponse> orderItemsResponse;
+	private List<OrderItemResponse> orderItems;
 	
 	private int totalItems;
 

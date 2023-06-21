@@ -1,12 +1,16 @@
 package dev.mrkevr.ecommerce.config;
 
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+import java.util.function.Consumer;
+
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import dev.mrkevr.ecommerce.dto.ShoppingCartResponse;
 import dev.mrkevr.ecommerce.entity.Category;
+import dev.mrkevr.ecommerce.entity.OrderStatus;
 import dev.mrkevr.ecommerce.entity.Role;
 import dev.mrkevr.ecommerce.entity.User;
 import dev.mrkevr.ecommerce.entity.embeddable.Address;
@@ -17,6 +21,7 @@ import dev.mrkevr.ecommerce.repository.ShoppingCartRepository;
 import dev.mrkevr.ecommerce.repository.UserRepository;
 import dev.mrkevr.ecommerce.servioe.ApplicationUserManager;
 import dev.mrkevr.ecommerce.servioe.CategoryService;
+import dev.mrkevr.ecommerce.servioe.OrderService;
 import dev.mrkevr.ecommerce.servioe.ProductService;
 import dev.mrkevr.ecommerce.servioe.ShoppingCartService;
 import lombok.RequiredArgsConstructor;
@@ -35,16 +40,23 @@ public class ApplicationConfig {
 	private final ProductService productServ;
 	private final CategoryService categoryServ;
 	private final ShoppingCartService shoppingCartServ;
-
+	private final OrderService orderServ;
+	
 	private final PasswordEncoder passwordEncoder;
-
+	
+	
+	
+	
 	@Bean
 	CommandLineRunner init() {
 		return args -> {
 			this.initialData();
 			
-		
-			shoppingCartServ.addCartItem("USER-6346-9916", "PROD-5429-9990", 3);
+			
+//			shoppingCartServ.addCartItem("USER-6346-9916", "PROD-6992-6621", 6);
+			orderServ.changeDeliveryDateById("ORDR-2167-9147", LocalDate.now().plusDays(5));
+			
+			
 			
 			
 //			shoppingCartServ.updateCartItem("USER-6801-5509", "CITM-8163-8468", 2);
@@ -100,5 +112,11 @@ public class ApplicationConfig {
 			user.getRoles().add(roleRepo.findByRoleIgnoreCase("ROLE_ADMIN").get());
 			userRepo.save(user);
 		}
+	}
+	
+	private Consumer<Object> print(){
+		return args -> {
+			System.out.println(args);
+		};
 	}
 }

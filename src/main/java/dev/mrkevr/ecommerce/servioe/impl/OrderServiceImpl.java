@@ -1,5 +1,16 @@
 package dev.mrkevr.ecommerce.servioe.impl;
 
+import static dev.mrkevr.ecommerce.entity.OrderStatus.ACCEPTED;
+import static dev.mrkevr.ecommerce.entity.OrderStatus.CANCELLED;
+import static dev.mrkevr.ecommerce.entity.OrderStatus.COMPLETED;
+import static dev.mrkevr.ecommerce.entity.OrderStatus.DENIED;
+import static dev.mrkevr.ecommerce.entity.OrderStatus.PENDING;
+import static dev.mrkevr.ecommerce.entity.OrderStatus.PREPARRING;
+import static dev.mrkevr.ecommerce.entity.OrderStatus.RETURNED;
+import static dev.mrkevr.ecommerce.entity.OrderStatus.TO_RECEIVE;
+import static dev.mrkevr.ecommerce.entity.OrderStatus.TO_SHIP;
+
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -14,13 +25,14 @@ import dev.mrkevr.ecommerce.dto.OrderResponse;
 import dev.mrkevr.ecommerce.entity.CartItem;
 import dev.mrkevr.ecommerce.entity.Order;
 import dev.mrkevr.ecommerce.entity.OrderItem;
+import dev.mrkevr.ecommerce.entity.OrderStatus;
 import dev.mrkevr.ecommerce.entity.ShoppingCart;
 import dev.mrkevr.ecommerce.entity.User;
 import dev.mrkevr.ecommerce.error.InsufficientStockError;
 import dev.mrkevr.ecommerce.exception.IllegalRequestException;
 import dev.mrkevr.ecommerce.exception.InsufficientStockException;
+import dev.mrkevr.ecommerce.exception.OrderNotFoundException;
 import dev.mrkevr.ecommerce.exception.ShoppingCartNotFoundException;
-import dev.mrkevr.ecommerce.exception.UserNotFoundException;
 import dev.mrkevr.ecommerce.mapper.CartItemMapper;
 import dev.mrkevr.ecommerce.mapper.OrderItemMapper;
 import dev.mrkevr.ecommerce.mapper.OrderMapper;
@@ -80,8 +92,8 @@ public class OrderServiceImpl implements OrderService {
 			.build();
 	}
 
-	@Transactional
 	@Override
+	@Transactional
 	public OrderResponse addOrder(OrderRequest orderRequest) {
 		
 		// Fetch the User from the SecurityContext
@@ -139,6 +151,66 @@ public class OrderServiceImpl implements OrderService {
 		List<Order> orders = orderRepo.findOrdersByUserId(userId);
 		return orderMapper.toResponse(orders);
 	}
+
+	@Override
+	public List<OrderResponse> getAllOrders() {
+		return orderMapper.toResponse(orderRepo.findAll());
+	}
 	
-	
+	@Override
+	public List<OrderResponse> getAllActiveOrders() {
+		List<OrderStatus> activeStatuses = List.of(PENDING, ACCEPTED, PREPARRING, TO_SHIP, TO_RECEIVE);
+		return orderMapper.toResponse(orderRepo.findByOrderStatusIn(activeStatuses));
+	}
+
+	@Override
+	public List<OrderResponse> getAllInactiveOrders() {
+		List<OrderStatus> inactiveStatuses = List.of(CANCELLED, DENIED, COMPLETED, RETURNED);
+		return orderMapper.toResponse(orderRepo.findByOrderStatusIn(inactiveStatuses));
+	}
+
+	@Override
+	public List<OrderResponse> getAllByOrderStatus(OrderStatus orderStatus) {
+		return orderMapper.toResponse(orderRepo.findByOrderStatus(orderStatus));
+	}
+
+	@Override
+	@Transactional
+	public void acceptOrderById(String orderId) {
+		Order order = orderRepo.findById(orderId).orElseThrow(() -> new OrderNotFoundException(orderId));
+		order.setAccepted(true);
+		order.setOrderStatus(ACCEPTED);
+		orderRepo.save(order);
+	}
+
+	@Override
+	@Transactional
+	public void denyOrderById(String orderId) {
+		Order order = orderRepo.findById(orderId).orElseThrow(() -> new OrderNotFoundException(orderId));
+		order.setAccepted(false);
+		order.setOrderStatus(DENIED);
+		orderRepo.save(order);
+	}
+
+	@Override
+	@Transactional
+	public void changeOrderStatusById(String orderId, OrderStatus orderStatus) {
+		Order order = orderRepo.findById(orderId).orElseThrow(() -> new OrderNotFoundException(orderId));
+		order.setOrderStatus(orderStatus);
+		orderRepo.save(order);
+	}
+
+	@Override
+	@Transactional
+	public void changeDeliveryDateById(String orderId, LocalDate date) {
+		Order order = orderRepo.findById(orderId).orElseThrow(() -> new OrderNotFoundException(orderId));
+		order.setDeliveryDate(date);
+		orderRepo.save(order);
+	}
+
+	@Override
+	public OrderResponse getById(String id) {
+		Order order = orderRepo.findById(id).orElseThrow(() -> new OrderNotFoundException(id));
+		return orderMapper.toResponse(order);
+	}
 }

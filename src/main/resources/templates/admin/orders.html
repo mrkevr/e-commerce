@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thyleaf.org">
+
+<!-- Fragment : Header -->
+<head th:replace="~{admin/admin-fragments::header}"></head>
+
+<body class="sb-nav-fixed">
+	
+	<!-- Fragment : Top Nav -->
+	<nav th:replace="~{admin/admin-fragments::topNav}"></nav>
+	
+	<div id="layoutSidenav">
+		
+		<!-- Fragment : Side Nav -->
+		<div th:replace="~{admin/admin-fragments::sideNav}"></div>
+		
+		<div id="layoutSidenav_content">
+			<main>
+				<div class="container-fluid p-4">
+				
+					<!-- Breadcrumb -->
+					<ol class="breadcrumb mb-4">
+						<li class="breadcrumb-item"><a th:href="@{/admin/dashboard}">Dashboard</a></li>
+						<li class="breadcrumb-item active">Orders</li>
+                  	</ol>
+					
+					<!-- Title -->
+					<div class="d-flex justify-content-between mb-4">
+						<h1>Orders</h1>
+					</div>
+					
+					<!-- Alerts -->
+					<div th:replace="~{admin/admin-fragments::alerts}"></div>
+					
+					<!-- Table -->
+					<div class="card mb-4">
+						<div class="card-body">
+							<!-- <table id="datatablesSimple" class="table table-sm"> -->
+							<table id="ordersTable" class="display compact" style="width:100%">
+								<thead>
+									<tr>
+										<th>ID</th>
+										<th>User ID</th>
+										<th>Items</th>
+										<th>Price</th>
+										<th>Status</th>
+										<th>Ordered</th>
+										<th>Delivery</th>
+										<th>Address</th>
+										<th>Payment</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr th:each="o: ${orders}">
+										<td><a th:text="${o.id}" th:href="@{orders/{id}(id=${o.id})}"></a></td>
+										<td><a th:text="${o.userId}" th:href="@{/admin/users/{id}(id=${o.userId})}"></a></td>
+										<td class="text-end" th:text="${o.totalItems}"></td>
+										<td class="text-end" th:text="${#numbers.formatDecimal(o.totalPrice, 0, 'COMMA', 2, 'POINT')}"></td>
+										<td th:switch="${o.orderStatus}">
+  											<span th:case="${T(dev.mrkevr.ecommerce.entity.OrderStatus).PENDING}"><strong><span class="text-warning" th:text="${o.orderStatus}"></span></strong></span>
+  											<span th:case="${T(dev.mrkevr.ecommerce.entity.OrderStatus).COMPLETED}"><strong><span class="text-success" th:text="${o.orderStatus}"></span></strong></span>
+  											<span th:case="${T(dev.mrkevr.ecommerce.entity.OrderStatus).DENIED}"><strong><span class="text-secondary" th:text="${o.orderStatus}"></span></strong></span>
+  											<span th:case="${T(dev.mrkevr.ecommerce.entity.OrderStatus).CANCELLED}"><strong><span class="text-secondary" th:text="${o.orderStatus}"></span></strong></span>
+  											<span th:case="${T(dev.mrkevr.ecommerce.entity.OrderStatus).RETURNED}"><strong><span class="text-secondary" th:text="${o.orderStatus}"></span></strong></span>
+  											<span th:case="*"><strong><span class="text-primary" th:text="${o.orderStatus}"></span></strong></span>
+										</td>
+										<td><span th:text="${#temporals.format(o.orderDate, 'MMMM dd, yyyy')}"></span></td>
+										<td><span th:text="${#temporals.format(o.deliveryDate, 'MMMM dd, yyyy')}"></span></td>
+										<td th:text="${o.deliveryAddress}"></td>
+										<td th:text="${o.paymentMethod}"></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</main>
+			
+			<!-- Fragment : Footer -->
+			<footer th:replace="~{admin/admin-fragments::footer}"></footer>
+			
+		</div>
+	</div>
+	
+	<!-- Fragment : Scripts -->
+	<div th:replace="~{admin/admin-fragments::scripts}"></div>
+	<script>
+		$(document).ready(function () {
+			$('#ordersTable').DataTable({
+		    	"iDisplayLength": 25
+		    });
+		});
+	</script>
+</body>
+</html>

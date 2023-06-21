@@ -22,7 +22,7 @@ public class OrderMapper {
 		return OrderResponse.builder()
 			.id(order.getId())
 			.userId(order.getUser().getId())
-			.orderItemsResponse(orderItemMapper.toResponse(order.getOrderItems()))
+			.orderItems(orderItemMapper.toResponse(order.getOrderItems()))
 			.totalItems(order.getTotalItems())
 			.totalPrice(order.getTotalPrice())
 			.orderDate(order.getOrderDate())
