@@ -8,7 +8,6 @@ import org.springframework.stereotype.Component;
 
 import dev.mrkevr.ecommerce.dto.OrderResponse;
 import dev.mrkevr.ecommerce.entity.Order;
-import dev.mrkevr.ecommerce.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 
 @Component
@@ -16,7 +15,6 @@ import lombok.RequiredArgsConstructor;
 public class OrderMapper {
 
 	private final OrderItemMapper orderItemMapper;
-	private final UserRepository userRepo;
 	
 	public OrderResponse toResponse(Order order) {
 		return OrderResponse.builder()
@@ -25,8 +23,9 @@ public class OrderMapper {
 			.orderItems(orderItemMapper.toResponse(order.getOrderItems()))
 			.totalItems(order.getTotalItems())
 			.totalPrice(order.getTotalPrice())
+			.isAccepted(order.isAccepted())
 			.orderDate(order.getOrderDate())
-			.deliveryDate(order.getDeliveryDate() == null ? order.getDeliveryDate() : null)
+			.deliveryDate(order.getDeliveryDate() != null ? order.getDeliveryDate() : null)
 			.deliveryAddress(order.getDeliveryAddress())
 			.paymentMethod(order.getPaymentMethod())
 			.orderStatus(order.getOrderStatus())

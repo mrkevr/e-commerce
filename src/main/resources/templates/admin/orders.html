@@ -56,14 +56,16 @@
 										<td><a th:text="${o.userId}" th:href="@{/admin/users/{id}(id=${o.userId})}"></a></td>
 										<td class="text-end" th:text="${o.totalItems}"></td>
 										<td class="text-end" th:text="${#numbers.formatDecimal(o.totalPrice, 0, 'COMMA', 2, 'POINT')}"></td>
-										<td th:switch="${o.orderStatus}">
-  											<span th:case="${T(dev.mrkevr.ecommerce.entity.OrderStatus).PENDING}"><strong><span class="text-warning" th:text="${o.orderStatus}"></span></strong></span>
-  											<span th:case="${T(dev.mrkevr.ecommerce.entity.OrderStatus).COMPLETED}"><strong><span class="text-success" th:text="${o.orderStatus}"></span></strong></span>
-  											<span th:case="${T(dev.mrkevr.ecommerce.entity.OrderStatus).DENIED}"><strong><span class="text-secondary" th:text="${o.orderStatus}"></span></strong></span>
-  											<span th:case="${T(dev.mrkevr.ecommerce.entity.OrderStatus).CANCELLED}"><strong><span class="text-secondary" th:text="${o.orderStatus}"></span></strong></span>
-  											<span th:case="${T(dev.mrkevr.ecommerce.entity.OrderStatus).RETURNED}"><strong><span class="text-secondary" th:text="${o.orderStatus}"></span></strong></span>
-  											<span th:case="*"><strong><span class="text-primary" th:text="${o.orderStatus}"></span></strong></span>
+										
+										<td th:switch="${o.orderStatus}" class="text-center">
+  											<span th:case="${T(dev.mrkevr.ecommerce.entity.OrderStatus).PENDING}" class="badge rounded-pill text-bg-warning">PENDING</span>
+  											<span th:case="${T(dev.mrkevr.ecommerce.entity.OrderStatus).DENIED}" class="badge rounded-pill text-bg-danger">DENIED</span>
+  											<span th:case="${T(dev.mrkevr.ecommerce.entity.OrderStatus).CANCELLED}" class="badge rounded-pill text-bg-danger">CANCELLED</span>
+  											<span th:case="${T(dev.mrkevr.ecommerce.entity.OrderStatus).RETURNED}" class="badge rounded-pill text-bg-danger">RETURNED</span>
+  											<span th:case="${T(dev.mrkevr.ecommerce.entity.OrderStatus).COMPLETED}" class="badge rounded-pill text-bg-success">COMPLETED</span>
+  											<span th:case="*" class="badge rounded-pill text-bg-primary" th:text="${o.orderStatus}"></span>
 										</td>
+										
 										<td><span th:text="${#temporals.format(o.orderDate, 'MMMM dd, yyyy')}"></span></td>
 										<td><span th:text="${#temporals.format(o.deliveryDate, 'MMMM dd, yyyy')}"></span></td>
 										<td th:text="${o.deliveryAddress}"></td>

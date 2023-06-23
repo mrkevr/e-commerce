@@ -62,37 +62,36 @@
 										<td style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis; width: 30%">
 											<a th:text="${p.name}" th:href="@{products/{id}(id=${p.id})}"></a>
 										</td>
-									
-										
-											
-											
-										
 										<td><span th:text="${p.category}"></span></td>
 										<td><div style="text-align: right"><span th:text="${p.currentQuantity}"></span></div></td>
 										<td>
 											<div th:switch="${p.isOnSale}">
-												<div th:case="${true}" style="text-align: right"><span th:text="${p.costPrice}" class="text-decoration-line-through"></span></div>
-												<div th:case="*" style="text-align: right"><span th:text="${p.costPrice}"></span></div>
-											</div>
-										</td>
-										<td><div style="text-align: right"><span th:text="${p.salePrice}"></span></div></td>
-										<td>
-											<div style="text-align: center">
-    											<div th:switch="${p.isActivated}">
-  													<i th:case="${true}" class="fas fa-check-circle text-success fs-4"></i>
-  													<i th:case="*" class="fas fa-times-circle text-danger fs-4"></i>
+												<div th:case="${true}" style="text-align: right">
+													<span th:text="${#numbers.formatDecimal(p.costPrice, 0, 'COMMA', 2, 'POINT')}" class="text-decoration-line-through"></span>
+												</div>
+												<div th:case="*" style="text-align: right">
+													<span th:text="${#numbers.formatDecimal(p.costPrice, 0, 'COMMA', 2, 'POINT')}"></span>
 												</div>
 											</div>
 										</td>
 										<td>
-											<div style="text-align: center">
-    											<div th:switch="${p.isOnSale}">
-  													<i th:case="${true}" class="fas fa-check-circle text-success fs-4"></i>
-  													<i th:case="*" class="fas fa-times-circle text-danger fs-4"></i>
-												</div>
-    										</div>
+											<div style="text-align: right">
+												<span th:text="${#numbers.formatDecimal(p.salePrice, 0, 'COMMA', 2, 'POINT')}"></span>
+											</div>
 										</td>
-										<td>
+										<td class="text-center">
+    										<div th:switch="${p.isActivated}">
+  												<i th:case="${true}" class="fas fa-check-circle text-success fs-4"></i>
+  												<i th:case="*" class="fas fa-times-circle text-danger fs-4"></i>
+											</div>
+										</td>
+										<td class="text-center">
+    										<div th:switch="${p.isOnSale}">
+  												<i th:case="${true}" class="fas fa-check-circle text-success fs-4"></i>
+  												<i th:case="*" class="fas fa-times-circle text-danger fs-4"></i>
+											</div>
+										</td>
+										<td class="text-center">
 											<!-- Action Button Grouo -->
 											<div class="btn-group" role="group" aria-label="Basic example" style="display: inline-block; text-align:center;">
 											
@@ -129,7 +128,6 @@
 													</div>
 												</div> 
 												<!-- Image : End -->
-												
 												
 												<!-- Activate / Deactivate -->
 												<span th:if="${!p.isActivated} and ${p.isDeleted}">

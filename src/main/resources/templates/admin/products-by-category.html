@@ -48,7 +48,6 @@
 									<tr>
 										<th>ID</th>
 										<th>Name</th>
-										<th>Image</th>
 										<th>Stock</th>
 										<th>Cost Price</th>
 										<th>Sale Price</th>
@@ -61,50 +60,22 @@
 									<tr th:each="p: ${products}">
 										<td th:text="${p.id}"></td>
 										<td><a th:text="${p.name}" th:href="@{/admin/products/{id}(id=${p.id})}"></a></td>
-										<td>
-										
-											<!-- Image : Button -->
-											<div style="text-align: center">
-												<a type="button" class="btn btn-primary btn-sm" 
-													data-bs-toggle="modal"
-													th:attr="data-bs-target='#'+'imageProductModal'+${p.id}">
-													<i class="fas fa-eye"></i>
-												</a> 
-											</div>
-											
-											<!-- Image : Modal -->
-											<div class="modal fade" th:attr="id='imageProductModal'+${p.id}"
-												tabindex="-1" aria-labelledby="detailsModalLabel"
-												aria-hidden="true">
-												<div class="modal-dialog modal-dialog-centered">
-													<div class="modal-content">
-														<div class="modal-header">
-															<h1 class="modal-title fs-5">
-																<span th:text="'#'+${p.id}+' '+${p.name}"></span>
-															</h1>
-															<button type="button" class="btn-close"
-																data-bs-dismiss="modal" aria-label="Close"></button>
-														</div>
-														<div class="modal-body m-auto">
-															<img style="max-height:250px;" alt="" th:src="@{'data:image/jpeg;base64,' +${p.image}}" />
-														</div>
-														<div class="modal-footer">
-															<button type="button" class="btn btn-danger"
-																data-bs-dismiss="modal">Close</button>
-														</div>
-													</div>
-												</div>
-											</div> 
-											<!-- Image : End -->
-										</td>
 										<td><div style="text-align: right"><span th:text="${p.currentQuantity}"></span></div></td>
 										<td>
 											<div th:switch="${p.isOnSale}">
-												<div th:case="${true}" style="text-align: right"><span th:text="${p.costPrice}" class="text-decoration-line-through"></span></div>
-												<div th:case="*" style="text-align: right"><span th:text="${p.costPrice}"></span></div>
+												<div th:case="${true}" style="text-align: right">
+													<span th:text="${#numbers.formatDecimal(p.costPrice, 0, 'COMMA', 2, 'POINT')}" class="text-decoration-line-through"></span>
+												</div>
+												<div th:case="*" style="text-align: right">
+													<span th:text="${#numbers.formatDecimal(p.costPrice, 0, 'COMMA', 2, 'POINT')}"></span>
+												</div>
 											</div>
 										</td>
-										<td><div style="text-align: right"><span th:text="${p.salePrice}"></span></div></td>
+										<td>
+											<div style="text-align: right">
+												<span th:text="${#numbers.formatDecimal(p.salePrice, 0, 'COMMA', 2, 'POINT')}"></span>
+											</div>
+										</td>
 										<td>
 											<div style="text-align: center">
     											<div th:switch="${p.isActivated}">
@@ -124,6 +95,41 @@
 										<td>
 											<!-- Action Button Grouo -->
 											<div class="btn-group" role="group" aria-label="Basic example" style="display: inline-block; text-align:center;">
+											
+												<!-- Image : Button -->
+												<span>
+													<a type="button" class="btn btn-primary btn-sm" 
+														data-bs-toggle="modal"
+														th:attr="data-bs-target='#'+'imageProductModal'+${p.id}"
+														data-toggle="tooltip" title="View Image">
+														<i class="fas fa-eye"></i>
+													</a> 
+												</span>
+											
+												<!-- Image : Modal -->
+												<div class="modal fade" th:attr="id='imageProductModal'+${p.id}"
+													tabindex="-1" aria-labelledby="detailsModalLabel"
+													aria-hidden="true">
+													<div class="modal-dialog modal-dialog-centered">
+														<div class="modal-content">
+															<div class="modal-header">
+																<h1 class="modal-title fs-5">
+																	<span th:text="'#'+${p.id}+' '+${p.name}"></span>
+																</h1>
+																<button type="button" class="btn-close"
+																data-bs-dismiss="modal" aria-label="Close"></button>
+															</div>
+															<div class="modal-body m-auto">
+																<img style="max-height:250px;" alt="" th:src="@{'data:image/jpeg;base64,' +${p.image}}" />
+															</div>
+															<div class="modal-footer">
+																<button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+															</div>
+														</div>
+													</div>
+												</div> 
+												<!-- Image : End -->
+												
 												<!-- Activate / Deactivate -->
 												<span th:if="${!p.isActivated} and ${p.isDeleted}">
 													<a th:href="@{/admin/products/enable(id=${p.id})}"

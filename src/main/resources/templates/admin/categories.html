@@ -87,9 +87,9 @@
 									<tr>
 										<th>ID</th>
 										<th>Name</th>
-										<th>Activated</th>
 										<th class="d-none d-lg-table-cell">Created</th>
 										<th class="d-none d-lg-table-cell">Modified</th>
+										<th>Activated</th>
 										<th>Action</th>
 									</tr>
 								</thead>
@@ -97,6 +97,8 @@
 									<tr th:each="c: ${categories}">
 										<td><span th:text=${c.id}></span></td>
 										<td><span th:text="${c.name}"></span></td>
+										<td class="d-none d-lg-table-cell"><span th:text="${#temporals.format(c.created, 'MMMM dd, yyyy hh:mm a')}"></span></td>
+										<td class="d-none d-lg-table-cell"><span th:text="${#temporals.format(c.modified, 'MMMM dd, yyyy hh:mm a')}"></span></td>
 										<td>
 											<div style="text-align: center">
     											<div th:switch="${c.isActivated}">
@@ -105,10 +107,8 @@
 												</div>
 											</div>
 										</td>
-										<td class="d-none d-lg-table-cell"><span th:text="${#temporals.format(c.created, 'MMMM dd, yyyy hh:mm a')}"></span></td>
-										<td class="d-none d-lg-table-cell"><span th:text="${#temporals.format(c.modified, 'MMMM dd, yyyy hh:mm a')}"></span></td>
 										<!-- Actions -->
-										<td>
+										<td class="text-center">
 											<!-- Action Button Grouo -->
 											<div class="btn-group" role="group" aria-label="Basic example" style="display: inline-block; text-align:center;">
 												

@@ -1,17 +1,14 @@
 package dev.mrkevr.ecommerce.controller.advice;
 
-import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.ControllerAdvice;
-import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
 import dev.mrkevr.ecommerce.dto.LoggedInUserDetails;
 import dev.mrkevr.ecommerce.entity.User;
 import dev.mrkevr.ecommerce.servioe.ApplicationUserManager;
+import dev.mrkevr.ecommerce.servioe.UserService;
 import lombok.RequiredArgsConstructor;
 
 @ControllerAdvice
@@ -19,35 +16,49 @@ import lombok.RequiredArgsConstructor;
 public class ApplicationControllerAdvice {
 
 	private final ApplicationUserManager applicationUserManager;
-
+	private final UserService userServ;
+	
+	
+//	@ModelAttribute(name = "userDetails")
+//	LoggedInUserDetails loggedInUserDetails(Authentication authentication) {
+//		
+//		if(authentication instanceof AnonymousAuthenticationToken || authentication == null) {
+//			return new LoggedInUserDetails("visitor", "");
+//		}
+//		
+//		Object principal = authentication.getPrincipal();
+//		if (principal instanceof DefaultOAuth2User) {
+//			
+//			DefaultOAuth2User oauth2user = (DefaultOAuth2User) principal;
+//			String loginId = oauth2user.getAttribute("email");
+//			
+//			
+//			if (loginId == null) {
+//				loginId = oauth2user.getAttribute("login");
+//			}
+//			User user = (User) applicationUserManager.loadUserByUsername(loginId);
+//			return new LoggedInUserDetails(user.getUsername(), user.getEmail());
+//			
+//		} else {
+//			User user = (User) principal;
+//			return new LoggedInUserDetails(user.getUsername(), user.getEmail());
+//		}
+//	}
+	
 	@ModelAttribute(name = "userDetails")
-	LoggedInUserDetails loggedInUserDetails(Authentication authentication) {
-		
+	LoggedInUserDetails loggedInUserDetails(Authentication authentication) 
+	{	
 		if(authentication instanceof AnonymousAuthenticationToken || authentication == null) {
 			return new LoggedInUserDetails("visitor", "");
 		}
-		
-		Object principal = authentication.getPrincipal();
-		if (principal instanceof DefaultOAuth2User) {
-			
-			DefaultOAuth2User oauth2user = (DefaultOAuth2User) principal;
-			String loginId = oauth2user.getAttribute("email");
-			if (loginId == null) {
-				loginId = oauth2user.getAttribute("login");
-			}
-			User user = (User) applicationUserManager.loadUserByUsername(loginId);
-			return new LoggedInUserDetails(user.getUsername(), user.getEmail());
-			
-		} else {
-			User user = (User) principal;
-			return new LoggedInUserDetails(user.getUsername(), user.getEmail());
-		}
+		User currentUser = userServ.getCurrentUser();
+		return new LoggedInUserDetails(currentUser.getUsername(), currentUser.getEmail());
 	}
 	
-	@InitBinder
-	public void initBinder(WebDataBinder binder) {
-	  binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
-	}
+//	@InitBinder
+//	public void initBinder(WebDataBinder binder) {
+//	  binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
+//	}
 	
 	
 //	@ModelAttribute(name = "userDetails")

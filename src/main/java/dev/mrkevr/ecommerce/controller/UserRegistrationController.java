@@ -54,8 +54,6 @@ public class UserRegistrationController {
 			BindingResult result,
 			RedirectAttributes redirectAttrs) {
 		
-		
-		
 		// Username availability check
 		if(userManager.usernameAlreadyTaken(registrationDto.getUsername())) {
 			result.addError(new FieldError("registrationDto", "username", registrationDto.getUsername()+" is already taken."));

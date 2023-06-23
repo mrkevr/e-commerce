@@ -1,12 +1,20 @@
 package dev.mrkevr.ecommerce.controller.admin;
 
+import java.time.LocalDate;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import dev.mrkevr.ecommerce.converter.LocalDateConverter;
 import dev.mrkevr.ecommerce.dto.OrderResponse;
+import dev.mrkevr.ecommerce.dto.OrderUpdateRequest;
 import dev.mrkevr.ecommerce.servioe.OrderService;
 import lombok.RequiredArgsConstructor;
 
@@ -16,13 +24,15 @@ import lombok.RequiredArgsConstructor;
 public class AdminOrderController {
 	
 	private final OrderService orderServ;
+	private final LocalDateConverter localDateConverter;
 	
 	@GetMapping
 	ModelAndView orders() 
 	{
 		ModelAndView mav = new ModelAndView("admin/orders");
 		mav.addObject("title", "Orders - Admin");
-		mav.addObject("orders", orderServ.getAllActiveOrders());
+		mav.addObject("orders", orderServ.getAllOrders());
+		
 		return mav;
 	}
 	
@@ -32,7 +42,47 @@ public class AdminOrderController {
 		ModelAndView mav = new ModelAndView("admin/order-details");
 		OrderResponse order = orderServ.getById(id);
 		mav.addObject("order", order);
+		mav.addObject("orderUpdateRequest", 
+				new OrderUpdateRequest(
+						id, 
+						order.getOrderStatus(), 
+						order.getDeliveryDate() == null ? localDateConverter.convert(LocalDate.now()) : localDateConverter.convert(order.getDeliveryDate())));
 		mav.addObject("title", "Order#"+order.getId()+" - Admin");
 		return mav;
 	}
+	
+	@RequestMapping(value = "/accept", method = { RequestMethod.GET, RequestMethod.POST })
+	String acceptOrder(
+			@RequestParam(name = "id", required = true)
+			String id,
+			RedirectAttributes redirectAttrs) 
+	{
+		orderServ.acceptOrderById(id);
+		redirectAttrs.addFlashAttribute("success", "Order has been accepted.");
+		return "redirect:/admin/orders/"+id;
+	}
+	
+	@RequestMapping(value = "/deny", method = { RequestMethod.GET, RequestMethod.POST })
+	String denyOrder(
+			@RequestParam(name = "id", required = true)
+			String id,
+			RedirectAttributes redirectAttrs) 
+	{
+//		orderServ.denyOrderById(id);
+//		redirectAttrs.addFlashAttribute("success", "Order has been accepted.");
+		return "redirect:/admin/orders/"+id;
+	}
+	
+	@RequestMapping(value = "/update-order", method = { RequestMethod.GET, RequestMethod.POST })
+	String updateOrder(
+		@ModelAttribute(name = "orderUpdateRequest") OrderUpdateRequest orderUpdateRequest) {
+		
+		
+		orderServ.changeDeliveryDateById(orderUpdateRequest.getId(), localDateConverter.convert(orderUpdateRequest.getDeliveryDate()));
+		orderServ.changeOrderStatusById(orderUpdateRequest.getId(), orderUpdateRequest.getOrderStatus());
+		
+		
+		return "redirect:/admin/orders/"+orderUpdateRequest.getId();
+	}
+	
 }

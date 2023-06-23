@@ -1,6 +1,8 @@
 package dev.mrkevr.ecommerce.servioe.impl;
 
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -13,10 +15,13 @@ import org.springframework.transaction.annotation.Transactional;
 import dev.mrkevr.ecommerce.dto.UserProfileResponse;
 import dev.mrkevr.ecommerce.dto.UserRegistrationRequest;
 import dev.mrkevr.ecommerce.entity.Role;
+import dev.mrkevr.ecommerce.entity.ShoppingCart;
 import dev.mrkevr.ecommerce.entity.User;
+import dev.mrkevr.ecommerce.exception.RoleNotFoundException;
 import dev.mrkevr.ecommerce.exception.UserNotFoundException;
 import dev.mrkevr.ecommerce.mapper.UserMapper;
 import dev.mrkevr.ecommerce.repository.RoleRepository;
+import dev.mrkevr.ecommerce.repository.ShoppingCartRepository;
 import dev.mrkevr.ecommerce.repository.UserRepository;
 import dev.mrkevr.ecommerce.servioe.ApplicationUserManager;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +33,7 @@ public class ApplicationUserManagerImpl implements ApplicationUserManager {
 
 	private final UserRepository userRepo;
 	private final RoleRepository roleRepo;
+	private final ShoppingCartRepository shoppingCartRepo;
 	private final UserMapper userMapper;
 
 	@Override
@@ -95,10 +101,31 @@ public class ApplicationUserManagerImpl implements ApplicationUserManager {
 	@Override
 	@Transactional
 	public UserProfileResponse registerUser(UserRegistrationRequest userRegistrationRequest) {
-		Role role = roleRepo.findByRoleIgnoreCase("ROLE_USER").orElseThrow();
-		User user = userMapper.toUser(userRegistrationRequest, role);
+		Role role = roleRepo.findByRoleIgnoreCase("ROLE_USER").orElseThrow(() -> new RoleNotFoundException());
+		ShoppingCart shoppingCart = new ShoppingCart();
+		User user = userMapper.toUser(userRegistrationRequest, role, shoppingCart);
+		shoppingCart.setUser(user);
+		
 		User savedUser = userRepo.save(user);
+		
+		
+		
+		
+		
 		return userMapper.toUserProfileResponse(savedUser);
+	}
+	
+	@Override
+	@Transactional
+	public User registerUser(User user) {
+		Role role = roleRepo.findByRoleIgnoreCase("ROLE_USER").orElseThrow(() -> new RoleNotFoundException());
+		ShoppingCart shoppingCart = new ShoppingCart();
+		shoppingCart.setUser(user);
+		user.setShoppingCart(shoppingCart);
+		user.setRoles(new HashSet<>(Arrays.asList(role)));
+		
+		
+		return userRepo.save(user);
 	}
 	
 
@@ -117,4 +144,6 @@ public class ApplicationUserManagerImpl implements ApplicationUserManager {
 	private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Set<Role> roles) {
 		return roles.stream().map(role -> new SimpleGrantedAuthority(role.getRole())).collect(Collectors.toList());
 	}
+
+	
 }

@@ -43,6 +43,10 @@ public class UserProfileResponse {
 	@NotBlank(message = "Phone must not be blank.")
 	private String phone;
 	
+	private int totalCartItems;
+	
+	private int totalActiveOrders;
+	
 	private LocalDateTime created;
 
 	private LocalDateTime modified;

@@ -4,8 +4,8 @@ import static dev.mrkevr.ecommerce.entity.OrderStatus.ACCEPTED;
 import static dev.mrkevr.ecommerce.entity.OrderStatus.CANCELLED;
 import static dev.mrkevr.ecommerce.entity.OrderStatus.COMPLETED;
 import static dev.mrkevr.ecommerce.entity.OrderStatus.DENIED;
+import static dev.mrkevr.ecommerce.entity.OrderStatus.IN_PROGRESS;
 import static dev.mrkevr.ecommerce.entity.OrderStatus.PENDING;
-import static dev.mrkevr.ecommerce.entity.OrderStatus.PREPARRING;
 import static dev.mrkevr.ecommerce.entity.OrderStatus.RETURNED;
 import static dev.mrkevr.ecommerce.entity.OrderStatus.TO_RECEIVE;
 import static dev.mrkevr.ecommerce.entity.OrderStatus.TO_SHIP;
@@ -159,7 +159,7 @@ public class OrderServiceImpl implements OrderService {
 	
 	@Override
 	public List<OrderResponse> getAllActiveOrders() {
-		List<OrderStatus> activeStatuses = List.of(PENDING, ACCEPTED, PREPARRING, TO_SHIP, TO_RECEIVE);
+		List<OrderStatus> activeStatuses = List.of(PENDING, ACCEPTED, IN_PROGRESS, TO_SHIP, TO_RECEIVE);
 		return orderMapper.toResponse(orderRepo.findByOrderStatusIn(activeStatuses));
 	}
 
