@@ -18,7 +18,7 @@ import dev.mrkevr.ecommerce.entity.User;
 import dev.mrkevr.ecommerce.exception.RoleNotFoundException;
 import dev.mrkevr.ecommerce.repository.RoleRepository;
 import dev.mrkevr.ecommerce.repository.UserRepository;
-import dev.mrkevr.ecommerce.servioe.ApplicationUserManager;
+import dev.mrkevr.ecommerce.service.ApplicationUserManager;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

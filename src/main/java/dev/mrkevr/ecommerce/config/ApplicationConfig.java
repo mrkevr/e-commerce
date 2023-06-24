@@ -1,7 +1,5 @@
 package dev.mrkevr.ecommerce.config;
 
-import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
 import java.util.function.Consumer;
 
 import org.springframework.boot.CommandLineRunner;
@@ -10,7 +8,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import dev.mrkevr.ecommerce.entity.Category;
-import dev.mrkevr.ecommerce.entity.OrderStatus;
 import dev.mrkevr.ecommerce.entity.Role;
 import dev.mrkevr.ecommerce.entity.User;
 import dev.mrkevr.ecommerce.entity.embeddable.Address;
@@ -19,11 +16,11 @@ import dev.mrkevr.ecommerce.repository.ProductRepository;
 import dev.mrkevr.ecommerce.repository.RoleRepository;
 import dev.mrkevr.ecommerce.repository.ShoppingCartRepository;
 import dev.mrkevr.ecommerce.repository.UserRepository;
-import dev.mrkevr.ecommerce.servioe.ApplicationUserManager;
-import dev.mrkevr.ecommerce.servioe.CategoryService;
-import dev.mrkevr.ecommerce.servioe.OrderService;
-import dev.mrkevr.ecommerce.servioe.ProductService;
-import dev.mrkevr.ecommerce.servioe.ShoppingCartService;
+import dev.mrkevr.ecommerce.service.ApplicationUserManager;
+import dev.mrkevr.ecommerce.service.CategoryService;
+import dev.mrkevr.ecommerce.service.OrderService;
+import dev.mrkevr.ecommerce.service.ProductService;
+import dev.mrkevr.ecommerce.service.ShoppingCartService;
 import lombok.RequiredArgsConstructor;
 
 @Configuration
@@ -54,7 +51,7 @@ public class ApplicationConfig {
 			
 			
 //			shoppingCartServ.addCartItem("USER-6346-9916", "PROD-6992-6621", 6);
-			orderServ.changeDeliveryDateById("ORDR-2167-9147", LocalDate.now().plusDays(5));
+			
 			
 			
 			

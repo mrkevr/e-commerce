@@ -14,7 +14,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-import dev.mrkevr.ecommerce.servioe.ApplicationUserManager;
+import dev.mrkevr.ecommerce.service.ApplicationUserManager;
 
 @Configuration
 @EnableWebSecurity

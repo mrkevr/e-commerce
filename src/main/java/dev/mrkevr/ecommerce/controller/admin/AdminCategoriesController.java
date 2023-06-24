@@ -16,7 +16,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import dev.mrkevr.ecommerce.dto.CategoryRequestDto;
 import dev.mrkevr.ecommerce.dto.CategoryUpdateDto;
 import dev.mrkevr.ecommerce.entity.Category;
-import dev.mrkevr.ecommerce.servioe.CategoryService;
+import dev.mrkevr.ecommerce.service.CategoryService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 

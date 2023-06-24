@@ -1,4 +1,4 @@
-package dev.mrkevr.ecommerce.servioe;
+package dev.mrkevr.ecommerce.service;
 
 import org.springframework.security.provisioning.UserDetailsManager;
 

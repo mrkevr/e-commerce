@@ -1,4 +1,4 @@
-package dev.mrkevr.ecommerce.servioe.impl;
+package dev.mrkevr.ecommerce.service.impl;
 
 import static dev.mrkevr.ecommerce.entity.OrderStatus.ACCEPTED;
 import static dev.mrkevr.ecommerce.entity.OrderStatus.CANCELLED;
@@ -40,10 +40,11 @@ import dev.mrkevr.ecommerce.repository.OrderRepository;
 import dev.mrkevr.ecommerce.repository.ProductRepository;
 import dev.mrkevr.ecommerce.repository.ShoppingCartRepository;
 import dev.mrkevr.ecommerce.repository.UserRepository;
-import dev.mrkevr.ecommerce.servioe.ApplicationUserManager;
-import dev.mrkevr.ecommerce.servioe.OrderService;
-import dev.mrkevr.ecommerce.servioe.ShoppingCartService;
-import dev.mrkevr.ecommerce.servioe.UserService;
+import dev.mrkevr.ecommerce.service.ApplicationUserManager;
+import dev.mrkevr.ecommerce.service.OrderItemService;
+import dev.mrkevr.ecommerce.service.OrderService;
+import dev.mrkevr.ecommerce.service.ShoppingCartService;
+import dev.mrkevr.ecommerce.service.UserService;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -56,9 +57,10 @@ public class OrderServiceImpl implements OrderService {
 	private final ShoppingCartRepository shoppingCartRepo;
 	private final OrderRepository orderRepo;
 	
+	private final UserService userServ;
 	private final ApplicationUserManager userManager;
 	private final ShoppingCartService shoppingCartServ;
-	private final UserService userServ;
+	private final OrderItemService orderItemServ;
 	
 	private final CartItemMapper cartItemMapper;
 	private final OrderMapper orderMapper;
@@ -114,14 +116,20 @@ public class OrderServiceImpl implements OrderService {
 			throw new InsufficientStockException(stockErrors);
 		}
 		
-		
+		// Fetch the cart items from shopping cart
 		Set<CartItem> cartItems = shoppingCart.getCartItems();
-		List<OrderItem> orderItems = orderItemMapper.toEntity(cartItems);
+		
+		// Convert cart items to collection of order items
+//		List<OrderItem> orderItems = orderItemMapper.toEntity(cartItems);
+		List<OrderItem> orderItems = orderItemServ.processCartItem(cartItems);
 		
 		
+		// Fetch order list from the user
 		List<Order> orders = user.getOrders();
+		// Create new if it doesn't exist
 		if(orders == null) orders = new ArrayList<>();
 		
+		// Creating the order
 		Order order = new Order();
 		order.setUser(user);
 		order.setOrderItems(orderItems);
@@ -131,6 +139,7 @@ public class OrderServiceImpl implements OrderService {
 		order.setDeliveryAddress(orderRequest.getDeliveryAddress());
 		order.setMessage(orderRequest.getMessage());
 		order.setPaymentMethod(orderRequest.getPaymentMethod());
+		
 		
 		// Saving the order
 		Order savedOrder = orderRepo.save(order);

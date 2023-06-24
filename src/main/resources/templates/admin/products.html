@@ -37,17 +37,15 @@
 					
 					<!-- Table -->
 					<div class="card mb-4">
-						<!-- <div class="card-header">
-							<i class="fas fa-table me-1"></i> Products Table
-						</div> -->
-						<div class="card-body">
+						
+						<div class="card-body table-responsive">
 							<!-- <table id="datatablesSimple" class="table table-sm"> -->
 							<table id="productsTable" class="display compact" style="width:100%">
 								<thead>
 									<tr>
-										<th>ID</th>
+										<th class="d-none d-lg-table-cell">ID</th>
 										<th>Name</th>
-										<th>Category</th>
+										<th class="d-none d-lg-table-cell">Category</th>
 										<th>Stock</th>
 										<th>Cost Price</th>
 										<th>Sale Price</th>
@@ -58,11 +56,11 @@
 								</thead>
 								<tbody>
 									<tr th:each="p: ${products}">
-										<td th:text="${p.id}" class="fs-6"></td>
-										<td style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis; width: 30%">
+										<td class="d-none d-lg-table-cell"><span th:text="${p.id}" ></span></td>
+										<td>
 											<a th:text="${p.name}" th:href="@{products/{id}(id=${p.id})}"></a>
 										</td>
-										<td><span th:text="${p.category}"></span></td>
+										<td class="d-none d-lg-table-cell"><span th:text="${p.category}"></span></td>
 										<td><div style="text-align: right"><span th:text="${p.currentQuantity}"></span></div></td>
 										<td>
 											<div th:switch="${p.isOnSale}">
@@ -196,6 +194,7 @@
 		    });
 		});
 	</script>
+	
 	
 </body>
 </html>

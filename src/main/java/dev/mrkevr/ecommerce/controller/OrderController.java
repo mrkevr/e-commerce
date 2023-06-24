@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import dev.mrkevr.ecommerce.dto.OrderRequest;
 import dev.mrkevr.ecommerce.dto.OrderResponse;
-import dev.mrkevr.ecommerce.servioe.OrderService;
+import dev.mrkevr.ecommerce.service.OrderService;
 import lombok.RequiredArgsConstructor;
 
 @RestController

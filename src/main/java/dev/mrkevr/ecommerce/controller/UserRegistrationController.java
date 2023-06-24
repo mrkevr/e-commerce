@@ -17,7 +17,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import dev.mrkevr.ecommerce.dto.UserRegistrationRequest;
 import dev.mrkevr.ecommerce.dto.validation.PasswordsEqualConstraint;
-import dev.mrkevr.ecommerce.servioe.ApplicationUserManager;
+import dev.mrkevr.ecommerce.service.ApplicationUserManager;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Valid;
 import jakarta.validation.Validator;

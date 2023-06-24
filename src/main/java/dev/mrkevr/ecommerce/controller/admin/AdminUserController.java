@@ -11,9 +11,9 @@ import org.springframework.web.servlet.ModelAndView;
 import dev.mrkevr.ecommerce.dto.OrderResponse;
 import dev.mrkevr.ecommerce.dto.ShoppingCartResponse;
 import dev.mrkevr.ecommerce.dto.UserProfileResponse;
-import dev.mrkevr.ecommerce.servioe.OrderService;
-import dev.mrkevr.ecommerce.servioe.ShoppingCartService;
-import dev.mrkevr.ecommerce.servioe.UserService;
+import dev.mrkevr.ecommerce.service.OrderService;
+import dev.mrkevr.ecommerce.service.ShoppingCartService;
+import dev.mrkevr.ecommerce.service.UserService;
 import lombok.RequiredArgsConstructor;
 
 @Controller

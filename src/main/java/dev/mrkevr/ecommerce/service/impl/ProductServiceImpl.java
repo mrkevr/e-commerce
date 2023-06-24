@@ -1,4 +1,4 @@
-package dev.mrkevr.ecommerce.servioe.impl;
+package dev.mrkevr.ecommerce.service.impl;
 
 import java.util.Base64;
 import java.util.List;
@@ -21,7 +21,7 @@ import dev.mrkevr.ecommerce.exception.ProductNotFoundException;
 import dev.mrkevr.ecommerce.mapper.ProductMapper;
 import dev.mrkevr.ecommerce.repository.CategoryRepository;
 import dev.mrkevr.ecommerce.repository.ProductRepository;
-import dev.mrkevr.ecommerce.servioe.ProductService;
+import dev.mrkevr.ecommerce.service.ProductService;
 import dev.mrkevr.ecommerce.utils.ImageUploader;
 import lombok.RequiredArgsConstructor;
 

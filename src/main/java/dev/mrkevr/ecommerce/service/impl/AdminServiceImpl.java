@@ -1,4 +1,4 @@
-package dev.mrkevr.ecommerce.servioe.impl;
+package dev.mrkevr.ecommerce.service.impl;
 
 import org.springframework.stereotype.Service;
 
@@ -6,7 +6,7 @@ import dev.mrkevr.ecommerce.repository.CategoryRepository;
 import dev.mrkevr.ecommerce.repository.OrderRepository;
 import dev.mrkevr.ecommerce.repository.ProductRepository;
 import dev.mrkevr.ecommerce.repository.UserRepository;
-import dev.mrkevr.ecommerce.servioe.AdminService;
+import dev.mrkevr.ecommerce.service.AdminService;
 import lombok.RequiredArgsConstructor;
 
 @Service

@@ -1,6 +1,7 @@
 package dev.mrkevr.ecommerce.controller.admin;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,7 +16,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import dev.mrkevr.ecommerce.converter.LocalDateConverter;
 import dev.mrkevr.ecommerce.dto.OrderResponse;
 import dev.mrkevr.ecommerce.dto.OrderUpdateRequest;
-import dev.mrkevr.ecommerce.servioe.OrderService;
+import dev.mrkevr.ecommerce.entity.OrderStatus;
+import dev.mrkevr.ecommerce.service.OrderService;
 import lombok.RequiredArgsConstructor;
 
 @Controller
@@ -41,13 +43,25 @@ public class AdminOrderController {
 	{
 		ModelAndView mav = new ModelAndView("admin/order-details");
 		OrderResponse order = orderServ.getById(id);
+		List<OrderStatus> orderStatuses = List.of(
+			OrderStatus.IN_PROGRESS, 
+			OrderStatus.TO_SHIP,
+			OrderStatus.TO_RECEIVE,
+			OrderStatus.COMPLETED,
+			OrderStatus.RETURNED);
+		
 		mav.addObject("order", order);
+		mav.addObject("orderStatuses", orderStatuses);
 		mav.addObject("orderUpdateRequest", 
 				new OrderUpdateRequest(
 						id, 
 						order.getOrderStatus(), 
 						order.getDeliveryDate() == null ? localDateConverter.convert(LocalDate.now()) : localDateConverter.convert(order.getDeliveryDate())));
 		mav.addObject("title", "Order#"+order.getId()+" - Admin");
+		
+		
+		
+		
 		return mav;
 	}
 	
@@ -68,19 +82,20 @@ public class AdminOrderController {
 			String id,
 			RedirectAttributes redirectAttrs) 
 	{
-//		orderServ.denyOrderById(id);
-//		redirectAttrs.addFlashAttribute("success", "Order has been accepted.");
+		orderServ.denyOrderById(id);
+		redirectAttrs.addFlashAttribute("success", "Order has been denied.");
 		return "redirect:/admin/orders/"+id;
 	}
 	
 	@RequestMapping(value = "/update-order", method = { RequestMethod.GET, RequestMethod.POST })
 	String updateOrder(
-		@ModelAttribute(name = "orderUpdateRequest") OrderUpdateRequest orderUpdateRequest) {
-		
-		
+		@ModelAttribute(name = "orderUpdateRequest") 
+		OrderUpdateRequest orderUpdateRequest, 
+		RedirectAttributes redirectAttrs) 
+	{
 		orderServ.changeDeliveryDateById(orderUpdateRequest.getId(), localDateConverter.convert(orderUpdateRequest.getDeliveryDate()));
 		orderServ.changeOrderStatusById(orderUpdateRequest.getId(), orderUpdateRequest.getOrderStatus());
-		
+		redirectAttrs.addFlashAttribute("success", "Order has been updated.");
 		
 		return "redirect:/admin/orders/"+orderUpdateRequest.getId();
 	}

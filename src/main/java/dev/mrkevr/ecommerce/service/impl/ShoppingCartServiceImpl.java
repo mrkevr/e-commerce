@@ -1,4 +1,4 @@
-package dev.mrkevr.ecommerce.servioe.impl;
+package dev.mrkevr.ecommerce.service.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -25,7 +25,7 @@ import dev.mrkevr.ecommerce.repository.CartItemRepository;
 import dev.mrkevr.ecommerce.repository.ProductRepository;
 import dev.mrkevr.ecommerce.repository.ShoppingCartRepository;
 import dev.mrkevr.ecommerce.repository.UserRepository;
-import dev.mrkevr.ecommerce.servioe.ShoppingCartService;
+import dev.mrkevr.ecommerce.service.ShoppingCartService;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -223,8 +223,8 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 		return errors;
 	}
 	
-	@Transactional
 	@Override
+	@Transactional
 	public void clearShoppingCart(ShoppingCart shoppingCart) {
 
 		Set<CartItem> cartItems = shoppingCart.getCartItems();
@@ -258,6 +258,8 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 	}
 	
 	
+	
+	//-- Helper methods --//
 	
 	private int computeTotalItems(Collection<CartItem> cartItems) {
 		return cartItems.stream().mapToInt(item -> item.getQuantity()).sum();

@@ -14,8 +14,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import dev.mrkevr.ecommerce.dto.UserProfileResponse;
 import dev.mrkevr.ecommerce.entity.User;
 import dev.mrkevr.ecommerce.mapper.UserMapper;
-import dev.mrkevr.ecommerce.servioe.ApplicationUserManager;
-import dev.mrkevr.ecommerce.servioe.UserService;
+import dev.mrkevr.ecommerce.service.ApplicationUserManager;
+import dev.mrkevr.ecommerce.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 

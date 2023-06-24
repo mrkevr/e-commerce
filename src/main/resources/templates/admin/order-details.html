@@ -28,7 +28,7 @@
 					<div class="row mt-4 justify-content-center">
 						
 						<!-- ORDER STATUS AND PROGRESS -->
-						<div class="col-xl-10 mb-3">
+						<div class="col-xl-8 mb-3">
 							<div class="card mb-3">
 								<div class="card-header">
 									<i class="fas fa-tasks me-1"></i><strong>Order Progress</strong>
@@ -78,7 +78,7 @@
 						<!-- ORDER STATUS AND PROGRESS END -->
 						
 						<!-- ORDER INFO -->
-						<div class="col-xl-6">
+						<div class="col-xl-5">
 							<div class="card mb-3">
 								<div class="card-header">
 									<i class="fas fa-info-circle me-1"></i><strong>Order Info</strong>
@@ -112,7 +112,7 @@
 						<!-- ORDER INFO END-->
 						
 						<!-- MESSAGE -->
-						<div class="col-xl-4">
+						<div class="col-xl-3">
 							<div class="card mb-3">
 								<div class="card-header">
 									<i class="fas fa-sticky-note me-1"></i><strong>Customer's Message</strong>
@@ -127,7 +127,7 @@
 						
 						
 						<!-- ORDER ITEMS -->
-						<div class="col-xl-10">
+						<div class="col-xl-8">
 							<div class="card mb-3">
 								<div class="card-header">
 									<i class="fas fa-boxes me-1"></i> <strong>Order Item's</strong>
@@ -186,7 +186,7 @@
 							
 							
 							<!-- CHANGE ORDER-->
-							<span>
+							<span th:if="${order.orderStatus != T(dev.mrkevr.ecommerce.entity.OrderStatus).PENDING}">
 								<a type="button" class="btn btn-primary"
 									data-bs-toggle="modal"
 									th:attr="data-bs-target='#'+'updateOrderModal'+${order.id}"
@@ -215,11 +215,11 @@
 														<input type='date'  required class='form-control mb-3' id='inputDeliveryDate' th:name="deliveryDate" th:value='${{orderUpdateRequest.deliveryDate}}' />
 													</div>
 													
-													<!-- STATUS -->
+													<!-- STATUS th:each="status : ${T(dev.mrkevr.ecommerce.entity.OrderStatus).values()}" -->
 													<div class="form-group mb-1">
 														<label for="selectOrderStatus" class="control-label">Order Status</label>
 														<select id="selectOrderStatus" th:field="*{orderStatus}" class="form-select">
-															<option th:each="status : ${T(dev.mrkevr.ecommerce.entity.OrderStatus).values()}"
+															<option th:each="status : ${orderStatuses}"
 																th:value="${status}" 
 																th:text="${status}"
 																th:selected="${status == orderUpdateRequest.orderStatus}">
@@ -232,7 +232,7 @@
                                                 	
                                             	</div>
                                             	<div class="d-flex justify-content-between">
-                                            		<button type="submit" class="btn btn-primary">Update</button>
+                                            		<button type="submit" class="btn btn-primary" onclick="if (!(confirm('Are you sure you want to update this order?'))) return false">Update</button>
                                             		<button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
                                             	</div>				
 											</form>

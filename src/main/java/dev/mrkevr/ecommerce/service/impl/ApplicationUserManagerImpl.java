@@ -1,4 +1,4 @@
-package dev.mrkevr.ecommerce.servioe.impl;
+package dev.mrkevr.ecommerce.service.impl;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -23,7 +23,7 @@ import dev.mrkevr.ecommerce.mapper.UserMapper;
 import dev.mrkevr.ecommerce.repository.RoleRepository;
 import dev.mrkevr.ecommerce.repository.ShoppingCartRepository;
 import dev.mrkevr.ecommerce.repository.UserRepository;
-import dev.mrkevr.ecommerce.servioe.ApplicationUserManager;
+import dev.mrkevr.ecommerce.service.ApplicationUserManager;
 import lombok.RequiredArgsConstructor;
 
 @Service

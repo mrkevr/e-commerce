@@ -2,7 +2,7 @@ package dev.mrkevr.ecommerce.controller;
 
 import org.springframework.web.bind.annotation.ControllerAdvice;
 
-import dev.mrkevr.ecommerce.servioe.impl.ApplicationUserManagerImpl;
+import dev.mrkevr.ecommerce.service.impl.ApplicationUserManagerImpl;
 import lombok.RequiredArgsConstructor;
 
 @ControllerAdvice

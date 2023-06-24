@@ -56,12 +56,13 @@
   										</div>
   										<div data-toggle="tooltip" title="Cost Price">
   											<i class="fas fa-tag fa-fw text-primary me-1"></i>
-  											<span class="text-end" th:text="${product.costPrice}"></span>
+  											<strong><span class="text-end text-danger" th:text="${#numbers.formatDecimal(product.costPrice, 0, 'COMMA', 2, 'POINT')}"></span></strong>
   										</div>
   										<div data-toggle="tooltip" title="Sale Price">
   											<i class="fas fa-percentage fa-fw text-primary me-1"></i>
-  											<span class="text-end" th:text="${product.salePrice}"></span>
+  											<strong><span class="text-end text-danger" th:text="${#numbers.formatDecimal(product.salePrice, 0, 'COMMA', 2, 'POINT')}"></span></strong>
   										</div>
+  										<hr/>
   										<div data-toggle="tooltip" title="Created">
   											<i class="fas fa-user-plus fa-fw text-primary me-1"></i>
   											<span th:text="${#temporals.format(product.created, 'MMMM dd, yyyy hh:mm a')}"></span>
@@ -70,6 +71,7 @@
   											<i class="fas fa-user-edit fa-fw text-primary me-1"></i>
   											<span th:text="${#temporals.format(product.modified, 'MMMM dd, yyyy hh:mm a')}"></span>
   										</div>
+  										<hr/>
   										<div data-toggle="tooltip" title="Activated">
   											<i class="fas fa-check-square fa-fw text-primary me-1"></i>
     										<span th:switch="${product.isActivated}">

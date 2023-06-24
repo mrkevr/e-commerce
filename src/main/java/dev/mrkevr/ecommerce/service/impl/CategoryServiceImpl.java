@@ -1,4 +1,4 @@
-package dev.mrkevr.ecommerce.servioe.impl;
+package dev.mrkevr.ecommerce.service.impl;
 
 import java.util.List;
 
@@ -9,7 +9,7 @@ import dev.mrkevr.ecommerce.dto.CategoryResponse;
 import dev.mrkevr.ecommerce.entity.Category;
 import dev.mrkevr.ecommerce.exception.CategoryNotFoundException;
 import dev.mrkevr.ecommerce.repository.CategoryRepository;
-import dev.mrkevr.ecommerce.servioe.CategoryService;
+import dev.mrkevr.ecommerce.service.CategoryService;
 import lombok.RequiredArgsConstructor;
 
 @Service

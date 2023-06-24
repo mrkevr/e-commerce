@@ -1,4 +1,4 @@
-package dev.mrkevr.ecommerce.servioe;
+package dev.mrkevr.ecommerce.service;
 
 import java.time.LocalDate;
 import java.util.List;

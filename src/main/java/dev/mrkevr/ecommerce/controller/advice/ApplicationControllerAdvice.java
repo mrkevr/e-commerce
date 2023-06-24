@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 
 import dev.mrkevr.ecommerce.dto.LoggedInUserDetails;
 import dev.mrkevr.ecommerce.entity.User;
-import dev.mrkevr.ecommerce.servioe.ApplicationUserManager;
-import dev.mrkevr.ecommerce.servioe.UserService;
+import dev.mrkevr.ecommerce.service.ApplicationUserManager;
+import dev.mrkevr.ecommerce.service.UserService;
 import lombok.RequiredArgsConstructor;
 
 @ControllerAdvice

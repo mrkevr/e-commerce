@@ -28,21 +28,24 @@
 					<div class="mb-4">
 						<h1>Users</h1>
 					</div>
+					
+					<!-- Alerts -->
+					<div th:replace="~{admin/admin-fragments::alerts}"></div>
 								
 					<!-- Table -->
 					<div class="card mb-4">
 						<!-- <div class="card-header">
 							<i class="fas fa-table me-1"></i> Users Table
 						</div> -->
-						<div class="card-body">
+						<div class="card-body table-responsive">
 							<table id="usersTable" class="display compact" style="width:100%">
 								<thead>
 									<tr>
 										<th>Username</th>
-										<th>Name</th>
+										<th class="d-none d-lg-table-cell">Name</th>
 										<th class="d-none d-lg-table-cell">Email</th>
-										<th class="d-none d-md-table-cell">Phone</th>
-										<th class="d-none d-md-table-cell">Address</th>
+										<th class="d-none d-lg-table-cell">Phone</th>
+										<th class="d-none d-lg-table-cell">Address</th>
 										<th>Cart Items</th>
 										<th>Orders</th>
 									</tr>
@@ -60,10 +63,10 @@
 								<tbody>
 									<tr th:each="u: ${users}">
 										<td><a th:text="${u.username}" th:href="@{users/{id}(id=${u.id})}"></a></td>
-										<td th:text="${u.firstName}+' '+${u.lastName}"></td>
-										<td th:text="${u.email}" class="d-none d-lg-table-cell p-1"></td>
-										<td th:text="${u.phone}" class="d-none d-md-table-cell p-1"></td>
-										<td th:text="${u.address?.street}+' '+${u.address?.barangay}+' '+${u.address?.municipality}+' '+${u.address?.province}+' '+${u.address?.zipcode}" class="d-none d-md-table-cell"></td>
+										<td th:text="${u.firstName}+' '+${u.lastName}" class="d-none d-lg-table-cell"></td>
+										<td th:text="${u.email}" class="d-none d-lg-table-cell"></td>
+										<td th:text="${u.phone}" class="d-none d-lg-table-cell"></td>
+										<td th:text="${u.address?.street}+' '+${u.address?.barangay}+' '+${u.address?.municipality}+' '+${u.address?.province}+' '+${u.address?.zipcode}" class="d-none d-lg-table-cell"></td>
 										<td th:text="${u.totalCartItems}" class="text-end"></td>
 										<td th:text="${u.totalActiveOrders}" class="text-end"></td>
 									</tr>

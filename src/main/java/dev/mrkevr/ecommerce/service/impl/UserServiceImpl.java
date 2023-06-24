@@ -1,4 +1,4 @@
-package dev.mrkevr.ecommerce.servioe.impl;
+package dev.mrkevr.ecommerce.service.impl;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -15,8 +15,8 @@ import dev.mrkevr.ecommerce.entity.User;
 import dev.mrkevr.ecommerce.exception.UserNotFoundException;
 import dev.mrkevr.ecommerce.mapper.UserMapper;
 import dev.mrkevr.ecommerce.repository.UserRepository;
-import dev.mrkevr.ecommerce.servioe.ApplicationUserManager;
-import dev.mrkevr.ecommerce.servioe.UserService;
+import dev.mrkevr.ecommerce.service.ApplicationUserManager;
+import dev.mrkevr.ecommerce.service.UserService;
 import lombok.RequiredArgsConstructor;
 
 @Service
