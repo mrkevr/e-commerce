@@ -5,6 +5,7 @@ import java.util.List;
 
 import dev.mrkevr.ecommerce.dto.OrderRequest;
 import dev.mrkevr.ecommerce.dto.OrderResponse;
+import dev.mrkevr.ecommerce.entity.Order;
 import dev.mrkevr.ecommerce.entity.OrderStatus;
 
 public interface OrderService {
@@ -12,6 +13,10 @@ public interface OrderService {
 	OrderRequest previewOrderRequest();
 	
 	List<OrderResponse> getAllByUserId(String userId);
+	
+	List<OrderResponse> getAllActiveByUserId(String userId);
+	
+	List<OrderResponse> getAllIactiveByUserId(String userId);
 	
 	OrderResponse addOrder(OrderRequest orderRequest);
 	
@@ -23,13 +28,19 @@ public interface OrderService {
 	
 	List<OrderResponse> getAllInactiveOrders();
 	
+	long countAllOrders();
+	
+	long countActiveOrders();
+	
+	long countInactiveOrders();
+	
 	OrderResponse getById(String id);
 	
 	void acceptOrderById(String orderId);
 	
-	void denyOrderById(String orderId);
-	
 	void changeOrderStatusById(String orderId, OrderStatus orderStatus);
 	
 	void changeDeliveryDateById(String orderId, LocalDate date);
+	
+	void cancelOrderById(String orderId, OrderStatus orderStatus);
 }

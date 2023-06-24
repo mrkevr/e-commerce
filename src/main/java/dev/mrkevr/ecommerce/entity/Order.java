@@ -64,8 +64,8 @@ public class Order extends GenericEntity {
 	@Column(name = "payment_method")
 	private String paymentMethod;
 
-	@Column(name = "is_accepted")
-	private boolean isAccepted;
+	@Column(name = "is_active")
+	private boolean isActive;
 	
 	@Column(name = "message")
 	private String message;
@@ -90,6 +90,6 @@ public class Order extends GenericEntity {
 		super.prePersist();
 		orderDate = LocalDate.now();
 		orderStatus = OrderStatus.PENDING;
-		isAccepted = false;
+		isActive = true;
 	}
 }

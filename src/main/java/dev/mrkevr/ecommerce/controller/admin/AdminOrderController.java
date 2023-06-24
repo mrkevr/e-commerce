@@ -1,5 +1,7 @@
 package dev.mrkevr.ecommerce.controller.admin;
 
+import static dev.mrkevr.ecommerce.entity.OrderStatus.DENIED;
+
 import java.time.LocalDate;
 import java.util.List;
 
@@ -29,11 +31,19 @@ public class AdminOrderController {
 	private final LocalDateConverter localDateConverter;
 	
 	@GetMapping
-	ModelAndView orders() 
+	ModelAndView orders(
+			@RequestParam(required = false, defaultValue = "active", name = "state") String state)
 	{
 		ModelAndView mav = new ModelAndView("admin/orders");
 		mav.addObject("title", "Orders - Admin");
-		mav.addObject("orders", orderServ.getAllOrders());
+		
+		if(state.equals("active")) {
+			mav.addObject("orders", orderServ.getAllActiveOrders());
+		} else if(state.equals("inactive")) {
+			mav.addObject("orders", orderServ.getAllInactiveOrders());
+		} else if(state.equals("all")) {
+			mav.addObject("orders", orderServ.getAllOrders());
+		}
 		
 		return mav;
 	}
@@ -54,13 +64,10 @@ public class AdminOrderController {
 		mav.addObject("orderStatuses", orderStatuses);
 		mav.addObject("orderUpdateRequest", 
 				new OrderUpdateRequest(
-						id, 
-						order.getOrderStatus(), 
-						order.getDeliveryDate() == null ? localDateConverter.convert(LocalDate.now()) : localDateConverter.convert(order.getDeliveryDate())));
+					id, 
+					order.getOrderStatus(), 
+					order.getDeliveryDate() == null ? localDateConverter.convert(LocalDate.now()) : localDateConverter.convert(order.getDeliveryDate())));
 		mav.addObject("title", "Order#"+order.getId()+" - Admin");
-		
-		
-		
 		
 		return mav;
 	}
@@ -82,8 +89,8 @@ public class AdminOrderController {
 			String id,
 			RedirectAttributes redirectAttrs) 
 	{
-		orderServ.denyOrderById(id);
-		redirectAttrs.addFlashAttribute("success", "Order has been denied.");
+		orderServ.cancelOrderById(id, DENIED);
+		redirectAttrs.addFlashAttribute("warning", "Order has been denied.");
 		return "redirect:/admin/orders/"+id;
 	}
 	

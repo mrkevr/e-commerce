@@ -11,4 +11,8 @@ public interface OrderItemService {
 	OrderItem processCartItem(CartItem cartItem);
 
 	List<OrderItem> processCartItem(Collection<CartItem> cartItems);
+
+	void returnOrderItem(OrderItem orderItem);
+
+	void returnOrderItem(Collection<OrderItem> orderItems);
 }

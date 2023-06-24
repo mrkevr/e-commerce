@@ -23,7 +23,7 @@ public class OrderMapper {
 			.orderItems(orderItemMapper.toResponse(order.getOrderItems()))
 			.totalItems(order.getTotalItems())
 			.totalPrice(order.getTotalPrice())
-			.isAccepted(order.isAccepted())
+			.isActive(order.isActive())
 			.orderDate(order.getOrderDate())
 			.deliveryDate(order.getDeliveryDate() != null ? order.getDeliveryDate() : null)
 			.deliveryAddress(order.getDeliveryAddress())

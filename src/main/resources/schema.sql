@@ -100,7 +100,7 @@ CREATE TABLE orders (
   order_status enum('ACCEPTED','CANCELLED','COMPLETED','DENIED','IN_PROGRESS','PENDING','RETURNED','TO_RECEIVE','TO_SHIP') DEFAULT NULL,
   delivery_date date DEFAULT NULL,
   delivery_address varchar(255) DEFAULT NULL,
-  is_accepted bit(1) DEFAULT NULL,
+  is_active bit(1) DEFAULT NULL,
   message varchar(255) DEFAULT NULL,
   payment_method varchar(255) DEFAULT NULL,
   total_items int DEFAULT NULL,

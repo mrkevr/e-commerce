@@ -41,13 +41,13 @@
 							<table id="usersTable" class="display compact" style="width:100%">
 								<thead>
 									<tr>
+										<th>ID</th>
 										<th>Username</th>
 										<th class="d-none d-lg-table-cell">Name</th>
 										<th class="d-none d-lg-table-cell">Email</th>
 										<th class="d-none d-lg-table-cell">Phone</th>
-										<th class="d-none d-lg-table-cell">Address</th>
 										<th>Cart Items</th>
-										<th>Orders</th>
+										<th>Active Orders</th>
 									</tr>
 								</thead>
 								<!-- <tfoot>
@@ -62,11 +62,11 @@
 								</tfoot> -->
 								<tbody>
 									<tr th:each="u: ${users}">
+										<td th:text="${u.id}"></td>
 										<td><a th:text="${u.username}" th:href="@{users/{id}(id=${u.id})}"></a></td>
 										<td th:text="${u.firstName}+' '+${u.lastName}" class="d-none d-lg-table-cell"></td>
 										<td th:text="${u.email}" class="d-none d-lg-table-cell"></td>
 										<td th:text="${u.phone}" class="d-none d-lg-table-cell"></td>
-										<td th:text="${u.address?.street}+' '+${u.address?.barangay}+' '+${u.address?.municipality}+' '+${u.address?.province}+' '+${u.address?.zipcode}" class="d-none d-lg-table-cell"></td>
 										<td th:text="${u.totalCartItems}" class="text-end"></td>
 										<td th:text="${u.totalActiveOrders}" class="text-end"></td>
 									</tr>

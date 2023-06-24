@@ -13,6 +13,7 @@ import dev.mrkevr.ecommerce.dto.UserRegistrationRequest;
 import dev.mrkevr.ecommerce.entity.Role;
 import dev.mrkevr.ecommerce.entity.ShoppingCart;
 import dev.mrkevr.ecommerce.entity.User;
+import dev.mrkevr.ecommerce.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
 
 @Component
@@ -20,9 +21,10 @@ import lombok.RequiredArgsConstructor;
 public class UserMapper {
 
 	private final PasswordEncoder passwordEncoder;
-
-	public User toUser(UserRegistrationRequest request, Role role, ShoppingCart shoppingCart) {
-		
+	private final OrderRepository orderRepo;
+	
+	public User toUser(UserRegistrationRequest request, Role role, ShoppingCart shoppingCart) 
+	{	
 		User user =  User.builder()
 			.username(request.getUsername())
 			.firstName(request.getFirstName())
@@ -39,6 +41,7 @@ public class UserMapper {
 	}
 
 	public UserProfileResponse toUserProfileResponse(User user) {
+		
 		return UserProfileResponse.builder()
 			.id(user.getId())
 			.username(user.getUsername())
@@ -50,7 +53,7 @@ public class UserMapper {
 			.created(user.getCreated())
 			.modified(user.getModified())
 			.totalCartItems(user.getShoppingCart().getCartItems().size())
-			.totalActiveOrders(user.getOrders().size())
+			.totalActiveOrders(orderRepo.countActiveOrdersByUserId(user.getId()))
 			.build();
 	}
 

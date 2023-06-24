@@ -66,6 +66,9 @@ public class OrderServiceImpl implements OrderService {
 	private final OrderMapper orderMapper;
 	private final OrderItemMapper orderItemMapper;
 	
+//	private static final List<OrderStatus> ACTIVE_STATUSES = List.of(PENDING, ACCEPTED, IN_PROGRESS, TO_SHIP, TO_RECEIVE);
+//	private static final List<OrderStatus> INACTIVE_STATUSES = List.of(DENIED, CANCELLED, COMPLETED, RETURNED);
+	
 	/**
 	 * Shows preview of the User's shopping cart before checking it out and become order/order items
 	 * 
@@ -97,7 +100,6 @@ public class OrderServiceImpl implements OrderService {
 	@Override
 	@Transactional
 	public OrderResponse addOrder(OrderRequest orderRequest) {
-		
 		// Fetch the User from the SecurityContext
 		User user = userServ.getCurrentUser();
 		
@@ -120,7 +122,6 @@ public class OrderServiceImpl implements OrderService {
 		Set<CartItem> cartItems = shoppingCart.getCartItems();
 		
 		// Convert cart items to collection of order items
-//		List<OrderItem> orderItems = orderItemMapper.toEntity(cartItems);
 		List<OrderItem> orderItems = orderItemServ.processCartItem(cartItems);
 		
 		
@@ -140,17 +141,14 @@ public class OrderServiceImpl implements OrderService {
 		order.setMessage(orderRequest.getMessage());
 		order.setPaymentMethod(orderRequest.getPaymentMethod());
 		
-		
 		// Saving the order
 		Order savedOrder = orderRepo.save(order);
-		
-		
+	
 		cartItems.clear();
 		shoppingCart.setCartItems(cartItems);
 		shoppingCart.setTotalItems(0);
 		shoppingCart.setTotalPrice(0);
 		shoppingCartRepo.save(shoppingCart);
-		
 		
 		return orderMapper.toResponse(savedOrder);
 	}
@@ -160,6 +158,22 @@ public class OrderServiceImpl implements OrderService {
 		List<Order> orders = orderRepo.findOrdersByUserId(userId);
 		return orderMapper.toResponse(orders);
 	}
+	
+	@Override
+	public List<OrderResponse> getAllActiveByUserId(String userId) {
+		orderRepo.findOrdersByUserId(userId).stream()
+		.filter(order -> isActiveOrder(order))
+		.collect(Collectors.toList());
+		return null;
+	}
+
+	@Override
+	public List<OrderResponse> getAllIactiveByUserId(String userId) {
+		orderRepo.findOrdersByUserId(userId).stream()
+		.filter(order -> !isActiveOrder(order))
+		.collect(Collectors.toList());
+		return null;
+	}
 
 	@Override
 	public List<OrderResponse> getAllOrders() {
@@ -168,39 +182,63 @@ public class OrderServiceImpl implements OrderService {
 	
 	@Override
 	public List<OrderResponse> getAllActiveOrders() {
-		List<OrderStatus> activeStatuses = List.of(PENDING, ACCEPTED, IN_PROGRESS, TO_SHIP, TO_RECEIVE);
-		return orderMapper.toResponse(orderRepo.findByOrderStatusIn(activeStatuses));
+		return orderMapper.toResponse(orderRepo.findByOrderStatusIn(OrderStatus.activeStatuses()));
 	}
 
 	@Override
 	public List<OrderResponse> getAllInactiveOrders() {
-		List<OrderStatus> inactiveStatuses = List.of(CANCELLED, DENIED, COMPLETED, RETURNED);
-		return orderMapper.toResponse(orderRepo.findByOrderStatusIn(inactiveStatuses));
+		return orderMapper.toResponse(orderRepo.findByOrderStatusIn(OrderStatus.inactiveStatuses()));
 	}
 
 	@Override
 	public List<OrderResponse> getAllByOrderStatus(OrderStatus orderStatus) {
 		return orderMapper.toResponse(orderRepo.findByOrderStatus(orderStatus));
 	}
+	
+	@Override
+	public long countAllOrders() {
+		return 0;
+	}
+
+	@Override
+	public long countActiveOrders() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public long countInactiveOrders() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 
 	@Override
 	@Transactional
 	public void acceptOrderById(String orderId) {
 		Order order = orderRepo.findById(orderId).orElseThrow(() -> new OrderNotFoundException(orderId));
-		order.setAccepted(true);
 		order.setOrderStatus(ACCEPTED);
 		orderRepo.save(order);
 	}
-
+	
+	
+	/**
+	 * Deny, cancel or return the order by id
+	 * 
+	 */
 	@Override
 	@Transactional
-	public void denyOrderById(String orderId) {
+	public void cancelOrderById(String orderId, OrderStatus orderStatus) {
 		Order order = orderRepo.findById(orderId).orElseThrow(() -> new OrderNotFoundException(orderId));
-		order.setAccepted(false);
-		order.setOrderStatus(DENIED);
+		order.setActive(false);
+		order.setOrderStatus(orderStatus);
+		
+		// Return the products back to inventory
+		List<OrderItem> orderItems = order.getOrderItems();
+		orderItemServ.returnOrderItem(orderItems);
+		
 		orderRepo.save(order);
 	}
-
+	
 	@Override
 	@Transactional
 	public void changeOrderStatusById(String orderId, OrderStatus orderStatus) {
@@ -221,5 +259,12 @@ public class OrderServiceImpl implements OrderService {
 	public OrderResponse getById(String id) {
 		Order order = orderRepo.findById(id).orElseThrow(() -> new OrderNotFoundException(id));
 		return orderMapper.toResponse(order);
+	}
+	
+	//-- Helper methods --//
+	
+	private boolean isActiveOrder(Order order) {
+		OrderStatus orderStatus = order.getOrderStatus();
+		return OrderStatus.activeStatuses().contains(orderStatus) && order.isActive();
 	}
 }

@@ -28,9 +28,9 @@ public class OrderController {
 	public OrderResponse checkOutShoppingCart() {
 		
 		OrderRequest orderRequest = OrderRequest.builder()
-			.paymentMethod("COD")
-			.deliveryAddress("Winterfell, Westeros")
-			.message("Pls handle with care :D")
+			.paymentMethod("GCASH")
+			.deliveryAddress("Braavos, Essos")
+			.message("Please include remote batteries for the tv :D")
 			.build();
 		
 		return orderServ.addOrder(orderRequest);

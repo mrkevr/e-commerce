@@ -7,11 +7,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import dev.mrkevr.ecommerce.dto.OrderRequest;
 import dev.mrkevr.ecommerce.entity.Category;
 import dev.mrkevr.ecommerce.entity.Role;
 import dev.mrkevr.ecommerce.entity.User;
 import dev.mrkevr.ecommerce.entity.embeddable.Address;
 import dev.mrkevr.ecommerce.repository.CategoryRepository;
+import dev.mrkevr.ecommerce.repository.OrderRepository;
 import dev.mrkevr.ecommerce.repository.ProductRepository;
 import dev.mrkevr.ecommerce.repository.RoleRepository;
 import dev.mrkevr.ecommerce.repository.ShoppingCartRepository;
@@ -32,6 +34,7 @@ public class ApplicationConfig {
 	private final CategoryRepository categoryRepo;
 	private final ProductRepository productRepo;
 	private final ShoppingCartRepository shoppingCartRepo;
+	private final OrderRepository orderRepo;
 
 	private final ApplicationUserManager applicationUserManager;
 	private final ProductService productServ;
@@ -40,26 +43,14 @@ public class ApplicationConfig {
 	private final OrderService orderServ;
 	
 	private final PasswordEncoder passwordEncoder;
-	
-	
-	
+
 	
 	@Bean
 	CommandLineRunner init() {
 		return args -> {
 			this.initialData();
 			
-			
-//			shoppingCartServ.addCartItem("USER-6346-9916", "PROD-6992-6621", 6);
-			
-			
-			
-			
-			
-//			shoppingCartServ.updateCartItem("USER-6801-5509", "CITM-8163-8468", 2);
-			
-//			shoppingCartServ.deleteCartItem("USER-6801-5509", "CITM-8163-8468");
-			
+			shoppingCartServ.addCartItem("USER-6461-4920", "PROD-8972-5753", 1);
 			
 		};
 	}

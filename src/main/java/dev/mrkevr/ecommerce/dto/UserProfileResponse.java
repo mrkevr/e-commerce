@@ -45,7 +45,7 @@ public class UserProfileResponse {
 	
 	private int totalCartItems;
 	
-	private int totalActiveOrders;
+	private long totalActiveOrders;
 	
 	private LocalDateTime created;
 

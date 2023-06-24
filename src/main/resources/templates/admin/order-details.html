@@ -27,6 +27,12 @@
 				
 					<div class="row mt-4 justify-content-center">
 						
+						<!-- Alerts -->
+						<div class="col-xl-8">
+							<div th:replace="~{admin/admin-fragments::alerts}"></div>
+						</div>
+						
+						
 						<!-- ORDER STATUS AND PROGRESS -->
 						<div class="col-xl-8 mb-3">
 							<div class="card mb-3">
@@ -186,7 +192,7 @@
 							
 							
 							<!-- CHANGE ORDER-->
-							<span th:if="${order.orderStatus != T(dev.mrkevr.ecommerce.entity.OrderStatus).PENDING}">
+							<span th:if="${order.isActive and order.orderStatus != T(dev.mrkevr.ecommerce.entity.OrderStatus).PENDING}">
 								<a type="button" class="btn btn-primary"
 									data-bs-toggle="modal"
 									th:attr="data-bs-target='#'+'updateOrderModal'+${order.id}"

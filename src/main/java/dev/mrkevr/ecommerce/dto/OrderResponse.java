@@ -25,7 +25,7 @@ public class OrderResponse {
 
 	private double totalPrice;
 	
-	private boolean isAccepted;
+	private boolean isActive;
 	
 	private OrderStatus orderStatus;
 	
