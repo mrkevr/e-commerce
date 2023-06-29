@@ -26,12 +26,10 @@
 						<li class="breadcrumb-item active"><span th:text="${product.name}"></span></li>
                   	</ol>
 					
+					<!-- Alerts -->
+					<div th:replace="~{admin/admin-fragments::alerts}"></div>
+					
 					<div class="row mt-4 justify-content-center">
-						
-						<!-- Alerts -->
-						<div class="col-xl-8">
-							<div th:replace="~{admin/admin-fragments::alerts}"></div>
-						</div>
 						
 						<!-- Image -->
 						<div class="col-xl-3">

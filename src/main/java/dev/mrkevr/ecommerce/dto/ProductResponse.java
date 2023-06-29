@@ -19,17 +19,17 @@ public class ProductResponse {
 
 	private String description;
 
-	private int currentQuantity;
+	private String category;
 
-	private double costPrice;
-
-	private double salePrice;
-	
-	private boolean isOnSale;
-	
 	private String image;
 
-	private String category;
+	private int currentQuantity;
+	
+	private double costPrice;
+	
+	private double salePrice;
+
+	private boolean isOnSale;
 
 	private boolean isActivated;
 

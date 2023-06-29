@@ -23,10 +23,7 @@ public interface ProductRepository extends JpaRepository<Product, String> {
             " WHERE LOWER(p.category.name) = LOWER(?1) AND p.isActivated = true AND p.isDeleted = false")
     List<Product> findAllActivatedByCategoryIgnoreCase(String category);
    
-    @Query(value = "SELECT " +
-            "p.product_id, p.name, p.description, p.current_quantity, p.cost_price, p.category_id, p.sale_price, p.image, p.is_ativated, p.is_deleted " +
-            "FROM products p WHERE p.is_activated = true AND p.is_deleted = false ORDER BY rand() LIMIT :limit", 
-            nativeQuery = true)
+    @Query(value = "SELECT * FROM products WHERE is_activated = true AND is_deleted = false ORDER BY rand() LIMIT :limit", nativeQuery = true)
     List<Product> getRandomProducts(int limit);
 
     @Query(value = "SELECT " +

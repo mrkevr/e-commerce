@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import dev.mrkevr.ecommerce.service.ProductService;
 import dev.mrkevr.ecommerce.service.impl.AdminServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 public class HomeController {
 
 	private final AdminServiceImpl adminServ;
+	private final ProductService productServ;
 
 	@GetMapping({ "/", "/dashboard" })
 	ModelAndView displayDashboard(HttpServletRequest request) {
@@ -24,7 +26,10 @@ public class HomeController {
 		}
 
 		ModelAndView mav = new ModelAndView("index");
+	
 		mav.addObject("title", "Home - E-Commerce");
+		mav.addObject("products", productServ.randomProduct(8));
+		
 		return mav;
 	}
 	
