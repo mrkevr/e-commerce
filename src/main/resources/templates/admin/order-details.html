@@ -121,7 +121,7 @@
 						<div class="col-xl-3">
 							<div class="card mb-3">
 								<div class="card-header">
-									<i class="fas fa-sticky-note me-1"></i><strong>Customer's Message</strong>
+									<i class="fas fa-sticky-note me-1"></i><strong>Message</strong>
 								</div>
 								<div class="card-body">
 									<p th:text="${order.message}" style="white-space: pre-line"></p>
@@ -195,8 +195,7 @@
 							<span th:if="${order.isActive and order.orderStatus != T(dev.mrkevr.ecommerce.entity.OrderStatus).PENDING}">
 								<a type="button" class="btn btn-primary"
 									data-bs-toggle="modal"
-									th:attr="data-bs-target='#'+'updateOrderModal'+${order.id}"
-									data-toggle="tooltip" title="Edit Category">
+									th:attr="data-bs-target='#'+'updateOrderModal'+${order.id}">
 									<i class="fas fa-edit"></i>
 									Update Order
 								</a>
@@ -228,9 +227,19 @@
 															<option th:each="status : ${orderStatuses}"
 																th:value="${status}" 
 																th:text="${status}"
-																th:selected="${status == orderUpdateRequest.orderStatus}">
+																th:selected="${status == order.orderStatus}">
 															</option>
 														</select>
+													</div>
+													
+													<!-- MESSAGE -->
+													<div class="form-group mb-1">
+														<label for="inputMessage" class="control-label">Message</label>
+														<textarea class="form-control" id="inputMessage"
+															th:field="*{message}" 
+															rows="5" 
+															style="height:100%; white-space: pre-wrap;">
+														</textarea> 
 													</div>
 													
 													<!-- ORDER ID -->
@@ -250,6 +259,8 @@
 								</div>
 							</div> 
 							<!-- CHANGE ORDER END -->
+							
+							
 									
 						</div>
 						<!-- BUTTON GROUP END -->

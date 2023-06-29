@@ -5,7 +5,7 @@ import java.util.List;
 
 import dev.mrkevr.ecommerce.dto.OrderRequest;
 import dev.mrkevr.ecommerce.dto.OrderResponse;
-import dev.mrkevr.ecommerce.entity.Order;
+import dev.mrkevr.ecommerce.dto.OrderUpdateRequest;
 import dev.mrkevr.ecommerce.entity.OrderStatus;
 
 public interface OrderService {
@@ -41,6 +41,8 @@ public interface OrderService {
 	void changeOrderStatusById(String orderId, OrderStatus orderStatus);
 	
 	void changeDeliveryDateById(String orderId, LocalDate date);
+	
+	void updateOrderById(OrderUpdateRequest request);
 	
 	void cancelOrderById(String orderId, OrderStatus orderStatus);
 }

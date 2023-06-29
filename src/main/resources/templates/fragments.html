@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org/">
+
+<!-- Head -->
+<head th:fragment="head">
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+	<meta name="description" content="" />
+	<meta name="author" content="" />
+	<!-- Favicon-->
+	<link rel="icon" type="image/x-icon" th:href="@{/img/shop.ico}" />
+	<!-- Bootstrap icons-->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+	<!-- Core theme CSS (includes Bootstrap)-->
+	<link rel="stylesheet" type="text/css" th:href="@{/css/styles.css}" />
+	<title th:text="${title}"></title>
+</head>
+<body>
+
+	<!-- Navigation-->
+	<nav class="navbar navbar-expand-lg navbar-light bg-light" th:fragment="nav">
+		<div class="container px-4 px-lg-5">
+			<a class="navbar-brand" href="#!">E-Commerce</a>
+			<button class="navbar-toggler" type="button"
+				data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+				aria-controls="navbarSupportedContent" aria-expanded="false"
+				aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+					<li class="nav-item"><a class="nav-link active" aria-current="page" href="#!">Home</a></li>
+					<li class="nav-item"><a class="nav-link active" href="#!">About</a></li>
+					<li class="nav-item dropdown"><a
+						class="nav-link dropdown-toggle" id="navbarDropdown" href="#"
+						role="button" data-bs-toggle="dropdown" aria-expanded="false">Shop</a>
+						<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+							<li><a class="dropdown-item" href="#!">All Products</a></li>
+							<li><hr class="dropdown-divider" /></li>
+							<li><a class="dropdown-item" href="#!">Discounted Items</a></li>
+							<li><a class="dropdown-item" href="#!">New Arrivals</a></li>
+						</ul>
+					</li>
+				</ul>
+							
+				<!-- todo : make invisible to visitors -->
+				<form class="d-flex me-2">
+					<a class="btn btn-outline-dark me-2" th:href="@{/cart}">
+						<i class="bi-cart-fill me-1"></i> Cart <span class="badge bg-dark text-white ms-1 rounded-pill" th:text="${userDetails.totalCartItems}"></span>
+					</a>
+					<a class="btn btn-outline-dark" th:href="@{/orders}">
+						<i class="bi bi-bag-check-fill me-2"></i> Orders <span class="badge bg-dark text-white ms-1 rounded-pill" th:text="${userDetails.totalActiveOrders}"></span>
+					</a>
+				</form>
+				<ul class="navbar-nav mb-2 mb-lg-0 ms-lg-4" th:if="${userDetails.username != ''}">
+					<li class="nav-item dropdown"><a
+						class="nav-link dropdown-toggle" id="navbarDropdown" href="#"
+						role="button" data-bs-toggle="dropdown" aria-expanded="false"><strong><span th:text="${userDetails.username}"></span></strong></a>
+						<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+							<li><a class="dropdown-item" th:href="@{/profile}">Profile</a></li>
+							<li><hr class="dropdown-divider" /></li>
+							<li><a class="dropdown-item" href="#!">Settings</a></li>
+							<li><a class="dropdown-item" th:href="@{/logout}">Logout</a></li>
+						</ul>
+					</li>
+				</ul>
+				<a class="btn btn-outline-dark" th:if="${userDetails.username == ''}" th:href="@{/login}">
+					Login
+				</a>
+				
+				
+				
+			</div>
+		</div>
+	</nav>
+	
+	<!-- Header-->
+	<header class="bg-dark py-3" th:fragment="header">
+		<div class="container px-4 px-lg-5 my-2">
+			<div class="text-center text-white">
+				<form class="d-flex px-5" role="search">
+      				<input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+      				<button class="btn btn-outline-light" type="submit">Search</button>
+    			</form>
+			</div>
+		</div>
+	</header>
+	
+	<!-- Alerts -->
+	<div th:fragment="alerts">
+		<div class="alert alert-success p-1 text-center" th:if="${success}">
+			<strong>Success! </strong><span th:text="${success}"></span>
+		</div>
+		<div class="alert alert-danger p-1 text-center" th:if="${error}">
+			<strong>Error! </strong><span th:text="${error}"></span>
+		</div>
+		<div class="alert alert-warning p-1 text-center" th:if="${warning}">
+			<strong>Warning! </strong><span th:text="${warning}"></span>
+		</div>
+		<div class="alert alert-info p-1 text-center" th:if="${info}">
+			<strong>Info: </strong><span th:text="${info}"></span>
+		</div>
+	</div>
+	
+	<!-- Footer-->
+	<footer class="py-5 bg-dark" th:fragment="footer">
+		<div class="container">
+			<p class="m-0 text-center text-white">Copyright &copy; Your
+				Website 2023</p>
+		</div>
+	</footer>
+	
+	<!-- Scripts-->
+	<div th:fragment="scripts">
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+		<!-- Core theme JS-->
+		<script type="text/javascript" th:src="@{/js/scripts.js}"></script>
+	</div>
+	
+</body>
+</html>

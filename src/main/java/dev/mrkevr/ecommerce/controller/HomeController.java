@@ -15,24 +15,6 @@ public class HomeController {
 
 	private final AdminServiceImpl adminServ;
 
-//	@GetMapping({ "/", "/dashboard" })
-//	ModelAndView displayDashboard(HttpServletRequest request) {
-//		
-//		// Redirects to admin dashboard if the user's role is ADMIN
-//		if (request.isUserInRole("ROLE_ADMIN")) {
-//			ModelAndView mav = new ModelAndView("admin/admin-dashboard");
-//			mav.addObject("title", "Dashboard - Admin");
-//			mav.addObject("totalUsers", adminServ.getTotalUsers());
-//			mav.addObject("totalCategories", adminServ.getTotalCategories());
-//			mav.addObject("totalProducts", adminServ.getTotalProducts());
-//			mav.addObject("totalOrders", adminServ.getTotalOrders());
-//			return mav;
-//		}
-//
-//		ModelAndView mav = new ModelAndView("index");
-//		return mav;
-//	}
-	
 	@GetMapping({ "/", "/dashboard" })
 	ModelAndView displayDashboard(HttpServletRequest request) {
 		
@@ -42,6 +24,7 @@ public class HomeController {
 		}
 
 		ModelAndView mav = new ModelAndView("index");
+		mav.addObject("title", "Home - E-Commerce");
 		return mav;
 	}
 	
@@ -54,7 +37,7 @@ public class HomeController {
 		mav.addObject("totalUsers", adminServ.getTotalUsers());
 		mav.addObject("totalCategories", adminServ.getTotalCategories());
 		mav.addObject("totalProducts", adminServ.getTotalProducts());
-		mav.addObject("totalOrders", adminServ.getTotalOrders());
+		mav.addObject("totalActiveOrders", adminServ.getTotalActiveOrders());
 
 		return mav;
 	}

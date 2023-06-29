@@ -63,10 +63,14 @@ public class AdminOrderController {
 		mav.addObject("order", order);
 		mav.addObject("orderStatuses", orderStatuses);
 		mav.addObject("orderUpdateRequest", 
-				new OrderUpdateRequest(
-					id, 
-					order.getOrderStatus(), 
-					order.getDeliveryDate() == null ? localDateConverter.convert(LocalDate.now()) : localDateConverter.convert(order.getDeliveryDate())));
+			new OrderUpdateRequest(
+				id, 
+				order.getOrderStatus(), 
+				order.getDeliveryDate() == null ? localDateConverter.convert(LocalDate.now()) : localDateConverter.convert(order.getDeliveryDate()),
+				order.getMessage()));
+		
+		
+		
 		mav.addObject("title", "Order#"+order.getId()+" - Admin");
 		
 		return mav;
@@ -100,8 +104,8 @@ public class AdminOrderController {
 		OrderUpdateRequest orderUpdateRequest, 
 		RedirectAttributes redirectAttrs) 
 	{
-		orderServ.changeDeliveryDateById(orderUpdateRequest.getId(), localDateConverter.convert(orderUpdateRequest.getDeliveryDate()));
-		orderServ.changeOrderStatusById(orderUpdateRequest.getId(), orderUpdateRequest.getOrderStatus());
+		
+		orderServ.updateOrderById(orderUpdateRequest);
 		redirectAttrs.addFlashAttribute("success", "Order has been updated.");
 		
 		return "redirect:/admin/orders/"+orderUpdateRequest.getId();

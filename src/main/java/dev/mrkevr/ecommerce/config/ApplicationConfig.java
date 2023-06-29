@@ -7,7 +7,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import dev.mrkevr.ecommerce.dto.OrderRequest;
 import dev.mrkevr.ecommerce.entity.Category;
 import dev.mrkevr.ecommerce.entity.Role;
 import dev.mrkevr.ecommerce.entity.User;
@@ -50,7 +49,7 @@ public class ApplicationConfig {
 		return args -> {
 			this.initialData();
 			
-			shoppingCartServ.addCartItem("USER-6461-4920", "PROD-8972-5753", 1);
+			
 			
 		};
 	}

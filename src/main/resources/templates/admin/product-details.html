@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+	<!DOCTYPE html>
 <html xmlns:th="http://www.thyleaf.org">
 
 <!-- Fragment : Header -->
@@ -29,7 +29,9 @@
 					<div class="row mt-4 justify-content-center">
 						
 						<!-- Alerts -->
-						<div th:replace="~{admin/admin-fragments::alerts}"></div>
+						<div class="col-xl-8">
+							<div th:replace="~{admin/admin-fragments::alerts}"></div>
+						</div>
 						
 						<!-- Image -->
 						<div class="col-xl-3">
@@ -72,18 +74,14 @@
   											<span th:text="${#temporals.format(product.modified, 'MMMM dd, yyyy hh:mm a')}"></span>
   										</div>
   										<hr/>
-  										<div data-toggle="tooltip" title="Activated">
-  											<i class="fas fa-check-square fa-fw text-primary me-1"></i>
+  										<div>
     										<span th:switch="${product.isActivated}">
-  												<span th:case="${true}">Active</span>
-  												<span th:case="*">Inactive</span>
+  												<span th:case="${true}"><span class="badge rounded-pill text-bg-success">Active</span></span>
+  												<span th:case="*"><span class="badge rounded-pill text-bg-danger">Inactive</span></span>
 											</span>
-										</div>
-										<div data-toggle="tooltip" title="On Sale">
-  											<i class="fas fa-percentage fa-fw text-primary me-1"></i>
     										<span th:switch="${product.isOnSale}">
-  												<span th:case="${true}">On Sale</span>
-  												<span th:case="*">Not On Sale</span>
+  												<span th:case="${true}"><span class="badge rounded-pill text-bg-danger">On Sale</span></span>
+  												<span th:case="*"><span class="badge rounded-pill text-bg-secondary">Off Sale</span></span>
 											</span>
 										</div>
 									</div>

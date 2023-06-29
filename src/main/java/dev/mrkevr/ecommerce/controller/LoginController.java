@@ -31,7 +31,7 @@ public class LoginController {
 			return isAdmin ? "redirect:admin" : "redirect:dashboard";
 		}
 		
-		userLoginRequest.setUsernameEmail("admin");
+		userLoginRequest.setUsernameEmail("jakeperalta");
 		return "login";
 	}
 }

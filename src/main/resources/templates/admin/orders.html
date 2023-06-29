@@ -34,7 +34,7 @@
 					
 					<!-- Table -->
 					<div class="card mb-4">
-						<div class="card-body">
+						<div class="card-body table-responsive">
 							<!-- <table id="datatablesSimple" class="table table-sm"> -->
 							<table id="ordersTable" class="display compact" style="width:100%">
 								<thead>
@@ -89,8 +89,12 @@
 	<script>
 		$(document).ready(function () {
 			$('#ordersTable').DataTable({
-		    	"iDisplayLength": 25
+		    	"iDisplayLength": 50
 		    });
+			
+			
+            
+            
 		});
 	</script>
 </body>

@@ -9,4 +9,6 @@ public interface AdminService {
 	long getTotalProducts();
 	
 	long getTotalOrders();
+	
+	long getTotalActiveOrders();
 }

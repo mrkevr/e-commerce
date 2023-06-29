@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 
 import dev.mrkevr.ecommerce.dto.LoggedInUserDetails;
 import dev.mrkevr.ecommerce.entity.User;
+import dev.mrkevr.ecommerce.repository.CartItemRepository;
+import dev.mrkevr.ecommerce.repository.OrderRepository;
 import dev.mrkevr.ecommerce.service.ApplicationUserManager;
 import dev.mrkevr.ecommerce.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -16,78 +18,27 @@ import lombok.RequiredArgsConstructor;
 public class ApplicationControllerAdvice {
 
 	private final ApplicationUserManager applicationUserManager;
+	private final CartItemRepository cartItemRepo;
+	private final OrderRepository orderRepo;
 	private final UserService userServ;
-	
-	
-//	@ModelAttribute(name = "userDetails")
-//	LoggedInUserDetails loggedInUserDetails(Authentication authentication) {
-//		
-//		if(authentication instanceof AnonymousAuthenticationToken || authentication == null) {
-//			return new LoggedInUserDetails("visitor", "");
-//		}
-//		
-//		Object principal = authentication.getPrincipal();
-//		if (principal instanceof DefaultOAuth2User) {
-//			
-//			DefaultOAuth2User oauth2user = (DefaultOAuth2User) principal;
-//			String loginId = oauth2user.getAttribute("email");
-//			
-//			
-//			if (loginId == null) {
-//				loginId = oauth2user.getAttribute("login");
-//			}
-//			User user = (User) applicationUserManager.loadUserByUsername(loginId);
-//			return new LoggedInUserDetails(user.getUsername(), user.getEmail());
-//			
-//		} else {
-//			User user = (User) principal;
-//			return new LoggedInUserDetails(user.getUsername(), user.getEmail());
-//		}
-//	}
 	
 	@ModelAttribute(name = "userDetails")
 	LoggedInUserDetails loggedInUserDetails(Authentication authentication) 
 	{	
 		if(authentication instanceof AnonymousAuthenticationToken || authentication == null) {
-			return new LoggedInUserDetails("visitor", "");
+			return new LoggedInUserDetails("", "", 0, 0);
 		}
+		
 		User currentUser = userServ.getCurrentUser();
-		return new LoggedInUserDetails(currentUser.getUsername(), currentUser.getEmail());
+		long totalCartItems = cartItemRepo.countAllByUserId(currentUser.getId());
+		long totalActiveOrders = orderRepo.countActiveOrdersByUserId(currentUser.getId());
+		
+		return LoggedInUserDetails.builder()
+			.id(currentUser.getId())
+			.username(currentUser.getUsername())
+			.totalCartItems(totalCartItems)
+			.totalActiveOrders(totalActiveOrders)
+			.build();
 	}
-	
-//	@InitBinder
-//	public void initBinder(WebDataBinder binder) {
-//	  binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
-//	}
-	
-	
-//	@ModelAttribute(name = "userDetails")
-//	LoggedInUserDetails loggedInUserDetails() {
-//		
-//		SecurityContext securityContext = SecurityContextHolder.getContext();
-//		
-//		if(securityContext.getAuthentication() instanceof AnonymousAuthenticationToken) {
-//			return new LoggedInUserDetails("visitor", "");
-//		}
-//
-//		
-//		
-//		
-//		if (securityContext.getAuthentication().getPrincipal() instanceof DefaultOAuth2User) {
-//			
-//			DefaultOAuth2User principal = (DefaultOAuth2User) securityContext.getAuthentication().getPrincipal();
-//			String login = principal.getAttribute("email");
-//			if (login == null) {
-//				login = principal.getAttribute("login");
-//			}
-//			
-//			User user = (User) applicationUserManager.loadUserByUsername(login);
-//			return new LoggedInUserDetails(user.getUsername(), user.getEmail());
-//			
-//		} else {
-//			
-//			User user = (User) securityContext.getAuthentication().getPrincipal();
-//			return new LoggedInUserDetails(user.getUsername(), user.getEmail());
-//		}
-//	}
+
 }

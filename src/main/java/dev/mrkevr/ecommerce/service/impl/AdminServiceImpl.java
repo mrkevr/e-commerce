@@ -16,7 +16,7 @@ public class AdminServiceImpl implements AdminService {
 	private final UserRepository userRepo;
 	private final CategoryRepository categoryRepo;
 	private final ProductRepository productRepo;
-	private final OrderRepository orderRepp;
+	private final OrderRepository orderRepo;
 
 	@Override
 	public long getTotalUsers() {
@@ -35,7 +35,12 @@ public class AdminServiceImpl implements AdminService {
 
 	@Override
 	public long getTotalOrders() {
-		return orderRepp.count();
+		return orderRepo.count();
+	}
+
+	@Override
+	public long getTotalActiveOrders() {
+		return orderRepo.countActiveOrders();
 	}
 
 }

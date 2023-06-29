@@ -1,14 +1,7 @@
 package dev.mrkevr.ecommerce.service.impl;
 
 import static dev.mrkevr.ecommerce.entity.OrderStatus.ACCEPTED;
-import static dev.mrkevr.ecommerce.entity.OrderStatus.CANCELLED;
 import static dev.mrkevr.ecommerce.entity.OrderStatus.COMPLETED;
-import static dev.mrkevr.ecommerce.entity.OrderStatus.DENIED;
-import static dev.mrkevr.ecommerce.entity.OrderStatus.IN_PROGRESS;
-import static dev.mrkevr.ecommerce.entity.OrderStatus.PENDING;
-import static dev.mrkevr.ecommerce.entity.OrderStatus.RETURNED;
-import static dev.mrkevr.ecommerce.entity.OrderStatus.TO_RECEIVE;
-import static dev.mrkevr.ecommerce.entity.OrderStatus.TO_SHIP;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -19,13 +12,16 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import dev.mrkevr.ecommerce.converter.LocalDateConverter;
 import dev.mrkevr.ecommerce.dto.CartItemResponse;
 import dev.mrkevr.ecommerce.dto.OrderRequest;
 import dev.mrkevr.ecommerce.dto.OrderResponse;
+import dev.mrkevr.ecommerce.dto.OrderUpdateRequest;
 import dev.mrkevr.ecommerce.entity.CartItem;
 import dev.mrkevr.ecommerce.entity.Order;
 import dev.mrkevr.ecommerce.entity.OrderItem;
 import dev.mrkevr.ecommerce.entity.OrderStatus;
+import dev.mrkevr.ecommerce.entity.Product;
 import dev.mrkevr.ecommerce.entity.ShoppingCart;
 import dev.mrkevr.ecommerce.entity.User;
 import dev.mrkevr.ecommerce.error.InsufficientStockError;
@@ -65,6 +61,8 @@ public class OrderServiceImpl implements OrderService {
 	private final CartItemMapper cartItemMapper;
 	private final OrderMapper orderMapper;
 	private final OrderItemMapper orderItemMapper;
+	
+	private final LocalDateConverter localDateConverter;
 	
 //	private static final List<OrderStatus> ACTIVE_STATUSES = List.of(PENDING, ACCEPTED, IN_PROGRESS, TO_SHIP, TO_RECEIVE);
 //	private static final List<OrderStatus> INACTIVE_STATUSES = List.of(DENIED, CANCELLED, COMPLETED, RETURNED);
@@ -161,18 +159,14 @@ public class OrderServiceImpl implements OrderService {
 	
 	@Override
 	public List<OrderResponse> getAllActiveByUserId(String userId) {
-		orderRepo.findOrdersByUserId(userId).stream()
-		.filter(order -> isActiveOrder(order))
-		.collect(Collectors.toList());
-		return null;
+		List<Order> orders = orderRepo.findActiveOrdersByUserId(userId);
+		return orderMapper.toResponse(orders);
 	}
 
 	@Override
 	public List<OrderResponse> getAllIactiveByUserId(String userId) {
-		orderRepo.findOrdersByUserId(userId).stream()
-		.filter(order -> !isActiveOrder(order))
-		.collect(Collectors.toList());
-		return null;
+		List<Order> orders = orderRepo.findInactiveOrdersByUserId(userId);
+		return orderMapper.toResponse(orders);
 	}
 
 	@Override
@@ -182,12 +176,14 @@ public class OrderServiceImpl implements OrderService {
 	
 	@Override
 	public List<OrderResponse> getAllActiveOrders() {
-		return orderMapper.toResponse(orderRepo.findByOrderStatusIn(OrderStatus.activeStatuses()));
+		List<Order> orders = orderRepo.findAllActiveOrders();
+		return orderMapper.toResponse(orders);
 	}
 
 	@Override
 	public List<OrderResponse> getAllInactiveOrders() {
-		return orderMapper.toResponse(orderRepo.findByOrderStatusIn(OrderStatus.inactiveStatuses()));
+		List<Order> orders = orderRepo.findAllInactiveOrders();
+		return orderMapper.toResponse(orders);
 	}
 
 	@Override
@@ -197,19 +193,17 @@ public class OrderServiceImpl implements OrderService {
 	
 	@Override
 	public long countAllOrders() {
-		return 0;
+		return orderRepo.count();
 	}
 
 	@Override
 	public long countActiveOrders() {
-		// TODO Auto-generated method stub
-		return 0;
+		return orderRepo.countActiveOrders();
 	}
 
 	@Override
 	public long countInactiveOrders() {
-		// TODO Auto-generated method stub
-		return 0;
+		return orderRepo.countInactiveOrders();
 	}
 
 	@Override
@@ -223,7 +217,11 @@ public class OrderServiceImpl implements OrderService {
 	
 	/**
 	 * Deny, cancel or return the order by id
+	 * Order's collection of {@link OrderItem} will also return to the resource, 
+	 * restoring {@link Product}'s current quantity by the same amount
 	 * 
+	 * @param orderId Id of the {@link Order}
+	 * @param orderStatus New Order's new status of enum {@link OrderStatus}
 	 */
 	@Override
 	@Transactional
@@ -243,6 +241,12 @@ public class OrderServiceImpl implements OrderService {
 	@Transactional
 	public void changeOrderStatusById(String orderId, OrderStatus orderStatus) {
 		Order order = orderRepo.findById(orderId).orElseThrow(() -> new OrderNotFoundException(orderId));
+		
+		// Complete order becomes inactive
+		if(orderStatus.equals(COMPLETED)) {
+			order.setActive(false);
+		}
+		
 		order.setOrderStatus(orderStatus);
 		orderRepo.save(order);
 	}
@@ -254,6 +258,20 @@ public class OrderServiceImpl implements OrderService {
 		order.setDeliveryDate(date);
 		orderRepo.save(order);
 	}
+	
+	@Override
+	@Transactional
+	public void updateOrderById(OrderUpdateRequest request) {
+		Order order = orderRepo.findById(request.getId()).orElseThrow(() -> new OrderNotFoundException(request.getId()));
+		// Completed order becomes inactive
+		if(request.getOrderStatus().equals(COMPLETED)) {
+			order.setActive(false);
+		}
+		order.setOrderStatus(request.getOrderStatus());
+		order.setDeliveryDate(localDateConverter.convert(request.getDeliveryDate()));
+		order.setMessage(request.getMessage());
+		orderRepo.save(order);
+	}
 
 	@Override
 	public OrderResponse getById(String id) {
@@ -263,8 +281,9 @@ public class OrderServiceImpl implements OrderService {
 	
 	//-- Helper methods --//
 	
-	private boolean isActiveOrder(Order order) {
-		OrderStatus orderStatus = order.getOrderStatus();
-		return OrderStatus.activeStatuses().contains(orderStatus) && order.isActive();
-	}
+//	private boolean isActiveOrder(Order order) {
+//		OrderStatus orderStatus = order.getOrderStatus();
+//		return OrderStatus.activeStatuses().contains(orderStatus) && order.isActive();
+//	}
+
 }
