@@ -22,11 +22,16 @@ public interface CategoryRepository extends JpaRepository<Category, String> {
 	@Query("SELECT c from Category c WHERE c.isActivated = true")
 	List<Category> findAllByActivatedTrue();
 	
-	@Query(value = "SELECT new dev.mrkevr.ecommerce.dto.CategoryResponse(c.id, c.name, COUNT(p.category.id)) " +
+	@Query(value = "SELECT new dev.mrkevr.ecommerce.dto.CategoryResponse(c.id, c.name, COUNT(p.category.id), c.isActivated, c.isDeleted, c.created, c.modified) " +
+            "FROM Category c LEFT JOIN Product p ON c.id = p.category.id " +
+            "GROUP BY c.id")
+	List<CategoryResponse> getCategoriesAndSize();	
+	
+	@Query(value = "SELECT new dev.mrkevr.ecommerce.dto.CategoryResponse(c.id, c.name, COUNT(p.category.id), c.isActivated, c.isDeleted, c.created, c.modified) " +
             "FROM Category c LEFT JOIN Product p ON c.id = p.category.id " +
             "WHERE c.isActivated = true AND c.isDeleted = false " +
-            "GROUP BY c.id ")
-	List<CategoryResponse> getCategoriesAndSize();	
+            "GROUP BY c.id")
+	List<CategoryResponse> getActiveCategoriesAndSize();	
 	
 	@Modifying
 	@Query("UPDATE Category c SET isActivated = true, isDeleted = false")

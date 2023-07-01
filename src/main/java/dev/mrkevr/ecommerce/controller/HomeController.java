@@ -28,7 +28,7 @@ public class HomeController {
 		ModelAndView mav = new ModelAndView("index");
 	
 		mav.addObject("title", "Home - E-Commerce");
-		mav.addObject("products", productServ.randomProduct(8));
+		mav.addObject("products", productServ.getRandomProducts(8));
 		
 		return mav;
 	}

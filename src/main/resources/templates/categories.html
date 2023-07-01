@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thyleaf.org">
+
+<!-- Head -->
+<head th:replace="~{fragments::head}"></head>
+
+<body>
+	<!-- Navigation-->
+	<nav th:replace="~{fragments::nav}"></nav>
+
+	<!-- Header-->
+   	<header th:replace="~{fragments::search_header}"></header>
+	
+	<!-- Section-->
+	<section class="pt-1 pb-5">
+		<div class="container px-4 px-lg-5 mt-1 mb-5">
+		
+			<!-- Breadcrumb -->
+			<ol class="breadcrumb mb-5">
+				<li class="breadcrumb-item"><a th:href="@{/}">Home</a></li>
+				<li class="breadcrumb-item">Products</li>
+         	</ol>
+		
+			<h2 class="fw-bolder mb-4">Select Category</h2>
+			<div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+				
+				<!-- Categories -->
+				<th:block th:each="category : ${categories}">
+					<div class="col mb-5">
+						<div class="card h-100">
+							<!-- Category image-->
+							<img class="card-img-top" th:src="@{'data:image/jpeg;base64,' +${category.image}}" alt="..."/>
+							<!-- Category details-->
+							<div class="card-body p-4">
+								<div class="text-center">
+									<!-- Category name-->
+									<h5 class="fw-bolder"><span th:text="${category.name}"></span></h5>
+									
+									<!-- Category count-->
+									
+									<span th:text="${category.count}+ ' item(s)'"></span>
+									
+								</div>
+							</div>	
+							<!-- Product actions-->
+							<div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+								<div class="text-center">
+									<a class="btn btn-outline-dark mt-auto stretched-link" th:href="@{'/products?category=' + ${category.name}}">View Products</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</th:block>
+
+			</div>
+		</div>
+	</section>
+
+	<!-- Footer-->
+	<footer th:replace="~{fragments::footer}"></footer>
+
+	<!-- Scripts -->
+	<div th:replace="~{fragments::scripts}"></div>
+	
+	
+
+</body>
+</html>

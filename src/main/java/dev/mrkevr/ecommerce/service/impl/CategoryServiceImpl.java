@@ -1,6 +1,7 @@
 package dev.mrkevr.ecommerce.service.impl;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -9,6 +10,7 @@ import dev.mrkevr.ecommerce.dto.CategoryResponse;
 import dev.mrkevr.ecommerce.entity.Category;
 import dev.mrkevr.ecommerce.exception.CategoryNotFoundException;
 import dev.mrkevr.ecommerce.repository.CategoryRepository;
+import dev.mrkevr.ecommerce.repository.ProductRepository;
 import dev.mrkevr.ecommerce.service.CategoryService;
 import lombok.RequiredArgsConstructor;
 
@@ -18,6 +20,7 @@ import lombok.RequiredArgsConstructor;
 public class CategoryServiceImpl implements CategoryService {
 	
 	private final CategoryRepository categoryRepo;
+	private final ProductRepository productRepo;
 	
 	@Override
 	@Transactional
@@ -82,8 +85,30 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
+	public List<CategoryResponse> getActiveCategoriesAndSize() {
+		return categoryRepo.getActiveCategoriesAndSize();
+	}
+
+	@Override
 	public List<CategoryResponse> getCategoriesAndSize() {
 		return categoryRepo.getCategoriesAndSize();
+	}
+
+	@Override
+	public List<CategoryResponse> getAvailableCategories() {
+		
+		// Fetch all categories with atleast 1 product
+		List<CategoryResponse> categories = categoryRepo.getActiveCategoriesAndSize().stream()
+			.filter(c -> c.getCount() > 0)
+			.collect(Collectors.toList());
+		
+		// Assign each category with a random image related to the cateogory
+		categories.forEach(c -> {
+			String image = productRepo.getRandomProductsByCategoryId(c.getId(), 1).get(0).getImage();
+			c.setImage(image);
+		});
+		 
+		return categories;
 	}
 
 	

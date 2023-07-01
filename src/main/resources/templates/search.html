@@ -9,38 +9,15 @@
 	<nav th:replace="~{fragments::nav}"></nav>
 
 	<!-- Header-->
-   	<header class="bg-dark py-5">
-	   <div class="container px-5">
-	   		<div class="text-center text-white">
-				<form class="d-flex px-5" role="search">
-      				<input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-      				<button class="btn btn-outline-light" type="submit">Search</button>
-    			</form>
-    		</div>
-	       	<div class="row gx-5 align-items-center justify-content-center">
-	           <div class="col-lg-8 col-xl-7 col-xxl-6">
-	               <div class="my-5 text-center text-xl-start">
-	                   <h1 class="display-5 fw-bolder text-white mb-2">E-Commerce Web App</h1>
-	                   <p class="lead fw-normal text-white-50 mb-4">This e-commerce web application was made using Spring Boot, MySQL, Bootstrap and Thymeleaf.</p>
-	                   <div class="d-grid gap-3 d-sm-flex justify-content-sm-center justify-content-xl-start">
-	                       <a class="btn btn-primary btn-lg px-4 me-sm-3" th:href="@{/products/categories}">Show Now</a>
-	                       <a class="btn btn-outline-light btn-lg px-4" th:href="@{/register}">Sign Up</a>
-	                   </div>
-	               </div>
-	           </div>
-	           <div class="col-xl-5 col-xxl-6 d-none d-xl-block text-center">
-	           		<img class="img-fluid rounded-3 my-5" th:src="@{/img/cart.jpg}" alt="..." />
-	           	</div>
-	       	</div>
-	   </div>
-	</header>
+   	<header th:replace="~{fragments::search_header}"></header>
 	
 	<!-- Section-->
-	<section class="py-5">
-		<div class="container px-4 px-lg-5 mt-5">
+	<section class="pt-1 pb-5">
+		<div class="container px-4 px-lg-5 mt-1 mb-5">
+		
 			<div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
 				
-				<!-- Random Products -->
+				<!-- Products -->
 				<th:block th:each="product : ${products}">
 					<div class="col mb-5">
 						<div class="card h-100">

@@ -85,6 +85,7 @@
 									<tr>
 										<th>ID</th>
 										<th>Name</th>
+										<th>Products</th>
 										<th class="d-none d-lg-table-cell">Created</th>
 										<th class="d-none d-lg-table-cell">Modified</th>
 										<th>Activated</th>
@@ -95,6 +96,7 @@
 									<tr th:each="c: ${categories}">
 										<td><span th:text=${c.id}></span></td>
 										<td><span th:text="${c.name}"></span></td>
+										<td style="text-align: center"><a th:href="@{/admin/products/category/{category}(category=${c.name})}"><span th:text="${c.count}"></span></a></td>
 										<td class="d-none d-lg-table-cell"><span th:text="${#temporals.format(c.created, 'MMMM dd, yyyy hh:mm a')}"></span></td>
 										<td class="d-none d-lg-table-cell"><span th:text="${#temporals.format(c.modified, 'MMMM dd, yyyy hh:mm a')}"></span></td>
 										<td>

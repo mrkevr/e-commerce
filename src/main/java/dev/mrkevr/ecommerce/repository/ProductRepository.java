@@ -23,12 +23,21 @@ public interface ProductRepository extends JpaRepository<Product, String> {
             " WHERE LOWER(p.category.name) = LOWER(?1) AND p.isActivated = true AND p.isDeleted = false")
     List<Product> findAllActivatedByCategoryIgnoreCase(String category);
    
-    @Query(value = "SELECT * FROM products WHERE is_activated = true AND is_deleted = false ORDER BY rand() LIMIT :limit", nativeQuery = true)
+    @Query(value = "SELECT * FROM products "
+    		+ "WHERE is_activated = true AND is_deleted = false "
+    		+ "ORDER BY rand() LIMIT :limit", 
+    		nativeQuery = true)
     List<Product> getRandomProducts(int limit);
-
+    
+    @Query(value = "SELECT * FROM products "
+    		+ "WHERE is_activated = true AND is_deleted = false AND category_id = :id "
+    		+ "ORDER BY rand() LIMIT :limit", 
+    		nativeQuery = true)
+    List<Product> getRandomProductsByCategoryId(String id, int limit);
+    
     @Query(value = "SELECT " +
             "p.product_id, p.name, p.description, p.current_quantity, p.cost_price, p.category_id, p.sale_price, p.image, p.is_activated, p.is_deleted " +
-            "FROM products p where p.is_deleted = false and p.is_activated = true ORDER BY p.cost_price DESC LIMIT :limit", 
+            "FROM products p WHERE p.is_deleted = false AND p.is_activated = true ORDER BY p.cost_price DESC LIMIT :limit", 
             nativeQuery = true)
     List<Product> filterHigherPricedProducts(int limit);
 
@@ -38,7 +47,7 @@ public interface ProductRepository extends JpaRepository<Product, String> {
             nativeQuery = true)
     List<Product> filterLowerPricedProducts(int limit);
 
-
+    
     @Query(value = "SELECT "
     		+ "p.product_id, p.name, p.description, p.current_quantity, p.cost_price, p.category_id, p.sale_price, p.image, p.is_activated, p.is_deleted "
     		+ "FROM products p "
@@ -49,5 +58,10 @@ public interface ProductRepository extends JpaRepository<Product, String> {
     @Query(value = "SELECT p FROM Product p INNER JOIN Category c ON c.id = :id AND p.category.id = :id "
     		+ "WHERE p.isActivated = true and p.isDeleted = false")
     List<Product> findAllByCategoryId(String id);
-   
+    
+    
+    @Query(value = "SELECT p.image FROM products p "
+    		+ "WHERE p.category_id = :id LIMIT 1",
+    		nativeQuery = true)
+    List<String> findRandomProductImageByCategoryId(String id);
 }

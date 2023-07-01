@@ -26,4 +26,8 @@ public interface CategoryService {
 	void enableAll();
 
 	List<CategoryResponse> getCategoriesAndSize();
+	
+	List<CategoryResponse> getActiveCategoriesAndSize();
+	
+	List<CategoryResponse> getAvailableCategories();
 }

@@ -36,17 +36,19 @@ public interface ProductService {
 	
 	Product findById(String id);
 
-	List<ProductResponse> randomProduct(int limit);
+	List<ProductResponse> getRandomProducts(int limit);
+	
+	List<ProductResponse> getRandomProductsByCategoryId(String id, int limit);
 
-	Page<ProductResponse> searchProducts(int page, int limit, String keyword);
+	Page<ProductResponse> searchProductsByKeyword(int page, int limit, String keyword);
 
-	Page<ProductResponse> getAllProducts(int page, int limit);
+	Page<ProductResponse> getAll(int page, int limit);
 
 	Page<ProductResponse> getAllProductsForCustomer(int page, int limit);
 
-	List<ProductResponse> findAllByCategory(String category);
+	List<ProductResponse> getAllByCategory(String category);
 	
-	List<ProductResponse> findAllActivatedByCategory(String category);
+	List<ProductResponse> getAllActivatedByCategory(String category);
 	
 	List<ProductResponse> filterHighProducts(int limit);
 

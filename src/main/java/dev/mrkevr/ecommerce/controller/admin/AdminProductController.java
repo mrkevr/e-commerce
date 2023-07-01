@@ -57,7 +57,7 @@ public class AdminProductController {
 		ModelAndView mav = new ModelAndView("admin/products-by-category");
 		mav.addObject("title", category+" - Admin");
 		mav.addObject("category", category);
-		mav.addObject("products", productServ.findAllByCategory(category));
+		mav.addObject("products", productServ.getAllByCategory(category));
 		return mav;
 	}
 	

@@ -172,13 +172,19 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public List<ProductResponse> randomProduct(int limit) {
+	public List<ProductResponse> getRandomProducts(int limit) {
 		List<Product> products = productRepo.getRandomProducts(limit);
+		return productMapper.toResponse(products);
+	}
+	
+	@Override
+	public List<ProductResponse> getRandomProductsByCategoryId(String id, int limit) {
+		List<Product> products = productRepo.getRandomProductsByCategoryId(id, limit);
 		return productMapper.toResponse(products);
 	}
 
 	@Override
-	public Page<ProductResponse> searchProducts(int page, int limit, String keyword) {
+	public Page<ProductResponse> searchProductsByKeyword(int page, int limit, String keyword) {
 		List<Product> products = productRepo.findAllByNameOrDescription(keyword);
 		List<ProductResponse> dtoList = productMapper.toResponse(products);
 		Pageable pageable = PageRequest.of(page, limit);
@@ -186,7 +192,7 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public Page<ProductResponse> getAllProducts(int page, int limit) {
+	public Page<ProductResponse> getAll(int page, int limit) {
 		List<ProductResponse> dtoList = productMapper.toResponse(productRepo.findAll());
 		Pageable pageable = PageRequest.of(page, limit);
 		return this.toPage(dtoList, pageable);
@@ -198,13 +204,13 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public List<ProductResponse> findAllByCategory(String category) {
+	public List<ProductResponse> getAllByCategory(String category) {
 		List<Product> products = productRepo.findAllByCategoryIgnoreCase(category);
 		return productMapper.toResponse(products);
 	}
 	
 	@Override
-	public List<ProductResponse> findAllActivatedByCategory(String category) {
+	public List<ProductResponse> getAllActivatedByCategory(String category) {
 		List<Product> products = productRepo.findAllActivatedByCategoryIgnoreCase(category);
 		return productMapper.toResponse(products);
 	}

@@ -1,7 +1,5 @@
 package dev.mrkevr.ecommerce.controller.admin;
 
-import java.util.stream.Collectors;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,7 +21,7 @@ import lombok.RequiredArgsConstructor;
 @Controller
 @RequestMapping("/admin/categories")
 @RequiredArgsConstructor
-public class AdminCategoriesController {
+public class AdminCategoryController {
 
 	private final CategoryService categoryServ;
 	
@@ -36,7 +34,8 @@ public class AdminCategoriesController {
 	ModelAndView categories() {
 
 		ModelAndView mav = new ModelAndView("admin/categories");
-		mav.addObject("categories", categoryServ.findAll().stream().sorted((o1, o2) -> o1.getName().compareTo(o2.getName())).collect(Collectors.toList()));
+//		mav.addObject("categories", categoryServ.findAll().stream().sorted((o1, o2) -> o1.getName().compareTo(o2.getName())).collect(Collectors.toList()));
+		mav.addObject("categories", categoryServ.getCategoriesAndSize());
 		mav.addObject("categoryRequestDto", new CategoryRequestDto());
 		mav.addObject("categoryUpdateDto", new CategoryUpdateDto());
 		return mav;
