@@ -11,6 +11,9 @@ public interface ProductRepository extends JpaRepository<Product, String> {
 
 	@Query("SELECT p FROM Product p WHERE p.isDeleted = false AND p.isActivated = true")
     List<Product> findAllAvailable();
+	
+	@Query("SELECT p FROM Product p WHERE p.isDeleted = false AND p.isActivated = true AND p.isOnSale = true")
+	List<Product> findByIsOnSaleTrue();
 
     @Query("SELECT p FROM Product p WHERE p.name LIKE %?1% OR p.description LIKE %?1%")
     List<Product> findAllByNameOrDescription(String keyword);
@@ -35,18 +38,23 @@ public interface ProductRepository extends JpaRepository<Product, String> {
     		nativeQuery = true)
     List<Product> getRandomProductsByCategoryId(String id, int limit);
     
-    @Query(value = "SELECT " +
-            "p.product_id, p.name, p.description, p.current_quantity, p.cost_price, p.category_id, p.sale_price, p.image, p.is_activated, p.is_deleted " +
-            "FROM products p WHERE p.is_deleted = false AND p.is_activated = true ORDER BY p.cost_price DESC LIMIT :limit", 
+    @Query(value = "SELECT * FROM products"
+    		+ " WHERE is_activated = true AND is_deleted = false"
+    		+ " ORDER BY cost_price DESC LIMIT :limit", 
             nativeQuery = true)
     List<Product> filterHigherPricedProducts(int limit);
 
-    @Query(value = "SELECT " +
-            "p.product_id, p.name, p.description, p.current_quantity, p.cost_price, p.category_id, p.sale_price, p.image, p.is_activated, p.is_deleted " +
-            "FROM products p WHERE p.is_deleted = false AND p.is_activated = true ORDER BY p.cost_price ASC LIMIT :limit", 
+    @Query(value = "SELECT * FROM products"
+    		+ " WHERE is_activated = true AND is_deleted = false"
+    		+ " ORDER BY cost_price ASC LIMIT :limit", 
             nativeQuery = true)
     List<Product> filterLowerPricedProducts(int limit);
-
+    
+    @Query(value = "SELECT * FROM products"
+    		+ " WHERE is_activated = true AND is_deleted = false"
+    		+ " ORDER BY created DESC LIMIT :limit", 
+            nativeQuery = true)
+    List<Product> getNewlyAddedProducts(int limit);
     
     @Query(value = "SELECT "
     		+ "p.product_id, p.name, p.description, p.current_quantity, p.cost_price, p.category_id, p.sale_price, p.image, p.is_activated, p.is_deleted "
@@ -58,7 +66,6 @@ public interface ProductRepository extends JpaRepository<Product, String> {
     @Query(value = "SELECT p FROM Product p INNER JOIN Category c ON c.id = :id AND p.category.id = :id "
     		+ "WHERE p.isActivated = true and p.isDeleted = false")
     List<Product> findAllByCategoryId(String id);
-    
     
     @Query(value = "SELECT p.image FROM products p "
     		+ "WHERE p.category_id = :id LIMIT 1",

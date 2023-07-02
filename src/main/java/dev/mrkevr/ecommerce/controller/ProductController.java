@@ -37,17 +37,8 @@ public class ProductController {
 	}
 	
 	@GetMapping
-	ModelAndView products(
-			@RequestParam(required = false, name = "category") String category,
-			@RequestParam(required = false, name = "search") String search)
+	ModelAndView products(@RequestParam(required = true, name = "category") String category)
 	{
-		if(search != null) {
-			ModelAndView mav = new ModelAndView("products");
-			mav.addObject("title", search + " - E-Commerce");
-			mav.addObject("products", productServ.searchProducts(search));
-			return mav;
-		}
-		
 		ModelAndView mav = new ModelAndView("products");
 		mav.addObject("title", category + " - E-Commerce");
 		mav.addObject("category", category);
@@ -66,8 +57,21 @@ public class ProductController {
 		return mav;
 	}
 	
+	@GetMapping("/new-arrivals")
+	ModelAndView newArrivals()
+	{
+		ModelAndView mav = new ModelAndView("new-arrivals");
+		mav.addObject("title", "New Arrivals - E-Commerce");
+		mav.addObject("products", productServ.getNewlyAddedProducts(8));
+		return mav;
+	}
 	
-	
-	
-
+	@GetMapping("/on-sale")
+	ModelAndView saleProducts()
+	{
+		ModelAndView mav = new ModelAndView("on-sale");
+		mav.addObject("title", "Sale - E-Commerce");
+		mav.addObject("products", productServ.getAvailableProductsOnSale());
+		return mav;
+	}
 }

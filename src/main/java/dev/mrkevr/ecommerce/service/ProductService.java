@@ -13,6 +13,8 @@ import dev.mrkevr.ecommerce.entity.Product;
 public interface ProductService {
 
 	List<ProductResponse> findAll();
+	
+	List<ProductResponse> getAvailableProductsOnSale();;
 
 	List<ProductResponse> getAvailableProducts();
 
@@ -53,6 +55,8 @@ public interface ProductService {
 	List<ProductResponse> filterHighProducts(int limit);
 
 	List<ProductResponse> filterLowerProducts(int limit);
+	
+	List<ProductResponse> getNewlyAddedProducts(int limit);
 
 	List<ProductResponse> listViewProducts(int limit);
 

@@ -44,6 +44,11 @@ public class ProductServiceImpl implements ProductService {
 	public List<ProductResponse> getAvailableProducts() {
 		return productMapper.toResponse(productRepo.findAllAvailable());
 	}
+	
+	@Override
+	public List<ProductResponse> getAvailableProductsOnSale() {
+		return productMapper.toResponse(productRepo.findByIsOnSaleTrue());
+	}
 
 	@Override
 	public List<ProductResponse> getAllProducts() {
@@ -224,6 +229,12 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public List<ProductResponse> filterLowerProducts(int limit) {
 		List<Product> products = productRepo.filterLowerPricedProducts(limit);
+		return productMapper.toResponse(products);
+	}
+	
+	@Override
+	public List<ProductResponse> getNewlyAddedProducts(int limit) {
+		List<Product> products = productRepo.getNewlyAddedProducts(limit);
 		return productMapper.toResponse(products);
 	}
 

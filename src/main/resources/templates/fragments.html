@@ -36,8 +36,8 @@
 						<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
 							<li><a class="dropdown-item" th:href="@{/products/categories}">All Products</a></li>
 							<li><hr class="dropdown-divider" /></li>
-							<li><a class="dropdown-item" th:href="@{/products}">Discounted Items</a></li>
-							<li><a class="dropdown-item" th:href="@{/products}">New Arrivals</a></li>
+							<li><a class="dropdown-item" th:href="@{/products/new-arrivals}">New Arrivals</a></li>
+							<li><a class="dropdown-item" th:href="@{/products/on-sale}">Discounted Items</a></li>
 						</ul>
 					</li>
 					<li class="nav-item"><a class="nav-link active" th:href="@{/about}">About</a></li>
@@ -79,8 +79,8 @@
    	<header class="bg-dark py-5" th:fragment="search_header">
 	   <div class="container px-5">
 	   		<div class="text-center text-white">
-				<form class="d-flex px-5" role="search">
-      				<input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" id="inputSearch">
+				<form class="d-flex px-5" role="search" th:action="@{/search}" method="GET">
+      				<input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" id="inputSearch" th:name="search">
       				<button class="btn btn-outline-light" type="submit">Search</button>
     			</form>
     		</div>

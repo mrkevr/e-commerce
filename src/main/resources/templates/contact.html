@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thyleaf.org">
+
+<!-- Head -->
+<head th:replace="~{fragments::head}"></head>
+
+<body>
+	<!-- Navigation-->
+	<nav th:replace="~{fragments::nav}"></nav>
+
+	<!-- Section-->
+	<section class="py-1 bg-dark">
+		<div class="container px-4 px-lg-5 mt-5">
+			<!-- Contact form-->
+			<div class="bg-light rounded-3 py-5 px-4 px-md-5 mb-5">
+				<div class="text-center mb-5">
+					<div class="feature bg-primary bg-gradient text-white rounded-3 mb-3">
+						
+					</div>
+					<h1 class="fw-bolder">Get in touch</h1>
+					<p class="lead fw-normal text-muted mb-0">We'd love to hear from you</p>
+				</div>
+				<div class="row gx-5 justify-content-center">
+					<div class="col-lg-8 col-xl-6">
+						
+						<form th:action="@{/process-contact}" th:object="${contactDto}" method="POST">
+							<!-- Name -->
+							<div class="form-floating mb-3" >
+								<input class="form-control" th:field="*{name}" id="inputName" type="text" placeholder="Enter your name..." />
+								<label for="inputName">Full name</label>
+							</div>
+							<!-- Email -->
+							<div class="form-floating mb-3">
+								<input class="form-control" th:field="*{email}" id="inputEmail" type="email" placeholder="name@example.com" /> 
+								<label for="inputEmail">Email</label>
+							</div>
+							<!-- Phone -->
+							<div class="form-floating mb-3">
+								<input class="form-control" th:field="*{phone}" id="inputPhone" type="text" placeholder="(123) 456-7890" />
+								<label for="phone">Phone number</label>
+							</div>
+							<!-- Message -->
+							<div class="form-floating mb-3">
+								<textarea class="form-control" th:field="*{message}" id="inputMmessage" placeholder="Enter your message here..." style="height: 10rem"></textarea>
+								<label for="inputMessage">Message</label>
+							</div>
+							<!-- Submit success message-->
+							<div class="d-none" id="submitSuccessMessage">
+								<div class="text-center mb-3">
+									<div class="fw-bolder">Form submission successful!</div>
+								</div>
+							</div>
+							<!-- Submit error message-->
+							<div class="d-none" id="submitErrorMessage">
+								<div class="text-center text-danger mb-3">Error sending message!</div>
+							</div>
+							<!-- Submit Button-->
+							<div class="d-grid">
+								<button class="btn btn-primary btn-lg" id="submitButton" type="submit">Submit</button>
+							</div>
+						</form>
+						
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- Footer-->
+	<footer th:replace="~{fragments::footer}"></footer>
+
+	<!-- Scripts -->
+	<div th:replace="~{fragments::scripts}"></div>
+
+</body>
+</html>
