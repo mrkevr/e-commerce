@@ -12,10 +12,7 @@ public class AboutController {
 	@GetMapping
 	ModelAndView about() {
 		ModelAndView mav = new ModelAndView("about");
-		
-		
+		mav.addObject("title", "About - E-Commerce");
 		return mav;
 	}
-	
-	
 }

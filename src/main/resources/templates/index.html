@@ -24,7 +24,7 @@
 	                   <p class="lead fw-normal text-white-50 mb-4">This e-commerce web application was made using Spring Boot, MySQL, Bootstrap and Thymeleaf.</p>
 	                   <div class="d-grid gap-3 d-sm-flex justify-content-sm-center justify-content-xl-start">
 	                       <a class="btn btn-primary btn-lg px-4 me-sm-3" th:href="@{/products/categories}">Show Now</a>
-	                       <a class="btn btn-outline-light btn-lg px-4" th:href="@{/register}">Sign Up</a>
+	                       <a th:if="${userDetails.username == ''}" class="btn btn-outline-light btn-lg px-4" th:href="@{/register}">Sign Up</a>
 	                   </div>
 	               </div>
 	           </div>
@@ -43,7 +43,7 @@
 				<!-- Random Products -->
 				<th:block th:each="product : ${products}">
 					<div class="col mb-5">
-						<div class="card h-100">
+						<div class="card h-100 item-card">
 							<!-- Sale badge-->
 							<div th:if="${product.isOnSale}" class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem">Sale</div>
 							<!-- Product image-->
@@ -79,7 +79,7 @@
 	</section>
 
 	<!-- Footer-->
-	<footer th:replace="~{fragments::footer}"></footer>
+	<footer th:replace="~{fragments::footer_dark}"></footer>
 
 	<!-- Scripts -->
 	<div th:replace="~{fragments::scripts}"></div>

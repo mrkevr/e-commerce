@@ -27,7 +27,7 @@
 				<!-- Categories -->
 				<th:block th:each="category : ${categories}">
 					<div class="col mb-5">
-						<div class="card h-100">
+						<div class="card h-100 card-item">
 							<!-- Category image-->
 							<img class="card-img-top" th:src="@{'data:image/jpeg;base64,' +${category.image}}" alt="..."/>
 							<!-- Category details-->
@@ -35,9 +35,7 @@
 								<div class="text-center">
 									<!-- Category name-->
 									<h5 class="fw-bolder"><span th:text="${category.name}"></span></h5>
-									
 									<!-- Category count-->
-									
 									<span th:text="${category.count}+ ' item(s)'"></span>
 									
 								</div>
@@ -57,7 +55,7 @@
 	</section>
 
 	<!-- Footer-->
-	<footer th:replace="~{fragments::footer}"></footer>
+	<footer th:replace="~{fragments::footer_dark}"></footer>
 
 	<!-- Scripts -->
 	<div th:replace="~{fragments::scripts}"></div>

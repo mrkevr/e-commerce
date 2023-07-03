@@ -60,7 +60,7 @@ public class SecurityConfig {
         http.authorizeHttpRequests(auth -> {
         	auth
         	.requestMatchers("/js/**", "/css/**", "/img/**").permitAll()
-        	.requestMatchers("/","/dashboard/**", "/products/**", "/login/**", "/register/**", "/search/**","/contact/**").permitAll()
+        	.requestMatchers("/","/dashboard/**", "/products/**", "/login/**", "/register/**", "/search/**","/contact/**", "/about/**").permitAll()
         	.requestMatchers("/admin/**").hasRole("ADMIN")
         	.anyRequest().authenticated();
         });

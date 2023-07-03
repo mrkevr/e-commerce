@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import dev.mrkevr.ecommerce.dto.UserProfileResponse;
@@ -28,7 +29,7 @@ public class UserProfileController {
 	private final ApplicationUserManager userManager;
 	private final UserMapper userMapper;
 
-	@ModelAttribute("userProfileDto")
+//	@ModelAttribute("userProfileDto")
 	private UserProfileResponse userProfileDto() {
 
 		System.out.println("AT MODEL PROFILE");
@@ -49,18 +50,16 @@ public class UserProfileController {
 		} else {
 
 			User user = (User) securityContext.getAuthentication().getPrincipal();
-
 			System.out.println("READING APP USER PROFILE");
 			return userMapper.toUserProfileResponse(user);
 		}
 	}
 
 	@GetMapping
-	String userProfile() {
-
-		System.out.println("AT USER PROFILE GET CONTROLLER");
-
-		return "user-profile";
+	ModelAndView userProfile() {
+		ModelAndView mav = new ModelAndView("user-profile");
+		mav.addObject("userProfileDto", this.userProfileDto());
+		return mav;
 	}
 
 	@PostMapping
@@ -75,18 +74,8 @@ public class UserProfileController {
 
 		userManager.updateUser(userProfileDto);
 
-		redirectAttrs.addFlashAttribute("useruUpdateSuccessful", "Profile is updated.");
-		redirectAttrs.addFlashAttribute("userProfileDto", userProfileDto);
+		redirectAttrs.addFlashAttribute("success", "Profile is updated.");
+//		redirectAttrs.addFlashAttribute("userProfileDto", userProfileDto);
 		return "redirect:profile";
 	}
-
-//	private void resetAuthentication() {
-//		
-//		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-//
-//		Authentication newAuth = new UsernamePasswordAuthenticationToken(auth.getPrincipal(), auth.getCredentials(), updatedAuthorities);
-//
-//		SecurityContextHolder.getContext().setAuthentication(newAuth);
-//	}
-
 }

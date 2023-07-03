@@ -10,6 +10,7 @@ import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import dev.mrkevr.ecommerce.dto.LoggedInUserDetails;
 import dev.mrkevr.ecommerce.dto.UserProfileResponse;
 import dev.mrkevr.ecommerce.entity.User;
 import dev.mrkevr.ecommerce.exception.UserNotFoundException;
@@ -62,5 +63,17 @@ public class UserServiceImpl implements UserService {
 		} else {
 			return (User) securityContext.getAuthentication().getPrincipal();
 		}
+	}
+
+	@Override
+	public LoggedInUserDetails getLoggedInUserDetailsByUserId(String id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public LoggedInUserDetails getLoggedInUserDetailsByUser(User user) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

@@ -22,6 +22,7 @@ public class ContactController {
 	ModelAndView contact() 
 	{
 		ModelAndView mav = new ModelAndView("contact");
+		mav.addObject("title", "Contact - E-Commerce");
 		mav.addObject("contactDto", new ContactDto());
 		return mav;
 	}

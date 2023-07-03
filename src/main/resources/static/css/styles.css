@@ -10830,11 +10830,11 @@ textarea.form-control-lg {
     height: 40vh;
     object-fit: cover;
 }
-.card {
+.item-card {
     transition: all 0.2s ease;
     cursor: pointer;
 }
-.card:hover {
+.item-card:hover {
     box-shadow: 5px 6px 6px 2px #e9ecef;
     transform: scale(1.02);
     border: 1px solid #343a40;
