@@ -7,6 +7,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,7 +21,7 @@ import lombok.RequiredArgsConstructor;
 public class LoginController {
 
 	@GetMapping
-	public String login(@ModelAttribute UserLoginRequest userLoginRequest) {
+	public String login(@ModelAttribute UserLoginRequest userLoginRequest, Model model) {
 
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		if (authentication != null && !(authentication instanceof AnonymousAuthenticationToken)) {
@@ -32,6 +33,7 @@ public class LoginController {
 		}
 		
 		userLoginRequest.setUsernameEmail("jakeperalta");
+		model.addAttribute("title", "Login - E-Commerce");
 		return "login";
 	}
 }

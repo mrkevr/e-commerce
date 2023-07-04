@@ -7,17 +7,20 @@
 <body class="bg-dark">
 	<!-- Navigation-->
 	<nav th:replace="~{fragments::nav}"></nav>
+	
+	<!-- Header-->
+   	<header th:replace="~{fragments::search_header}"></header>
 
 	<!-- Page Content-->
-    <section class="py-5">
-        <div class="container px-5 my-5">
+    <section class="pt-1 pb-5">
+        <div class="container px-5 mb-5">
         	
         	<nav th:replace="~{fragments::alerts}"></nav>
         	
             <div class="row gx-5">
             	
-            	<!-- Media -->
-                <div class="col-xl-4 mt-5 mt-xl-0">
+            	<!-- Tabs Card -->
+                <div class="col-xl-3 mt-5 mt-xl-0">
                     <div class="card border-0 bg-light mt-xl-5">
                     	<div class="card-header text-center my-2">
                     		<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
@@ -25,34 +28,33 @@
   								<path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
 							</svg>
                     		<h3 th:text=${userProfileDto.username}></h3>
+                    		<p class="text-muted" th:text="${userProfileDto.id}"></p>
                     	</div>
-                        <div class="card-body p-4 py-lg-5">
-                            <div class="d-flex align-items-center justify-content-center">
-                                <div class="text-center">
-                                    <div class="h6 fw-bolder">Have more questions?</div>
-                                    <p class="text-muted mb-4">
-                                        Contact us at
-                                        <br />
-                                        <a href="#!">ecommerce@mrkevr.dev</a>
-                                    </p>
-                                    <div class="h6 fw-bolder">Follow us</div>
-                                    <a class="fs-5 px-2 link-dark" href="#!"><i class="bi-twitter"></i></a>
-                                    <a class="fs-5 px-2 link-dark" href="#!"><i class="bi-facebook"></i></a>
-                                    <a class="fs-5 px-2 link-dark" href="#!"><i class="bi-linkedin"></i></a>
-                                    <a class="fs-5 px-2 link-dark" href="#!"><i class="bi-youtube"></i></a>
-                                </div>
+                        <div class="card-body p-2">
+                            <div class="d-flex text-center justify-content-center">
+                               <ul class = "nav flex-column">  
+									<li class = "nav-item">  
+									<a class = "nav-link disabled" th:href="@{/profile}"> Profile </a>  
+									</li>  
+									<li class = "nav-item">  
+									<a class = "nav-link" th:href="@{/cart}"> Cart </a>  
+									</li>  
+									<li class = "nav-item">  
+									<a class = "nav-link" th:href="@{/orders}"> Orders </a>  
+									</li>
+								</ul>  
                             </div>
                         </div>
                     </div>
                 </div>
-            	
-            	
+       			
+       			<!-- Profile -->
                 <div class="col-xl-8">
-					<div class="card shadow-lg border-0 rounded-lg mt-5">
+					<div class="card shadow-lg border-0 rounded-lg mt-5 p-3">
 						<div class="card-body">
 						
-							<div class="mb-5">
-                				<h1 class="fw-bolder">Profile Settings</h1>
+							<div class="mb-3">
+                				<h3 class="fw-bolder">Profile</h3>
             				</div>
             				
 							<form th:action="@{/profile}" th:object="${userProfileDto}" method="POST">

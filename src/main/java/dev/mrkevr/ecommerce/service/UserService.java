@@ -14,6 +14,8 @@ public interface UserService {
 	
 	User getCurrentUser();
 	
+	UserProfileResponse getCurrentUserProfileResponse();
+	
 	LoggedInUserDetails getLoggedInUserDetailsByUserId(String id);
 	
 	LoggedInUserDetails getLoggedInUserDetailsByUser(User user);

@@ -29,53 +29,45 @@ public class UserProfileController {
 	private final ApplicationUserManager userManager;
 	private final UserMapper userMapper;
 
-//	@ModelAttribute("userProfileDto")
-	private UserProfileResponse userProfileDto() {
-
-		System.out.println("AT MODEL PROFILE");
-
+	private UserProfileResponse userProfileDto() 
+	{
 		SecurityContext securityContext = SecurityContextHolder.getContext();
-		if (securityContext.getAuthentication().getPrincipal() instanceof DefaultOAuth2User) {
-
+		if (securityContext.getAuthentication().getPrincipal() instanceof DefaultOAuth2User) 
+		{
 			DefaultOAuth2User principal = (DefaultOAuth2User) securityContext.getAuthentication().getPrincipal();
 			String id = principal.getAttribute("sub");
 
 			if (id == null) {
 				id = principal.getAttribute("id").toString();
 			}
-
-			System.out.println("READING OAUTH2 PROFILE");
 			return userServ.getProfileDto(id);
 
 		} else {
-
 			User user = (User) securityContext.getAuthentication().getPrincipal();
-			System.out.println("READING APP USER PROFILE");
 			return userMapper.toUserProfileResponse(user);
 		}
 	}
 
 	@GetMapping
-	ModelAndView userProfile() {
-		ModelAndView mav = new ModelAndView("user-profile");
+	ModelAndView userProfile() 
+	{
+		ModelAndView mav = new ModelAndView("profile");
+		mav.addObject("title", "Profile - E-Commerce");
 		mav.addObject("userProfileDto", this.userProfileDto());
 		return mav;
 	}
 
 	@PostMapping
-	String userProfile(@ModelAttribute("userProfileDto") @Valid UserProfileResponse userProfileDto, BindingResult result,
-			RedirectAttributes redirectAttrs) {
-
+	String userProfile(
+			@ModelAttribute("userProfileDto") @Valid UserProfileResponse userProfileDto,
+			BindingResult result,
+			RedirectAttributes redirectAttrs) 
+	{
 		if (result.hasErrors()) {
-			return "user-profile";
+			return "profile";
 		}
-
-		System.out.println(userProfileDto.toString());
-
 		userManager.updateUser(userProfileDto);
-
 		redirectAttrs.addFlashAttribute("success", "Profile is updated.");
-//		redirectAttrs.addFlashAttribute("userProfileDto", userProfileDto);
 		return "redirect:profile";
 	}
 }

@@ -64,6 +64,24 @@ public class UserServiceImpl implements UserService {
 			return (User) securityContext.getAuthentication().getPrincipal();
 		}
 	}
+	
+	@Override
+	public UserProfileResponse getCurrentUserProfileResponse() {
+		SecurityContext securityContext = SecurityContextHolder.getContext();
+		if (securityContext.getAuthentication().getPrincipal() instanceof DefaultOAuth2User) {
+			DefaultOAuth2User principal = (DefaultOAuth2User) securityContext.getAuthentication().getPrincipal();
+			String id = principal.getAttribute("sub");
+
+			if (id == null) {
+				id = principal.getAttribute("id").toString();
+			}
+			UserDetails userDetails = userManager.loadUserByUsername(id);
+			return userMapper.toUserProfileResponse((User) userDetails);
+			
+		} else {
+			return userMapper.toUserProfileResponse((User) securityContext.getAuthentication().getPrincipal());
+		}
+	}
 
 	@Override
 	public LoggedInUserDetails getLoggedInUserDetailsByUserId(String id) {

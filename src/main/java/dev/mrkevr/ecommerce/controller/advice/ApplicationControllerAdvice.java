@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
 import dev.mrkevr.ecommerce.dto.LoggedInUserDetails;
+import dev.mrkevr.ecommerce.dto.UserProfileResponse;
 import dev.mrkevr.ecommerce.entity.User;
 import dev.mrkevr.ecommerce.repository.CartItemRepository;
 import dev.mrkevr.ecommerce.repository.OrderRepository;
@@ -29,16 +30,15 @@ public class ApplicationControllerAdvice {
 			return new LoggedInUserDetails("", "", 0, 0);
 		}
 		
-		User currentUser = userServ.getCurrentUser();
-		long totalCartItems = cartItemRepo.countAllByUserId(currentUser.getId());
-		long totalActiveOrders = orderRepo.countActiveOrdersByUserId(currentUser.getId());
+		UserProfileResponse currentUser = userServ.getCurrentUserProfileResponse();
+//		long totalCartItems = cartItemRepo.countAllByUserId(currentUser.getId());
+//		long totalActiveOrders = orderRepo.countActiveOrdersByUserId(currentUser.getId());
 		
 		return LoggedInUserDetails.builder()
 			.id(currentUser.getId())
 			.username(currentUser.getUsername())
-			.totalCartItems(totalCartItems)
-			.totalActiveOrders(totalActiveOrders)
+			.totalCartItems(currentUser.getTotalCartItems())
+			.totalActiveOrders(currentUser.getTotalActiveOrders())
 			.build();
 	}
-
 }
