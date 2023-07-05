@@ -36,8 +36,6 @@ public class UserRegistrationController {
 		
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		if (authentication != null && !(authentication instanceof AnonymousAuthenticationToken)) {
-			
-			
 			return new ModelAndView("redirect:dashboard");
 		}
 		

@@ -1,13 +1,10 @@
 package dev.mrkevr.ecommerce.controller.advice;
 
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
 import dev.mrkevr.ecommerce.dto.LoggedInUserDetails;
-import dev.mrkevr.ecommerce.dto.UserProfileResponse;
-import dev.mrkevr.ecommerce.entity.User;
 import dev.mrkevr.ecommerce.repository.CartItemRepository;
 import dev.mrkevr.ecommerce.repository.OrderRepository;
 import dev.mrkevr.ecommerce.service.ApplicationUserManager;
@@ -26,19 +23,6 @@ public class ApplicationControllerAdvice {
 	@ModelAttribute(name = "userDetails")
 	LoggedInUserDetails loggedInUserDetails(Authentication authentication) 
 	{	
-		if(authentication instanceof AnonymousAuthenticationToken || authentication == null) {
-			return new LoggedInUserDetails("", "", 0, 0);
-		}
-		
-		UserProfileResponse currentUser = userServ.getCurrentUserProfileResponse();
-//		long totalCartItems = cartItemRepo.countAllByUserId(currentUser.getId());
-//		long totalActiveOrders = orderRepo.countActiveOrdersByUserId(currentUser.getId());
-		
-		return LoggedInUserDetails.builder()
-			.id(currentUser.getId())
-			.username(currentUser.getUsername())
-			.totalCartItems(currentUser.getTotalCartItems())
-			.totalActiveOrders(currentUser.getTotalActiveOrders())
-			.build();
+		return userServ.getLoggedInUserDetails(authentication);
 	}
 }

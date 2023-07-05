@@ -41,6 +41,4 @@ public class SearchController {
 		mav.addObject("products", products);
 		return mav;
 	}
-	
-	
 }

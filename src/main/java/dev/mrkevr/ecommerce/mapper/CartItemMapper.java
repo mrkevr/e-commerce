@@ -18,8 +18,10 @@ public class CartItemMapper {
 			.shoppingCartId(entity.getShoppingCart().getId())
 			.productId(entity.getProduct().getId())
 			.productName(entity.getProduct().getName())
+			.image(entity.getProduct().getImage())
 			.quantity(entity.getQuantity())
 			.unitPrice(entity.getUnitPrice())
+			.category(entity.getProduct().getCategory().getName())
 			.build();
 	}
 	

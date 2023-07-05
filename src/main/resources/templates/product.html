@@ -44,10 +44,13 @@
 					</div>
 					<p class="lead" th:text="${product.description}" style="white-space: pre-line"></p>
 					<div class="d-flex">
-						<input class="form-control text-center me-3" id="inputQuantity" type="number" value="1" th:min="1" th:max="${product.currentQuantity}" style="max-width: 5rem" onKeyDown="return false"/>
-						<button class="btn btn-outline-dark flex-shrink-0" type="button">
-							<i class="bi-cart-fill me-1"></i> Add to Cart
-						</button>
+						<form class="d-flex px-5" th:action="@{/cart/add}" method="POST">
+							<input type="hidden" th:name="productId" th:value="${product.id}">
+							<input class="form-control text-center me-3" id="inputQuantity" th:name="quantity" type="number" value="1" th:min="1" th:max="${product.currentQuantity}" style="max-width: 5rem" onKeyDown="return false"/>
+							<button type="submit" class="btn btn-outline-dark flex-shrink-0">
+								<i class="bi-cart-fill me-1"></i> Add to Cart
+							</button>
+						</form>
 					</div>
 				</div>
 			</div>

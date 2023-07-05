@@ -3,6 +3,8 @@ package dev.mrkevr.ecommerce.service.impl;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -82,16 +84,35 @@ public class UserServiceImpl implements UserService {
 			return userMapper.toUserProfileResponse((User) securityContext.getAuthentication().getPrincipal());
 		}
 	}
+	
+	@Override
+	public LoggedInUserDetails getLoggedInUserDetails(Authentication authentication) 
+	{
+		if(authentication instanceof AnonymousAuthenticationToken || authentication == null) {
+			return new LoggedInUserDetails("", "", 0, 0);
+		}
+		
+		UserProfileResponse currentUser = this.getCurrentUserProfileResponse();
+//		long totalCartItems = cartItemRepo.countAllByUserId(currentUser.getId());
+//		long totalActiveOrders = orderRepo.countActiveOrdersByUserId(currentUser.getId());
+		
+		return LoggedInUserDetails.builder()
+			.id(currentUser.getId())
+			.username(currentUser.getUsername())
+			.totalCartItems(currentUser.getTotalCartItems())
+			.totalActiveOrders(currentUser.getTotalActiveOrders())
+			.build();
+	}
 
 	@Override
 	public LoggedInUserDetails getLoggedInUserDetailsByUserId(String id) {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 
 	@Override
 	public LoggedInUserDetails getLoggedInUserDetailsByUser(User user) {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 }

@@ -43,14 +43,13 @@ public class ApplicationConfig {
 	
 	private final PasswordEncoder passwordEncoder;
 
-	
 	@Bean
 	CommandLineRunner init() {
 		return args -> {
 			this.initialData();
 			
 			
-			
+//			shoppingCartServ.addCartItem("USER-6461-4920", "PROD-6927-0254", 5);
 			
 		};
 	}
