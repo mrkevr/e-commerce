@@ -83,16 +83,17 @@ public class OrderServiceImpl implements OrderService {
 			.map(item -> cartItemMapper.toResponse(item))
 			.collect(Collectors.toList());
 		
-		return OrderRequest.builder()
-			.userId(user.getId())
-			.shoppingCartId(shoppingCart.getId())
-			.cartItems(cartItems)
-			.totalItems(shoppingCart.getTotalItems())
-			.totalPrice(shoppingCart.getTotalPrice())
-			.message("")
-			.paymentMethod("")
-			.deliveryAddress("")
-			.build();
+//		return OrderRequest.builder()
+//			.userId(user.getId())
+//			.shoppingCartId(shoppingCart.getId())
+//			.cartItems(cartItems)
+//			.totalItems(shoppingCart.getTotalItems())
+//			.totalPrice(shoppingCart.getTotalPrice())
+//			.message("")
+//			.paymentMethod("")
+//			.deliveryAddress("")
+//			.build();
+		return null;
 	}
 
 	@Override

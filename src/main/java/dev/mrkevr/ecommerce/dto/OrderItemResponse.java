@@ -18,6 +18,8 @@ public class OrderItemResponse {
 	private String productId;
 	
 	private String productName;
+	
+	private String image;
 
 	private int quantity;
 	

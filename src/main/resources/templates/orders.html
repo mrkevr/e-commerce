@@ -37,10 +37,10 @@
 									<a class = "nav-link text-dark" th:href="@{/profile}"> Profile </a>  
 									</li>  
 									<li class = "nav-item">  
-									<a class = "nav-link disabled" th:href="@{/cart}"> Cart </a>  
+									<a class = "nav-link text-dark" th:href="@{/cart}"> Cart </a>  
 									</li>  
 									<li class = "nav-item">  
-									<a class = "nav-link text-dark" th:href="@{/orders}"> Orders </a>  
+									<a class = "nav-link disabled" th:href="@{/orders}"> Orders </a>  
 									</li>
 								</ul>  
                             </div>
@@ -54,67 +54,58 @@
 						<div class="card-body">
 						
 							<section class="h-100 gradient-custom">
-								
-								
-								
+							
 								<div class="container py-3">
 									
 									<div class="mb-3">
-                						<h3 class="fw-bolder">Cart</h3>
+                						<h3 class="fw-bolder">Orders</h3>
             						</div>
 									
 									
 									<div class="row d-flex justify-content-center my-4">
-										<div class="col-md-8">
+										<div class="col">
 											<!-- Cart Items -->
 											<div class="card mb-4">
 							          			<div class="card-body">
 							          				
-							          				<!-- Empty Cart Message -->
-							          				<div th:if="${#lists.isEmpty(shoppingCart.cartItems)}" class="text-center py-5">
-							          					<h3><i class="bi bi-cart-dash-fill fa-4x"></i></h3>
-							          					<h3>Your Cart is currently empty!</h3>
-							          					<a class="btn btn-outline-dark px-4 m-4" th:href="@{/products/categories}">Show Now</a>
-							          				</div>
-							          				
-							          				
-							          				
-							          				<th:block th:each="item, iStat : ${shoppingCart.cartItems}">
-											            <!-- Single item -->
+							          				<th:block th:each="order, oStat : ${orders}">
+											            <!-- Single Order -->
 											            <div class="row">
-											            	<!-- Image -->
-											            	<div class="col-lg-3 col-md-12 mb-4 mb-lg-0">
-											                	<div class="bg-image hover-overlay hover-zoom ripple rounded" data-mdb-ripple-color="light">
-											                    	<a th:href="@{/products/{id}(id=${item.productId})}" class="text-decoration-none">
-											                    		<img th:src="@{'data:image/jpeg;base64,' +${item.image}}" class="w-100" alt="..."/>
-											                    	</a>
-											                	</div>
-											              	</div>
+											            	
 											              	<!-- Data -->
-											              	<div class="col-lg-5 col-md-6 mb-4 mb-lg-0">
-												              	<p><strong><a th:href="@{/products/{id}(id=${item.productId})}" class="text-decoration-none"><span class="text-dark" th:text="${item.productName}"></span></a></strong></p>
-													            <p><span th:text="${item.category}" class="text-secondary h6"></span></p>
-													            <p>Quantity: <span th:text="${item.quantity}"></span></p>
+											              	<div class="col-lg-9 mb-4 mb-lg-0">
+												              	<p><strong><a th:href="@{/orders/{id}(orderId=${order.id})}" class="text-decoration-none"><span class="text-dark" th:text="${order.id}"></span></a></strong></p>
+													           
+													            <p>
+													            	<th:block th:switch="${order.orderStatus}" class="text-center">
+  																		<span th:case="${T(dev.mrkevr.ecommerce.entity.OrderStatus).PENDING}" class="badge rounded-pill text-bg-warning">PENDING</span>
+  																		<span th:case="${T(dev.mrkevr.ecommerce.entity.OrderStatus).DENIED}" class="badge rounded-pill text-bg-danger">DENIED</span>
+							  											<span th:case="${T(dev.mrkevr.ecommerce.entity.OrderStatus).CANCELLED}" class="badge rounded-pill text-bg-danger">CANCELLED</span>
+							  											<span th:case="${T(dev.mrkevr.ecommerce.entity.OrderStatus).RETURNED}" class="badge rounded-pill text-bg-danger">RETURNED</span>
+							  											<span th:case="${T(dev.mrkevr.ecommerce.entity.OrderStatus).COMPLETED}" class="badge rounded-pill text-bg-success">COMPLETED</span>
+							  											<span th:case="*" class="badge rounded-pill text-bg-primary" th:text="${order.orderStatus}"></span>
+																	</th:block>
+													            </p>
 													            
-													           <!--  <button type="button" class="btn btn-outline-dark btn-sm me-1 mb-2" data-mdb-toggle="tooltip"
-												                  title="Remove item">
-												                  <i class="fas fa-trash"></i>
-													            </button> -->
-													            
-													            <a th:href="@{/cart/remove(cartId=${item.id})}"
+													            <p>Items: <span th:text="${order.totalItems}"></span></p>
+													            <p>Order Date: <span th:text="${#temporals.format(order.orderDate, 'MMMM dd, yyyy')}"></span></p>
+													            <p>Delivery Date: <span th:text="${#temporals.format(order.deliveryDate, 'MMMM dd, yyyy')}"></span></p>
+													          	
+													          	
+													            <a th:href="@{/orders/cancel(orderId=${order.id})}"
 																	class="btn btn-outline-dark btn-sm me-1 mb-2"
-																	onclick="if (!(confirm('Are you sure you want to remove this item?'))) return false"
-																	data-toggle="tooltip" title="Remove Item">
-																	<i class="fas fa-trash me-1"></i>
-																	Remove
+																	onclick="if (!(confirm('Are you sure you want to cancel this order?'))) return false"
+																	data-toggle="tooltip" title="Cancel Order">
+																	<i class="fa-solid fa-ban me-1"></i>
+																	Cancel
 																</a>
 													            
 								              				</div>
 															<!-- Price -->
-								              				<div class="col-lg-4 col-md-6 mb-4 mb-lg-0">
-								              					<p class="text-start text-md-center"><strong><span th:text="'₱'+${#numbers.formatDecimal(item.unitPrice, 0, 'COMMA', 2, 'POINT')}"></span></strong></p>
+								              				<div class="col-lg-3 mb-4 mb-lg-0">
+								              					<p class="text-end"><strong><span th:text="'₱'+${#numbers.formatDecimal(order.totalPrice, 0, 'COMMA', 2, 'POINT')}"></span></strong></p>
 								              				</div>
-								                			<hr th:if="${!iStat.last}" class="my-4" />
+								                			<hr th:if="${!oStat.last}" class="my-4" />
 								            			</div>
 								            		</th:block>
 							          			</div>
@@ -147,35 +138,11 @@
 									          </div>
 									        </div>
 							      		</div>
-							      		<!-- Summary -->
-										<div class="col-md-4">
-											<div class="card mb-4">
-												<div class="card-header py-3">
-													<h5 class="mb-0">Summary</h5>
-												</div>
-												<div class="card-body">
-													<ul class="list-group list-group-flush">
-														<li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0">
-															<strong>Items</strong>  
-															<strong><span th:text="${shoppingCart.totalItems}"></span></strong>
-														</li>
-														<li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-3">
-															<div>
-																<strong>Amount</strong> 
-																<strong>(VAT included)</strong>
-															</div> 
-															<strong><span th:text="'₱'+${#numbers.formatDecimal(shoppingCart.totalPrice, 0, 'COMMA', 2, 'POINT')}"></span></strong>
-														</li>
-													</ul>
-													<div class="text-center">
-														<th:block th:switch="${#lists.isEmpty(shoppingCart.cartItems)}">
-															<a th:case="${true}" th:href="@{/checkout}" type="button" class="btn btn-outline-dark btn-block disabled"><i class="bi bi-cart-check-fill me-1"></i>Check Out</a>
-															<a th:case="*" th:href="@{/checkout}" type="button" class="btn btn-outline-dark btn-block"><i class="bi bi-cart-check-fill me-1"></i>Check Out</a>
-														</th:block>
-													</div>
-												</div>
-											</div>
-										</div>
+							      		
+							      		
+							      		
+							      		
+							      		
 									</div>
 							  </div>
 							</section>

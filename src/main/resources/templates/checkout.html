@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thyleaf.org">
+
+<!-- Head -->
+<head th:replace="~{fragments::head}"></head>
+
+<body class="bg-dark">
+	<!-- Navigation-->
+	<nav th:replace="~{fragments::nav}"></nav>
+
+	<!-- Header-->
+	<header th:replace="~{fragments::search_header}"></header>
+
+	<!-- Page Content-->
+	<section class="pt-1 pb-5">
+		<div class="container px-5 pb-5 mb-5 bg-light rounded">
+
+			<div class="py-5 text-center">
+				<h1 class="fw-bolder">Checkout</h1>
+			</div>
+			
+			<div class="row g-5">
+			
+				<div class="col-md-5 col-lg-4 order-md-last">
+					<h4 class="d-flex justify-content-between align-items-center mb-3">
+						<span>Cart</span> 
+						<!-- <span class="badge-primary rounded-pill" th:text="${shoppingCart.totalItems}"></span> -->
+					</h4>
+					<ul class="list-group mb-3">
+						
+						<th:block th:each="item, iStat : ${shoppingCart.cartItems}">
+							<li class="list-group-item d-flex justify-content-between lh-sm">
+								<div>
+									<h6 class="my-0" th:text="${item.productName}"></h6>
+									<small class="text-muted" th:text="${item.quantity}"></small>
+								</div> 
+								<span class="text-muted" th:text="'₱'+${#numbers.formatDecimal(item.unitPrice, 0, 'COMMA', 2, 'POINT')}"></span>
+							</li>
+						</th:block>
+						
+						
+						<li
+							class="list-group-item d-flex justify-content-between bg-light">
+							<div class="text-info">
+								<h6 class="my-0">Delivery</h6>
+							</div> <span class="text-info">FREE</span>
+						</li>
+						<li class="list-group-item d-flex justify-content-between">
+							<span>Total Amount</span> 
+							<strong><span class="text-muted" th:text="'₱'+${#numbers.formatDecimal(shoppingCart.totalPrice, 0, 'COMMA', 2, 'POINT')}"></span></strong>
+						</li>
+					</ul>
+
+				</div>
+				
+				<div class="col-md-7 col-lg-8">
+					<h4 class="mb-3">Info</h4>
+					<form th:action="@{/checkout}" th:object="${orderRequest}" method="POST">
+						<div class="row g-3">
+							
+							<div class="col-12">
+								<label for="inputDeliveryAddress" class="form-label">Delivery Address</label> 
+								<input type="text" th:field="*{deliveryAddress}" class="form-control" id="inputDeliveryAddress" placeholder="" required>
+								<p th:if="${#fields.hasErrors('deliveryAddress')}" th:errors="*{deliveryAddress}" class="alert alert-danger small p-1"></p>
+							</div>
+
+						</div>
+						
+						<hr class="my-4">
+						<h4 class="mb-3">Message</h4>
+						<div class="row g-3">
+							<div class="col-12">
+								<textarea th:field="*{message}" class="form-control" id="inputMessage" placeholder=""></textarea>
+								<p th:if="${#fields.hasErrors('message')}" th:errors="*{message}" class="alert alert-danger small p-1"></p>
+							</div>
+						</div>
+						
+						<hr class="my-4">
+
+						<h4 class="mb-3">Payment</h4>
+
+						<div class="my-3">
+							<div class="form-check">
+							 	<input class="form-check-input" type="radio" th:field="*{paymentMethod}" th:value="COD" checked required/>
+    							<label class="form-check-label">Cash On Delivery</label>
+							</div>
+						</div>
+						
+						<hr class="my-4">
+
+						<button class="w-100 btn btn-outline-dark" type="submit">Confirm Checkout</button>
+					</form>
+				</div>
+			</div>
+
+
+
+
+
+
+
+		</div>
+	</section>
+
+	<!-- Footer-->
+	<footer th:replace="~{fragments::footer_light}"></footer>
+
+	<!-- Scripts -->
+	<div th:replace="~{fragments::scripts}"></div>
+
+</body>
+</html>
