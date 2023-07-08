@@ -17,6 +17,8 @@ import dev.mrkevr.ecommerce.dto.UserProfileResponse;
 import dev.mrkevr.ecommerce.entity.User;
 import dev.mrkevr.ecommerce.exception.UserNotFoundException;
 import dev.mrkevr.ecommerce.mapper.UserMapper;
+import dev.mrkevr.ecommerce.repository.CartItemRepository;
+import dev.mrkevr.ecommerce.repository.OrderRepository;
 import dev.mrkevr.ecommerce.repository.UserRepository;
 import dev.mrkevr.ecommerce.service.ApplicationUserManager;
 import dev.mrkevr.ecommerce.service.UserService;
@@ -30,6 +32,8 @@ public class UserServiceImpl implements UserService {
 	private final UserRepository userRepo;
 	private final UserMapper userMapper;
 	private final ApplicationUserManager userManager;
+	private final CartItemRepository cartItemRepo;
+	private final OrderRepository orderRepo;
 
 	@Override
 	public UserProfileResponse getProfileDto(String id) {
@@ -93,14 +97,14 @@ public class UserServiceImpl implements UserService {
 		}
 		
 		UserProfileResponse currentUser = this.getCurrentUserProfileResponse();
-//		long totalCartItems = cartItemRepo.countAllByUserId(currentUser.getId());
-//		long totalActiveOrders = orderRepo.countActiveOrdersByUserId(currentUser.getId());
+		long totalCartItems = cartItemRepo.countAllByUserId(currentUser.getId());
+		long totalActiveOrders = orderRepo.countActiveOrdersByUserId(currentUser.getId());
 		
 		return LoggedInUserDetails.builder()
 			.id(currentUser.getId())
 			.username(currentUser.getUsername())
-			.totalCartItems(currentUser.getTotalCartItems())
-			.totalActiveOrders(currentUser.getTotalActiveOrders())
+			.totalCartItems(totalCartItems)
+			.totalActiveOrders(totalActiveOrders)
 			.build();
 	}
 

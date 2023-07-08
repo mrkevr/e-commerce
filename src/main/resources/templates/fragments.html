@@ -106,6 +106,22 @@
 		</div>
 	</div>
 	
+	<!-- Alerts 2 -->
+	<div th:fragment="alerts2">
+		<div class="alert alert-success p-1 text-center" th:if="${success}">
+			<span th:text="${success}"></span>
+		</div>
+		<div class="alert alert-danger p-1 text-center" th:if="${error}">
+			<span th:text="${error}"></span>
+		</div>
+		<div class="alert alert-warning p-1 text-center" th:if="${warning}">
+			<span th:text="${warning}"></span>
+		</div>
+		<div class="alert alert-info p-1 text-center" th:if="${info}">
+			<span th:text="${info}"></span>
+		</div>
+	</div>
+	
 	<!-- Footer Dark-->
 	<footer th:fragment="footer_dark" class="py-4 bg-dark">
 		<div class="container-fluid px-4">

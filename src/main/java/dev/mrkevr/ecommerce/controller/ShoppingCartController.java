@@ -44,7 +44,7 @@ public class ShoppingCartController {
 		@RequestParam(name = "quantity", required = false, defaultValue = "1") int quantity) 
 	{
 		shoppingCartServ.addCartItem(userDetails.getId(), productId, quantity);
-		redirectAttrs.addFlashAttribute("userDetails", userServ.getLoggedInUserDetails(authentication));
+		redirectAttrs.addFlashAttribute("success", "Item is added to cart.");
 		return "redirect:/cart";
 	}
 	
@@ -55,15 +55,7 @@ public class ShoppingCartController {
 		@ModelAttribute("userDetails") LoggedInUserDetails userDetails, 
 		@RequestParam(name = "cartId", required = true) String cartId) 
 	{
-		
-		System.out.println(userDetails);
-		System.out.println(cartId);
-		
-		
 		shoppingCartServ.deleteCartItem(userDetails.getId(), cartId);
-		
-		
-		
 		return "redirect:/cart"; 
 	}
 	

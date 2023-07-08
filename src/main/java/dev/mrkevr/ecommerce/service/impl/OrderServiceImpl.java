@@ -103,7 +103,9 @@ public class OrderServiceImpl implements OrderService {
 		User user = userServ.getCurrentUser();
 		
 		// Fetch the cart from the User
-		ShoppingCart shoppingCart = user.getShoppingCart();
+		ShoppingCart shoppingCart = shoppingCartRepo.findById(user.getShoppingCart().getId())
+				.orElseThrow(() -> new ShoppingCartNotFoundException(user.getShoppingCart().getId()));
+		
 		if(shoppingCart == null || shoppingCart.getCartItems() == null || shoppingCart.getCartItems().isEmpty()) {
 			throw new IllegalRequestException("User cannot check out, shopping cart is empty.");
 		}
