@@ -10,13 +10,13 @@ import dev.mrkevr.ecommerce.entity.OrderStatus;
 
 public interface OrderService {
 	
-	OrderRequest previewOrderRequest();
-	
 	List<OrderResponse> getAllByUserId(String userId);
 	
 	List<OrderResponse> getAllActiveByUserId(String userId);
 	
 	List<OrderResponse> getAllIactiveByUserId(String userId);
+	
+	OrderResponse getByUserIdAndOrderId(String userId, String orderId);
 	
 	OrderResponse addOrder(OrderRequest orderRequest);
 	
@@ -38,11 +38,13 @@ public interface OrderService {
 	
 	void acceptOrderById(String orderId);
 	
+	void denyOrderById(String orderId);
+	
 	void changeOrderStatusById(String orderId, OrderStatus orderStatus);
 	
 	void changeDeliveryDateById(String orderId, LocalDate date);
 	
 	void updateOrderById(OrderUpdateRequest request);
 	
-	void cancelOrderById(String orderId, OrderStatus orderStatus);
+	void cancelOrderById(String userId, String orderID);
 }

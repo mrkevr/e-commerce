@@ -93,7 +93,7 @@ public class AdminOrderController {
 			String id,
 			RedirectAttributes redirectAttrs) 
 	{
-		orderServ.cancelOrderById(id, DENIED);
+		orderServ.denyOrderById(id);
 		redirectAttrs.addFlashAttribute("warning", "Order has been denied.");
 		return "redirect:/admin/orders/"+id;
 	}

@@ -19,6 +19,8 @@ public class OrderItemResponse {
 	
 	private String productName;
 	
+	private String category;
+	
 	private String image;
 
 	private int quantity;

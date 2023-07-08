@@ -74,7 +74,7 @@
 											            	
 											              	<!-- Data -->
 											              	<div class="col-lg-9 mb-4 mb-lg-0">
-												              	<p><strong><a th:href="@{/orders/{id}(orderId=${order.id})}" class="text-decoration-none"><span class="text-dark" th:text="${order.id}"></span></a></strong></p>
+												              	<p><strong><a th:href="@{/orders/{orderId}(orderId=${order.id})}" class="text-decoration-none"><span class="text-dark" th:text="${order.id}"></span></a></strong></p>
 													           
 													            <p>
 													            	<th:block th:switch="${order.orderStatus}" class="text-center">
@@ -92,7 +92,7 @@
 													            <p>Delivery Date: <span th:text="${#temporals.format(order.deliveryDate, 'MMMM dd, yyyy')}"></span></p>
 													          	
 													          	
-													            <a th:href="@{/orders/cancel(orderId=${order.id})}"
+													            <a th:if="${order.orderStatus == T(dev.mrkevr.ecommerce.entity.OrderStatus).PENDING}" th:href="@{/orders/cancel(orderId=${order.id})}"
 																	class="btn btn-outline-dark btn-sm me-1 mb-2"
 																	onclick="if (!(confirm('Are you sure you want to cancel this order?'))) return false"
 																	data-toggle="tooltip" title="Cancel Order">

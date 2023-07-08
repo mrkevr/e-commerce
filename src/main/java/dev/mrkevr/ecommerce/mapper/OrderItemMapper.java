@@ -19,6 +19,7 @@ public class OrderItemMapper {
 			.orderId(orderItem.getOrder().getId())
 			.productId(orderItem.getProduct().getId())
 			.productName(orderItem.getProduct().getName())
+			.category(orderItem.getProduct().getCategory().getName())
 			.image(orderItem.getProduct().getImage())
 			.quantity(orderItem.getQuantity())
 			.unitPrice(orderItem.getUnitPrice())

@@ -2,6 +2,7 @@ package dev.mrkevr.ecommerce.service.impl;
 
 import static dev.mrkevr.ecommerce.entity.OrderStatus.ACCEPTED;
 import static dev.mrkevr.ecommerce.entity.OrderStatus.COMPLETED;
+import static dev.mrkevr.ecommerce.entity.OrderStatus.DENIED;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -29,6 +30,7 @@ import dev.mrkevr.ecommerce.exception.IllegalRequestException;
 import dev.mrkevr.ecommerce.exception.InsufficientStockException;
 import dev.mrkevr.ecommerce.exception.OrderNotFoundException;
 import dev.mrkevr.ecommerce.exception.ShoppingCartNotFoundException;
+import dev.mrkevr.ecommerce.exception.UserNotFoundException;
 import dev.mrkevr.ecommerce.mapper.CartItemMapper;
 import dev.mrkevr.ecommerce.mapper.OrderItemMapper;
 import dev.mrkevr.ecommerce.mapper.OrderMapper;
@@ -67,35 +69,15 @@ public class OrderServiceImpl implements OrderService {
 //	private static final List<OrderStatus> ACTIVE_STATUSES = List.of(PENDING, ACCEPTED, IN_PROGRESS, TO_SHIP, TO_RECEIVE);
 //	private static final List<OrderStatus> INACTIVE_STATUSES = List.of(DENIED, CANCELLED, COMPLETED, RETURNED);
 	
-	/**
-	 * Shows preview of the User's shopping cart before checking it out and become order/order items
-	 * 
-	 * @return Instance of {@link OrderRequest}
-	 */
-	@Override
-	public OrderRequest previewOrderRequest() {
-		
-		User user = userServ.getCurrentUser();
-		ShoppingCart shoppingCart = shoppingCartRepo.findByUser(user).orElseThrow(() -> new ShoppingCartNotFoundException());
-		
-		List<CartItemResponse> cartItems = shoppingCart.getCartItems()
-			.stream()
-			.map(item -> cartItemMapper.toResponse(item))
-			.collect(Collectors.toList());
-		
-//		return OrderRequest.builder()
-//			.userId(user.getId())
-//			.shoppingCartId(shoppingCart.getId())
-//			.cartItems(cartItems)
-//			.totalItems(shoppingCart.getTotalItems())
-//			.totalPrice(shoppingCart.getTotalPrice())
-//			.message("")
-//			.paymentMethod("")
-//			.deliveryAddress("")
-//			.build();
-		return null;
-	}
 
+	@Override
+	public OrderResponse getByUserIdAndOrderId(String userId, String orderId) 
+	{	
+		List<Order> orders = orderRepo.findActiveOrdersByUserId(userId);
+		Order order = orders.stream().filter(o -> o.getId().equals(orderId)).findFirst().orElseThrow(() -> new OrderNotFoundException(orderId));
+		return orderMapper.toResponse(order);
+	}
+	
 	@Override
 	@Transactional
 	public OrderResponse addOrder(OrderRequest orderRequest) {
@@ -217,6 +199,14 @@ public class OrderServiceImpl implements OrderService {
 		orderRepo.save(order);
 	}
 	
+	@Override
+	public void denyOrderById(String orderId) {
+		Order order = orderRepo.findById(orderId).orElseThrow(() -> new OrderNotFoundException(orderId));
+		order.setOrderStatus(DENIED);
+		order.setActive(false);
+		orderRepo.save(order);
+	}
+	
 	
 	/**
 	 * Deny, cancel or return the order by id
@@ -228,10 +218,21 @@ public class OrderServiceImpl implements OrderService {
 	 */
 	@Override
 	@Transactional
-	public void cancelOrderById(String orderId, OrderStatus orderStatus) {
-		Order order = orderRepo.findById(orderId).orElseThrow(() -> new OrderNotFoundException(orderId));
+	public void cancelOrderById(String userId, String orderId) 
+	{
+		List<Order> orders = orderRepo.findActiveOrdersByUserId(userId);
+		Order order = orders.stream().filter(o -> o.getId().equals(orderId)).findFirst().orElseThrow(() -> new OrderNotFoundException(orderId));
+		
+		OrderStatus orderCurrentStatus = order.getOrderStatus();
+		if(orderCurrentStatus.equals(OrderStatus.ACCEPTED) ||
+		   orderCurrentStatus.equals(OrderStatus.IN_PROGRESS) ||
+		   orderCurrentStatus.equals(OrderStatus.TO_SHIP) ||
+		   orderCurrentStatus.equals(OrderStatus.TO_RECEIVE))
+		{
+			throw new IllegalRequestException("Accepted orders cannot be cancelled.");
+		}
+		order.setOrderStatus(OrderStatus.CANCELLED);
 		order.setActive(false);
-		order.setOrderStatus(orderStatus);
 		
 		// Return the products back to inventory
 		List<OrderItem> orderItems = order.getOrderItems();
@@ -281,7 +282,6 @@ public class OrderServiceImpl implements OrderService {
 		Order order = orderRepo.findById(id).orElseThrow(() -> new OrderNotFoundException(id));
 		return orderMapper.toResponse(order);
 	}
-	
 	//-- Helper methods --//
 	
 //	private boolean isActiveOrder(Order order) {

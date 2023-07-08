@@ -31,6 +31,7 @@ public class CheckOutController {
 		@ModelAttribute("userDetails") LoggedInUserDetails userDetails) 
 	{
 		ModelAndView mav = new ModelAndView("checkout");
+		mav.addObject("title", "Checkout- E-Commerce");
 		mav.addObject("shoppingCart", shoppingCartServ.getByUserId(userDetails.getId()));
 		mav.addObject("orderRequest", new OrderRequest());
 		return mav;
@@ -44,7 +45,7 @@ public class CheckOutController {
 		BindingResult result,
 		@ModelAttribute("shoppingCart") 
 		ShoppingCart shoppingCart,
-		RedirectAttributes redirectAttrs ) 
+		RedirectAttributes redirectAttrs) 
 	{
 		if(result.hasErrors()) {
 			return "checkout";
