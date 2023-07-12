@@ -28,7 +28,6 @@ public class ShoppingCartController {
 	ModelAndView cart(
 		@ModelAttribute("userDetails") LoggedInUserDetails userDetails) 
 	{
-		System.out.println(userDetails.getId());
 		ModelAndView mav = new ModelAndView("cart");
 		mav.addObject("title", "Cart - E-Commerce");
 		mav.addObject("shoppingCart", shoppingCartServ.getByUserId(userDetails.getId()));

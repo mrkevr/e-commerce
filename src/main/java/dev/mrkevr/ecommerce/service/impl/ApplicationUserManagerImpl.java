@@ -103,15 +103,11 @@ public class ApplicationUserManagerImpl implements ApplicationUserManager {
 	public UserProfileResponse registerUser(UserRegistrationRequest userRegistrationRequest) {
 		Role role = roleRepo.findByRoleIgnoreCase("ROLE_USER").orElseThrow(() -> new RoleNotFoundException());
 		ShoppingCart shoppingCart = new ShoppingCart();
+		shoppingCart.setCartItems(new HashSet<>());
 		User user = userMapper.toUser(userRegistrationRequest, role, shoppingCart);
 		shoppingCart.setUser(user);
 		
 		User savedUser = userRepo.save(user);
-		
-		
-		
-		
-		
 		return userMapper.toUserProfileResponse(savedUser);
 	}
 	
