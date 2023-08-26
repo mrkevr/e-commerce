@@ -5,6 +5,7 @@ import java.util.List;
 
 import dev.mrkevr.ecommerce.dto.OrderRequest;
 import dev.mrkevr.ecommerce.dto.OrderResponse;
+import dev.mrkevr.ecommerce.dto.OrderStatusCount;
 import dev.mrkevr.ecommerce.dto.OrderUpdateRequest;
 import dev.mrkevr.ecommerce.entity.OrderStatus;
 
@@ -47,4 +48,6 @@ public interface OrderService {
 	void updateOrderById(OrderUpdateRequest request);
 	
 	void cancelOrderById(String userId, String orderID);
+	
+	List<OrderStatusCount> getOrderStatusCount();
 }

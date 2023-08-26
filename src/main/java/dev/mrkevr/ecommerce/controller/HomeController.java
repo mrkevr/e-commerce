@@ -5,20 +5,25 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import dev.mrkevr.ecommerce.service.OrderService;
 import dev.mrkevr.ecommerce.service.ProductService;
 import dev.mrkevr.ecommerce.service.impl.AdminServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 
 @Controller
 @RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class HomeController {
 
-	private final AdminServiceImpl adminServ;
-	private final ProductService productServ;
+	AdminServiceImpl adminServ;
+	ProductService productServ;
+	OrderService orderServ;
 
 	@GetMapping({ "/", "/dashboard" })
-	ModelAndView displayDashboard(HttpServletRequest request) {
+	ModelAndView dashboard(HttpServletRequest request) {
 		
 		// Redirects to admin dashboard if the user's role is ADMIN
 		if (request.isUserInRole("ROLE_ADMIN")) {
@@ -35,7 +40,7 @@ public class HomeController {
 	
 	@GetMapping({"/admin/dashboard"})
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	ModelAndView dashboard() {
+	ModelAndView adminDashboard() {
 
 		ModelAndView mav = new ModelAndView("admin/admin-dashboard");
 		mav.addObject("title", "Dashboard - Admin");
@@ -43,7 +48,9 @@ public class HomeController {
 		mav.addObject("totalCategories", adminServ.getTotalCategories());
 		mav.addObject("totalProducts", adminServ.getTotalProducts());
 		mav.addObject("totalActiveOrders", adminServ.getTotalActiveOrders());
-
+		mav.addObject("orderStatusCount", orderServ.getOrderStatusCount());
+		
+		
 		return mav;
 	}
 }

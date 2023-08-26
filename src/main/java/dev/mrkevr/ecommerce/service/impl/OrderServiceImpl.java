@@ -17,6 +17,7 @@ import dev.mrkevr.ecommerce.converter.LocalDateConverter;
 import dev.mrkevr.ecommerce.dto.CartItemResponse;
 import dev.mrkevr.ecommerce.dto.OrderRequest;
 import dev.mrkevr.ecommerce.dto.OrderResponse;
+import dev.mrkevr.ecommerce.dto.OrderStatusCount;
 import dev.mrkevr.ecommerce.dto.OrderUpdateRequest;
 import dev.mrkevr.ecommerce.entity.CartItem;
 import dev.mrkevr.ecommerce.entity.Order;
@@ -281,6 +282,21 @@ public class OrderServiceImpl implements OrderService {
 	public OrderResponse getById(String id) {
 		Order order = orderRepo.findById(id).orElseThrow(() -> new OrderNotFoundException(id));
 		return orderMapper.toResponse(order);
+	}
+
+	@Override
+	public List<OrderStatusCount> getOrderStatusCount() {
+		
+		List<OrderStatus> status = List.of(
+				OrderStatus.PENDING, 
+				OrderStatus.ACCEPTED,
+				OrderStatus.IN_PROGRESS, 
+				OrderStatus.TO_SHIP, 
+				OrderStatus.TO_RECEIVE);
+		
+		return orderRepo.findOrderStatusCount().stream()
+			.filter(o -> status.contains(o.getOrderStatus()))
+			.collect(Collectors.toList());
 	}
 	//-- Helper methods --//
 	

@@ -32,7 +32,7 @@ public class LoginController {
 			return isAdmin ? "redirect:admin" : "redirect:dashboard";
 		}
 		
-		userLoginRequest.setUsernameEmail("jakeperalta");
+		userLoginRequest.setUsernameEmail("admin");
 		model.addAttribute("title", "Login - E-Commerce");
 		return "login";
 	}

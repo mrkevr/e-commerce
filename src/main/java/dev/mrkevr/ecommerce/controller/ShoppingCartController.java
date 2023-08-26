@@ -21,7 +21,6 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/cart")
 public class ShoppingCartController {
 	
-	private final UserService userServ;
 	private final ShoppingCartService shoppingCartServ;
 	
 	@GetMapping
