@@ -1,8 +1,10 @@
 package dev.mrkevr.ecommerce.service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
+import dev.mrkevr.ecommerce.dto.OrderMonthCount;
 import dev.mrkevr.ecommerce.dto.OrderRequest;
 import dev.mrkevr.ecommerce.dto.OrderResponse;
 import dev.mrkevr.ecommerce.dto.OrderStatusCount;
@@ -49,5 +51,7 @@ public interface OrderService {
 	
 	void cancelOrderById(String userId, String orderID);
 	
-	List<OrderStatusCount> getOrderStatusCount();
+	List<OrderStatusCount> countOrdersByStatus();
+	
+	List<OrderMonthCount> countOrdersByMonth(LocalDateTime startDate, int limit);
 }

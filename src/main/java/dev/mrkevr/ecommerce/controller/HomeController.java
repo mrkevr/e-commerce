@@ -1,5 +1,7 @@
 package dev.mrkevr.ecommerce.controller;
 
+import java.time.LocalDateTime;
+
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -48,8 +50,8 @@ public class HomeController {
 		mav.addObject("totalCategories", adminServ.getTotalCategories());
 		mav.addObject("totalProducts", adminServ.getTotalProducts());
 		mav.addObject("totalActiveOrders", adminServ.getTotalActiveOrders());
-		mav.addObject("orderStatusCount", orderServ.getOrderStatusCount());
-		
+		mav.addObject("orderStatusCount", orderServ.countOrdersByStatus());
+		mav.addObject("orderMonthCount", orderServ.countOrdersByMonth(LocalDateTime.now(), 6));
 		
 		return mav;
 	}

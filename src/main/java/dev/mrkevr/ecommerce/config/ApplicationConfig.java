@@ -1,6 +1,5 @@
 package dev.mrkevr.ecommerce.config;
 
-import java.util.List;
 import java.util.function.Consumer;
 
 import org.springframework.boot.CommandLineRunner;
@@ -8,7 +7,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import dev.mrkevr.ecommerce.dto.OrderStatusCount;
 import dev.mrkevr.ecommerce.entity.Category;
 import dev.mrkevr.ecommerce.entity.Role;
 import dev.mrkevr.ecommerce.entity.User;
@@ -50,7 +48,7 @@ public class ApplicationConfig {
 		return args -> {
 			this.initialData();
 			
-//			shoppingCartServ.addCartItem("USER-6461-4920", "PROD-6927-0254", 5);
+			
 			
 		};
 	}
@@ -89,7 +87,6 @@ public class ApplicationConfig {
 	}
 
 	private void addAdminAccountIfNotExist() {
-
 		if (!userRepo.existsByUsername("admin")) {
 			User user = new User();
 			user.setUsername("admin");

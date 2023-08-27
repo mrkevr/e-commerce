@@ -5,16 +5,20 @@ import static dev.mrkevr.ecommerce.entity.OrderStatus.COMPLETED;
 import static dev.mrkevr.ecommerce.entity.OrderStatus.DENIED;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import dev.mrkevr.ecommerce.converter.LocalDateConverter;
 import dev.mrkevr.ecommerce.dto.CartItemResponse;
+import dev.mrkevr.ecommerce.dto.OrderMonthCount;
 import dev.mrkevr.ecommerce.dto.OrderRequest;
 import dev.mrkevr.ecommerce.dto.OrderResponse;
 import dev.mrkevr.ecommerce.dto.OrderStatusCount;
@@ -285,7 +289,7 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public List<OrderStatusCount> getOrderStatusCount() {
+	public List<OrderStatusCount> countOrdersByStatus() {
 		
 		List<OrderStatus> status = List.of(
 				OrderStatus.PENDING, 
@@ -294,10 +298,29 @@ public class OrderServiceImpl implements OrderService {
 				OrderStatus.TO_SHIP, 
 				OrderStatus.TO_RECEIVE);
 		
-		return orderRepo.findOrderStatusCount().stream()
+		return orderRepo.countOrdersByStatus().stream()
 			.filter(o -> status.contains(o.getOrderStatus()))
 			.collect(Collectors.toList());
 	}
+
+	@Override
+	public List<OrderMonthCount> countOrdersByMonth(LocalDateTime dateTime, int limit) {
+		return  orderRepo.countOrdersByMonth(LocalDateTime.now() , PageRequest.of(0, limit))
+				.stream()
+				.map(e -> new OrderMonthCount(
+						Month.of(this.convertToInt(e[0])).name(), 
+						this.convertToInt(e[1])))
+				.collect(Collectors.toList());
+	}
+	
+	// Helper method to conver Object to Integer
+	private int convertToInt(Object o){
+        String stringToConvert = String.valueOf(o);
+        int output = Integer.parseInt(stringToConvert);
+        return output;
+    }
+	
+	
 	//-- Helper methods --//
 	
 //	private boolean isActiveOrder(Order order) {

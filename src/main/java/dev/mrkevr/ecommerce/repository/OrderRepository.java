@@ -1,9 +1,13 @@
 package dev.mrkevr.ecommerce.repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import dev.mrkevr.ecommerce.dto.OrderStatusCount;
 import dev.mrkevr.ecommerce.entity.Order;
@@ -40,6 +44,20 @@ public interface OrderRepository extends JpaRepository<Order, String> {
 	List<Order> findInactiveOrdersByUserId(String userId);
 	
 	@Query("SELECT new dev.mrkevr.ecommerce.dto.OrderStatusCount(o.orderStatus, COUNT(o)) " +
-	           "FROM Order o GROUP BY o.orderStatus")
-	List<OrderStatusCount> findOrderStatusCount();
+	           "FROM Order o " +
+			   "GROUP BY o.orderStatus")
+	List<OrderStatusCount> countOrdersByStatus();
+	
+	/**
+	 * Return the month number and its count its Order
+	 * 
+	 * @param dateTime instance of {@link LocalDateTime}, the query will return all the data from the beginning of time up to the startDate
+	 * @param pageable instance of {@link Pageable} for pagination
+	 */
+	@Query("SELECT MONTH(o.created) as month, COUNT(o) as orderCount " +
+		       "FROM Order o " +
+		       "WHERE o.created <= :startDate " +
+		       "GROUP BY MONTH(o.created) " +
+		       "ORDER BY MONTH(o.created) ASC")
+	Page<Object[]> countOrdersByMonth(@Param("startDate") LocalDateTime dateTime, Pageable pageable);
 }
