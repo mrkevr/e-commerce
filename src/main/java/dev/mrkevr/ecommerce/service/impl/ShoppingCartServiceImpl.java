@@ -63,7 +63,6 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 	 * @param userId id of the User
 	 * @param productId id of the Product
 	 * @param quantity quantity of the Product
-	 * 
 	 */
 	@Transactional
 	@Override

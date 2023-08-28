@@ -85,7 +85,7 @@
                                 <div class="card mb-4">
                                     <div class="card-header">
                                         <i class="fas fa-chart-area me-1"></i>
-                                        Orders By Month
+                                        Orders Sumarry
                                     </div>
                                     <div class="card-body">
                                     	<canvas id="barChart" width="100%" height="40"></canvas>
@@ -146,56 +146,66 @@
     
     <!-- BAR CHART -->
 	<script th:inline="javascript">
-    	Chart.defaults.global.defaultFontFamily = '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
-   	 	Chart.defaults.global.defaultFontColor = '#292b2c';
-   	 	
-   	 	var orderMonthCount = /*[[${orderMonthCount}]]*/ '';
-   	 	var labels = orderMonthCount.map(item => item.month);
-     	var values = orderMonthCount.map(item => item.orderCount);
-   	 	
-   	 	
-		var ctx = document.getElementById("barChart");
-    	var myLineChart = new Chart(ctx, {
-      		type: 'bar',
-      		data: {
-        	labels: labels,
-        	datasets: [{
-          	label: "Revenue",
-          	backgroundColor: "rgba(2,117,216,1)",
-          	borderColor: "rgba(2,117,216,1)",
-          	data: values,
-        	}],
-      		},
-      	options: {
-        	scales: {
-         	 xAxes: [{
-            	time: {
-              	unit: 'month'
-            	},
-            	gridLines: {
-              display: false
-            },
-            ticks: {
-              maxTicksLimit: 6
-            }
-          }],
-          yAxes: [{
-            ticks: {
-              min: 0,
-              max: 1000,
-              maxTicksLimit: 5
-            },
-            gridLines: {
-              display: true
-            }
-          }],
-        },
-        legend: {
-          display: false
-        }
-      }
-    });
-    </script>
+		 Chart.defaults.global.defaultFontFamily = '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
+		 Chart.defaults.global.defaultFontColor = '#292b2c';
+		
+		 var orderMonthCount = /*[[${orderMonthCount}]]*/ '';
+		  	 	var labels = orderMonthCount.map(item => item.month);
+		    	var values = orderMonthCount.map(item => item.orderCount);
+		
+		    	// Scale the maximum value in bar graph based on the highest order count
+		  	 	const highestCount = orderMonthCount.reduce((max, obj) => (obj.orderCount > max ? obj.orderCount : max), -Infinity);
+		 let max = 10;
+		  		if (highestCount > 1000) {
+		   max = 10000;
+		  		} else if (highestCount > 100) {
+		   max = 1000;
+		  		} else if (highestCount > 10) {
+		   max = 100;
+		  		}
+		
+		 var ctx = document.getElementById("barChart");
+		 var myLineChart = new Chart(ctx, {
+		   type: 'bar',
+		 data: {
+		   labels: labels,
+		 datasets: [{
+		   label: "Orders",
+		 backgroundColor: "rgba(2,117,216,1)",
+		 borderColor: "rgba(2,117,216,1)",
+		 data: values,
+		       	}],
+		     		},
+		 options: {
+		   scales: {
+		   xAxes: [{
+		   time: {
+		   unit: 'month'
+		           	},
+		 gridLines: {
+		   display: false
+		           },
+		 ticks: {
+		   maxTicksLimit: 6
+		           }
+		         }],
+		 yAxes: [{
+		   ticks: {
+		   min: 0,
+		 max: max,
+		 maxTicksLimit: 5
+		           },
+		 gridLines: {
+		   display: true
+		           }
+		         }],
+		       },
+		 legend: {
+		   display: false
+		       }
+		     }
+		   });
+	</script>
 
 </body>
 </html>

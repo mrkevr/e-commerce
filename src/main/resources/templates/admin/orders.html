@@ -27,6 +27,18 @@
 					<!-- Title -->
 					<div class="d-flex justify-content-between mb-4">
 						<h1>Orders</h1>
+						
+						<div class="form-floating">
+							<select class="form-select" id="selectOrderStatus" th:onchange="'window.location.href = \'' + @{/admin/orders} + '?orderStatus=\' + this.value ' ">
+								<option th:each="status : ${orderStatuses}" 
+										th:value="${status}" 
+										th:text="${status}"
+										th:selected="${status == orderStatus}"
+										class="text-center">
+								</option>
+							</select>
+							<label for="selectOrderStatus">Order Status</label>
+						</div>
 					</div>
 					
 					<!-- Alerts -->
@@ -91,10 +103,6 @@
 			$('#ordersTable').DataTable({
 		    	"iDisplayLength": 50
 		    });
-			
-			
-            
-            
 		});
 	</script>
 </body>

@@ -205,13 +205,13 @@ public class OrderServiceImpl implements OrderService {
 	}
 	
 	@Override
+	@Transactional
 	public void denyOrderById(String orderId) {
 		Order order = orderRepo.findById(orderId).orElseThrow(() -> new OrderNotFoundException(orderId));
 		order.setOrderStatus(DENIED);
 		order.setActive(false);
 		orderRepo.save(order);
 	}
-	
 	
 	/**
 	 * Deny, cancel or return the order by id
@@ -226,7 +226,10 @@ public class OrderServiceImpl implements OrderService {
 	public void cancelOrderById(String userId, String orderId) 
 	{
 		List<Order> orders = orderRepo.findActiveOrdersByUserId(userId);
-		Order order = orders.stream().filter(o -> o.getId().equals(orderId)).findFirst().orElseThrow(() -> new OrderNotFoundException(orderId));
+		Order order = orders.stream()
+				.filter(o -> o.getId().equals(orderId))
+				.findFirst()
+				.orElseThrow(() -> new OrderNotFoundException(orderId));
 		
 		OrderStatus orderCurrentStatus = order.getOrderStatus();
 		if(orderCurrentStatus.equals(OrderStatus.ACCEPTED) ||
@@ -313,15 +316,14 @@ public class OrderServiceImpl implements OrderService {
 				.collect(Collectors.toList());
 	}
 	
-	// Helper method to conver Object to Integer
+	// -- Helper methods --//
+	
+	// Helper method to convert Object to Integer
 	private int convertToInt(Object o){
         String stringToConvert = String.valueOf(o);
         int output = Integer.parseInt(stringToConvert);
         return output;
     }
-	
-	
-	//-- Helper methods --//
 	
 //	private boolean isActiveOrder(Order order) {
 //		OrderStatus orderStatus = order.getOrderStatus();

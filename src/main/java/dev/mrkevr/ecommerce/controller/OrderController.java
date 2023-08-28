@@ -29,6 +29,7 @@ public class OrderController {
 		ModelAndView mav = new ModelAndView("orders");
 		mav.addObject("title", "Orders - E-Commerce");
 		mav.addObject("orders", orderServ.getAllActiveByUserId(userDetails.getId()));
+		
 		return mav;
 	}
 	

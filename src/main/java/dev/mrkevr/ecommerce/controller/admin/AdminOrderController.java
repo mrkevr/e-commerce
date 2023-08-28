@@ -1,7 +1,5 @@
 package dev.mrkevr.ecommerce.controller.admin;
 
-import static dev.mrkevr.ecommerce.entity.OrderStatus.DENIED;
-
 import java.time.LocalDate;
 import java.util.List;
 
@@ -32,19 +30,14 @@ public class AdminOrderController {
 	
 	@GetMapping
 	ModelAndView orders(
-			@RequestParam(required = false, defaultValue = "active", name = "state") String state)
+			@RequestParam(required = true, defaultValue = "PENDING", name = "orderStatus") OrderStatus orderStatus)
 	{
+		List<OrderResponse> orders = orderServ.getAllByOrderStatus(orderStatus);
 		ModelAndView mav = new ModelAndView("admin/orders");
 		mav.addObject("title", "Orders - Admin");
-		
-		if(state.equals("active")) {
-			mav.addObject("orders", orderServ.getAllActiveOrders());
-		} else if(state.equals("inactive")) {
-			mav.addObject("orders", orderServ.getAllInactiveOrders());
-		} else if(state.equals("all")) {
-			mav.addObject("orders", orderServ.getAllOrders());
-		}
-		
+		mav.addObject("orderStatuses", OrderStatus.activeStatuses());
+		mav.addObject("orders", orders);
+		mav.addObject("orderStatus", orderStatus);
 		return mav;
 	}
 	
@@ -69,8 +62,6 @@ public class AdminOrderController {
 				order.getDeliveryDate() == null ? localDateConverter.convert(LocalDate.now()) : localDateConverter.convert(order.getDeliveryDate()),
 				order.getMessage()));
 		
-		
-		
 		mav.addObject("title", "Order#"+order.getId()+" - Admin");
 		
 		return mav;
@@ -89,8 +80,7 @@ public class AdminOrderController {
 	
 	@RequestMapping(value = "/deny", method = { RequestMethod.GET, RequestMethod.POST })
 	String denyOrder(
-			@RequestParam(name = "id", required = true)
-			String id,
+			@RequestParam(name = "id", required = true) String id,
 			RedirectAttributes redirectAttrs) 
 	{
 		orderServ.denyOrderById(id);
