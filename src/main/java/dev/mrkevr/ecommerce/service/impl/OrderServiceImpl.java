@@ -17,7 +17,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import dev.mrkevr.ecommerce.converter.LocalDateConverter;
-import dev.mrkevr.ecommerce.dto.CartItemResponse;
 import dev.mrkevr.ecommerce.dto.OrderMonthCount;
 import dev.mrkevr.ecommerce.dto.OrderRequest;
 import dev.mrkevr.ecommerce.dto.OrderResponse;
@@ -35,45 +34,32 @@ import dev.mrkevr.ecommerce.exception.IllegalRequestException;
 import dev.mrkevr.ecommerce.exception.InsufficientStockException;
 import dev.mrkevr.ecommerce.exception.OrderNotFoundException;
 import dev.mrkevr.ecommerce.exception.ShoppingCartNotFoundException;
-import dev.mrkevr.ecommerce.exception.UserNotFoundException;
-import dev.mrkevr.ecommerce.mapper.CartItemMapper;
-import dev.mrkevr.ecommerce.mapper.OrderItemMapper;
 import dev.mrkevr.ecommerce.mapper.OrderMapper;
 import dev.mrkevr.ecommerce.repository.OrderRepository;
-import dev.mrkevr.ecommerce.repository.ProductRepository;
 import dev.mrkevr.ecommerce.repository.ShoppingCartRepository;
-import dev.mrkevr.ecommerce.repository.UserRepository;
-import dev.mrkevr.ecommerce.service.ApplicationUserManager;
 import dev.mrkevr.ecommerce.service.OrderItemService;
 import dev.mrkevr.ecommerce.service.OrderService;
 import dev.mrkevr.ecommerce.service.ShoppingCartService;
 import dev.mrkevr.ecommerce.service.UserService;
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 
 @Service
 @RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @Transactional(readOnly = true)
 public class OrderServiceImpl implements OrderService {
-	
-	private final UserRepository userRepo;
-	private final ProductRepository productRepo;
-	private final ShoppingCartRepository shoppingCartRepo;
-	private final OrderRepository orderRepo;
-	
-	private final UserService userServ;
-	private final ApplicationUserManager userManager;
-	private final ShoppingCartService shoppingCartServ;
-	private final OrderItemService orderItemServ;
-	
-	private final CartItemMapper cartItemMapper;
-	private final OrderMapper orderMapper;
-	private final OrderItemMapper orderItemMapper;
-	
-	private final LocalDateConverter localDateConverter;
-	
-//	private static final List<OrderStatus> ACTIVE_STATUSES = List.of(PENDING, ACCEPTED, IN_PROGRESS, TO_SHIP, TO_RECEIVE);
-//	private static final List<OrderStatus> INACTIVE_STATUSES = List.of(DENIED, CANCELLED, COMPLETED, RETURNED);
-	
+
+	ShoppingCartRepository shoppingCartRepo;
+	OrderRepository orderRepo;
+
+	UserService userServ;
+	ShoppingCartService shoppingCartServ;
+	OrderItemService orderItemServ;
+
+	OrderMapper orderMapper;
+	LocalDateConverter localDateConverter;
 
 	@Override
 	public OrderResponse getByUserIdAndOrderId(String userId, String orderId) 
@@ -111,7 +97,6 @@ public class OrderServiceImpl implements OrderService {
 		
 		// Convert cart items to collection of order items
 		List<OrderItem> orderItems = orderItemServ.processCartItem(cartItems);
-		
 		
 		// Fetch order list from the user
 		List<Order> orders = user.getOrders();

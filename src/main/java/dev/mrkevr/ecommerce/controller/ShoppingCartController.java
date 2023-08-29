@@ -13,7 +13,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import dev.mrkevr.ecommerce.dto.LoggedInUserDetails;
 import dev.mrkevr.ecommerce.service.ShoppingCartService;
-import dev.mrkevr.ecommerce.service.UserService;
 import lombok.RequiredArgsConstructor;
 
 @Controller
