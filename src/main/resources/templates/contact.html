@@ -12,50 +12,52 @@
     <section class="py-5">
         <div class="container px-5 my-5">  
             <div class="row gx-5">
-            
+            	
+            	<!-- Alerts -->
+                <div th:replace="~{fragments::alerts}"></div>
+            	
                 <div class="col-xl-8">
-					<div class="card shadow-lg border-0 rounded-lg mt-5">
+					<div class="card shadow-lg border-0 rounded-lg mt-3">
 						<div class="card-body">
+							
+							<!-- Heading -->
 							<div class="text-center mb-5">
                 				<h1 class="fw-bolder">Get in touch</h1>
                 				<p class="lead fw-normal text-muted mb-0">We'd love to hear from you</p>
             				</div>
+            				
 							<!-- Form -->
-							<form th:action="@{/process-contact}" th:object="${contactDto}" method="POST">
+							<form th:action="@{/contact}" th:object="${messageDto}" method="POST">
 								<!-- Name -->
 								<div class="form-floating mb-3" >
 									<input class="form-control" th:field="*{name}" id="inputName" type="text" placeholder="Enter your name..." />
-									<label for="inputName">Full name</label>
+									<label for="inputName">Name</label>
+									<p th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="alert alert-danger small p-1"></p>
 								</div>
 								<!-- Email -->
 								<div class="form-floating mb-3">
 									<input class="form-control" th:field="*{email}" id="inputEmail" type="email" placeholder="name@example.com" /> 
 									<label for="inputEmail">Email</label>
+									<p th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="alert alert-danger small p-1"></p>
 								</div>
 								<!-- Phone -->
 								<div class="form-floating mb-3">
 									<input class="form-control" th:field="*{phone}" id="inputPhone" type="text" placeholder="(123) 456-7890" />
 									<label for="phone">Phone number</label>
+									<p th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}" class="alert alert-danger small p-1"></p>
 								</div>
 								<!-- Message -->
 								<div class="form-floating mb-3">
-									<textarea class="form-control" th:field="*{message}" id="inputMmessage" placeholder="Enter your message here..." style="height: 10rem"></textarea>
+									<textarea class="form-control" th:field="*{message}" id="inputMmessage" placeholder="Enter your message here..." style="height: 10rem; white-space: pre-wrap;"></textarea>
 									<label for="inputMessage">Message</label>
+									<p th:if="${#fields.hasErrors('message')}" th:errors="*{message}" class="alert alert-danger small p-1"></p>
 								</div>
-								<!-- Submit success message-->
-								<div class="d-none" id="submitSuccessMessage">
-									<div class="text-center mb-3">
-										<div class="fw-bolder">Form submission successful!</div>
-									</div>
-								</div>
-								<!-- Submit error message-->
-								<div class="d-none" id="submitErrorMessage">
-									<div class="text-center text-danger mb-3">Error sending message!</div>
-								</div>
+								
 								<!-- Submit Button-->
 								<div class="d-grid">
 									<button class="btn btn-primary" id="submitButton" type="submit">Submit</button>
 								</div>
+								
 							</form>
 						</div>
 					</div>
@@ -63,7 +65,7 @@
                 
                 <!-- Media -->
                 <div class="col-xl-4 mt-5 mt-xl-0">
-                    <div class="card border-0 bg-light mt-xl-5">
+                    <div class="card border-0 bg-light mt-xl-3">
                         <div class="card-body p-4 py-lg-5">
                             <div class="d-flex align-items-center justify-content-center">
                                 <div class="text-center">

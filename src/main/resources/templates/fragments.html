@@ -50,7 +50,6 @@
 					<li class="nav-item"><a class="nav-link active" th:href="@{/contact}">Contact</a></li>
 				</ul>
 							
-				<!-- todo : make invisible to visitors -->
 				<form class="d-flex me-2">
 					<a class="btn btn-outline-dark me-2" th:href="@{/cart}">
 						<i class="bi-cart-fill me-1"></i> Cart <span class="badge bg-dark text-white ms-1 rounded-pill" th:text="${userDetails.totalCartItems}"></span>
@@ -62,6 +61,7 @@
 						Login
 					</a>
 				</form>
+				
 				<ul class="navbar-nav mb-2 mb-lg-0 ms-lg-4" th:if="${userDetails.username != ''}">
 					<li class="nav-item dropdown"><a
 						class="nav-link dropdown-toggle" id="navbarDropdown" href="#"
