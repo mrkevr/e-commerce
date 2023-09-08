@@ -90,9 +90,8 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	@Override
-	public LoggedInUserDetails getLoggedInUserDetails(Authentication authentication) 
-	{
-		if(authentication instanceof AnonymousAuthenticationToken || authentication == null) {
+	public LoggedInUserDetails getLoggedInUserDetails(Authentication authentication) {
+		if (authentication instanceof AnonymousAuthenticationToken || authentication == null) {
 			return new LoggedInUserDetails("", "", 0, 0);
 		}
 		
@@ -110,13 +109,11 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public LoggedInUserDetails getLoggedInUserDetailsByUserId(String id) {
-		
 		return null;
 	}
 
 	@Override
 	public LoggedInUserDetails getLoggedInUserDetailsByUser(User user) {
-		
 		return null;
 	}
 }

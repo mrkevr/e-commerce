@@ -2,9 +2,6 @@ package dev.mrkevr.ecommerce.exception;
 
 public class IllegalRequestException extends RuntimeException {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -1567766341746521201L;
 
 	public IllegalRequestException() {
@@ -14,5 +11,4 @@ public class IllegalRequestException extends RuntimeException {
 	public IllegalRequestException(String message) {
 		super(message);
 	}
-
 }

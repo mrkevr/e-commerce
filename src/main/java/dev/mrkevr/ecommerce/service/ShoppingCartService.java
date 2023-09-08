@@ -18,18 +18,7 @@ public interface ShoppingCartService {
 
 	ShoppingCartResponse deleteCartItem(String userId, String cartItemId);
 
-	ShoppingCartResponse addItemToCartSession(ShoppingCartResponse cartDto, String productId, int quantity);
-
-	ShoppingCartResponse updateCartSession(ShoppingCartResponse cartDto, String productId, int quantity);
-
-	ShoppingCartResponse removeItemFromCartSession(ShoppingCartResponse cartDto, String productId, int quantity);
-	
 	void clearShoppingCart(ShoppingCart shoppingCart);
 	
-	List<InsufficientStockError> checkProductAvailability(ShoppingCart shoppingCart);
-	
-//	ShoppingCart combineCart(ShoppingCartDto cartDto, ShoppingCart cart);
-
-//	void deleteCartById(Long id);
-
+	List<InsufficientStockError> checkProductAvailability(ShoppingCart shoppingCart);	
 }

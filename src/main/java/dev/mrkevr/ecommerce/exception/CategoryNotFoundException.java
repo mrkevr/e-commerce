@@ -2,9 +2,6 @@ package dev.mrkevr.ecommerce.exception;
 
 public class CategoryNotFoundException extends RuntimeException {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 8343660364214381359L;
 
 	public CategoryNotFoundException() {

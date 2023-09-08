@@ -62,16 +62,19 @@ public class OrderServiceImpl implements OrderService {
 	LocalDateConverter localDateConverter;
 
 	@Override
-	public OrderResponse getByUserIdAndOrderId(String userId, String orderId) 
-	{	
+	public OrderResponse getByUserIdAndOrderId(String userId, String orderId) {
 		List<Order> orders = orderRepo.findActiveOrdersByUserId(userId);
-		Order order = orders.stream().filter(o -> o.getId().equals(orderId)).findFirst().orElseThrow(() -> new OrderNotFoundException(orderId));
+		Order order = orders.stream()
+				.filter(o -> o.getId().equals(orderId))
+				.findFirst()
+				.orElseThrow(() -> new OrderNotFoundException(orderId));
 		return orderMapper.toResponse(order);
 	}
 	
 	@Override
 	@Transactional
 	public OrderResponse addOrder(OrderRequest orderRequest) {
+		
 		// Fetch the User from the SecurityContext
 		User user = userServ.getCurrentUser();
 		

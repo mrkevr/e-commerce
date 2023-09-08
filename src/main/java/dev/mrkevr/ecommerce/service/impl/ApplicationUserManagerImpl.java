@@ -21,7 +21,6 @@ import dev.mrkevr.ecommerce.exception.RoleNotFoundException;
 import dev.mrkevr.ecommerce.exception.UserNotFoundException;
 import dev.mrkevr.ecommerce.mapper.UserMapper;
 import dev.mrkevr.ecommerce.repository.RoleRepository;
-import dev.mrkevr.ecommerce.repository.ShoppingCartRepository;
 import dev.mrkevr.ecommerce.repository.UserRepository;
 import dev.mrkevr.ecommerce.service.ApplicationUserManager;
 import lombok.RequiredArgsConstructor;
@@ -33,7 +32,6 @@ public class ApplicationUserManagerImpl implements ApplicationUserManager {
 
 	private final UserRepository userRepo;
 	private final RoleRepository roleRepo;
-	private final ShoppingCartRepository shoppingCartRepo;
 	private final UserMapper userMapper;
 
 	@Override
@@ -114,17 +112,15 @@ public class ApplicationUserManagerImpl implements ApplicationUserManager {
 	@Override
 	@Transactional
 	public User registerUser(User user) {
+		
 		Role role = roleRepo.findByRoleIgnoreCase("ROLE_USER").orElseThrow(() -> new RoleNotFoundException());
 		ShoppingCart shoppingCart = new ShoppingCart();
 		shoppingCart.setUser(user);
 		user.setShoppingCart(shoppingCart);
 		user.setRoles(new HashSet<>(Arrays.asList(role)));
-		
-		
 		return userRepo.save(user);
 	}
 	
-
 	@Override
 	@Transactional
 	public UserProfileResponse updateUser(UserProfileResponse dto) {
@@ -140,6 +136,4 @@ public class ApplicationUserManagerImpl implements ApplicationUserManager {
 	private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Set<Role> roles) {
 		return roles.stream().map(role -> new SimpleGrantedAuthority(role.getRole())).collect(Collectors.toList());
 	}
-
-	
 }

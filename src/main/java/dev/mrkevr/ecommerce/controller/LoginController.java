@@ -25,13 +25,10 @@ public class LoginController {
 
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		if (authentication != null && !(authentication instanceof AnonymousAuthenticationToken)) {
-			
 			Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-			
 			boolean isAdmin = authorities.stream().anyMatch(a -> a.toString().equals("ROLE_ADMIN"));
 			return isAdmin ? "redirect:admin" : "redirect:dashboard";
 		}
-		
 		userLoginRequest.setUsernameEmail("admin");
 		model.addAttribute("title", "Login - E-Commerce");
 		return "login";

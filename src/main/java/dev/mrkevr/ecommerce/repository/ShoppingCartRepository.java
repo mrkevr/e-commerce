@@ -11,5 +11,4 @@ import dev.mrkevr.ecommerce.entity.User;
 public interface ShoppingCartRepository extends JpaRepository<ShoppingCart, String> {
 	
 	Optional<ShoppingCart> findByUser(User user);
-	
 }

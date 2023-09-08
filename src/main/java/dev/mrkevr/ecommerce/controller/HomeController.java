@@ -26,25 +26,24 @@ public class HomeController {
 
 	@GetMapping({ "/", "/dashboard" })
 	ModelAndView dashboard(HttpServletRequest request) {
-		
 		// Redirects to admin dashboard if the user's role is ADMIN
 		if (request.isUserInRole("ROLE_ADMIN")) {
 			return new ModelAndView("redirect:/admin/dashboard");
 		}
 
 		ModelAndView mav = new ModelAndView("index");
-	
 		mav.addObject("title", "Home - E-Commerce");
+		// Get random products for the front page
 		mav.addObject("products", productServ.getRandomProducts(8));
-		
 		return mav;
 	}
 	
 	@GetMapping({"/admin/dashboard"})
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	ModelAndView adminDashboard() {
-
 		ModelAndView mav = new ModelAndView("admin/admin-dashboard");
+		
+		// Load all the dashboard values
 		mav.addObject("title", "Dashboard - Admin");
 		mav.addObject("totalUsers", adminServ.getTotalUsers());
 		mav.addObject("totalCategories", adminServ.getTotalCategories());
@@ -52,7 +51,6 @@ public class HomeController {
 		mav.addObject("totalActiveOrders", adminServ.getTotalActiveOrders());
 		mav.addObject("orderStatusCount", orderServ.countOrdersByStatus());
 		mav.addObject("orderMonthCount", orderServ.countOrdersByMonth(LocalDateTime.now(), 6));
-		
 		return mav;
 	}
 }

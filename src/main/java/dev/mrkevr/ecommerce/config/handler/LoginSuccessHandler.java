@@ -12,11 +12,7 @@ import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
-import dev.mrkevr.ecommerce.entity.Role;
-import dev.mrkevr.ecommerce.entity.ShoppingCart;
 import dev.mrkevr.ecommerce.entity.User;
-import dev.mrkevr.ecommerce.exception.RoleNotFoundException;
-import dev.mrkevr.ecommerce.repository.RoleRepository;
 import dev.mrkevr.ecommerce.repository.UserRepository;
 import dev.mrkevr.ecommerce.service.ApplicationUserManager;
 import jakarta.servlet.ServletException;
@@ -30,7 +26,6 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 
 	private final ApplicationUserManager userManager;
 	private final UserRepository userRepo;
-	private final RoleRepository roleRepo;
 	private final PasswordEncoder passwordEncoder;
 
 	@Override
@@ -78,7 +73,5 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 		
 		
 		User registerUser = userManager.registerUser(user);
-		
-	
 	}
 }

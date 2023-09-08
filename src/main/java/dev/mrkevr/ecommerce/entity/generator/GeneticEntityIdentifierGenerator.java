@@ -9,9 +9,6 @@ import dev.mrkevr.ecommerce.entity.GenericEntity;
 
 public class GeneticEntityIdentifierGenerator implements IdentifierGenerator {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 4739983790007708720L;
 
 	@Override
@@ -21,7 +18,7 @@ public class GeneticEntityIdentifierGenerator implements IdentifierGenerator {
 		String prefix = ((GenericEntity) object).getIdPrefix();
 		String middle = String.format("%04d", random.nextInt(10000));
 		String last = String.format("%04d", random.nextInt(10000));
-
+		
 		return prefix + "-" + middle + "-" + last;
 	}
 }

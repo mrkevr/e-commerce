@@ -27,7 +27,6 @@ public class AdminUserController {
 	
 	@GetMapping
 	ModelAndView users() {
-
 		ModelAndView mav = new ModelAndView("admin/users");
 		mav.addObject("title", "Users - Admin");
 		mav.addObject("users", userServ.getAllUsersDto());
@@ -36,7 +35,6 @@ public class AdminUserController {
 
 	@GetMapping("/{id}")
 	ModelAndView userDetails(@PathVariable String id) {
-		
 		ModelAndView mav = new ModelAndView("admin/user-details");
 		UserProfileResponse user = userServ.getProfileDto(id);
 		ShoppingCartResponse shoppingCart = shoppingCartServ.getByUserId(id);
@@ -46,7 +44,6 @@ public class AdminUserController {
 		mav.addObject("user", user);
 		mav.addObject("shoppingCart", shoppingCart);
 		mav.addObject("orders", orders);
-		
 		return mav;
 	}
 }

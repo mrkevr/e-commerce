@@ -12,7 +12,10 @@ import lombok.NoArgsConstructor;
 public class LoggedInUserDetails {
 
 	private String id;
+	
 	private String username;
+	
 	private long totalCartItems;
+	
 	private long totalActiveOrders;
 }

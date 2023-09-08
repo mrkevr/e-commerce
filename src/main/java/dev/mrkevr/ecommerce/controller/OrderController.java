@@ -23,30 +23,22 @@ public class OrderController {
 	private final OrderService orderServ;
 	
 	@GetMapping
-	ModelAndView orders(
-			@ModelAttribute("userDetails") LoggedInUserDetails userDetails) 
-	{
+	ModelAndView orders(@ModelAttribute("userDetails") LoggedInUserDetails userDetails) {
 		ModelAndView mav = new ModelAndView("orders");
 		mav.addObject("title", "Orders - E-Commerce");
 		mav.addObject("orders", orderServ.getAllActiveByUserId(userDetails.getId()));
-		
 		return mav;
 	}
 	
 	@GetMapping("/{orderId}")
 	ModelAndView orderById(
 			@ModelAttribute("userDetails") LoggedInUserDetails userDetails,
-			@PathVariable(name = "orderId", required = true) String orderId) 
-	{
+			@PathVariable(name = "orderId", required = true) String orderId) {
+		
 		ModelAndView mav = new ModelAndView("order");
-		mav.addObject("title", "Order- E-Commerce");
-		
-		
-		
 		OrderResponse order = orderServ.getByUserIdAndOrderId(userDetails.getId(), orderId);
-		
+		mav.addObject("title", "Order- E-Commerce");
 		mav.addObject("order", order);
-		
 		return mav;
 	}
 	
@@ -54,15 +46,10 @@ public class OrderController {
 	String cancelOrder(
 			@ModelAttribute("userDetails") LoggedInUserDetails userDetails,
 			@RequestParam(name = "orderId", required = true) String orderId,
-			RedirectAttributes redirectAttrs)
-	{
-		
+			RedirectAttributes redirectAttrs) {
 		
 		orderServ.cancelOrderById(userDetails.getId(), orderId);
 		redirectAttrs.addFlashAttribute("warning", "Order has been cancelled.");
-		
 		return "redirect:/orders";
 	}
-	
-	
 }

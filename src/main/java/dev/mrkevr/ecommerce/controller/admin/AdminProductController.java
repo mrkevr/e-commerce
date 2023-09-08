@@ -37,14 +37,12 @@ public class AdminProductController {
 	private final CategoryService categoryServ;
 	
 	@ModelAttribute("categories")
-	private List<Category> findAllActivatedCategories() 
-	{
-		return  categoryServ.findAllByActivatedTrue();
+	private List<Category> findAllActivatedCategories() {
+		return categoryServ.findAllByActivatedTrue();
 	}
 	
 	@GetMapping
-	ModelAndView products() 
-	{
+	ModelAndView products() {
 		ModelAndView mav = new ModelAndView("admin/products");
 		mav.addObject("title", "Products - Admin");
 		mav.addObject("products", productServ.findAll());
@@ -52,28 +50,25 @@ public class AdminProductController {
 	}
 	
 	@GetMapping("/category/{category}")
-	ModelAndView productsByCategory(@PathVariable String category)
-	{
+	ModelAndView productsByCategory(@PathVariable String category) {
 		ModelAndView mav = new ModelAndView("admin/products-by-category");
-		mav.addObject("title", category+" - Admin");
+		mav.addObject("title", category + " - Admin");
 		mav.addObject("category", category);
 		mav.addObject("products", productServ.getAllByCategory(category));
 		return mav;
 	}
 	
 	@GetMapping("/{id}")
-	ModelAndView productDetails(@PathVariable String id) 
-	{
+	ModelAndView productDetails(@PathVariable String id) {
 		ModelAndView mav = new ModelAndView("admin/product-details");
 		ProductResponse product = productServ.getById(id);
 		mav.addObject("product", product);
-		mav.addObject("title", product.getName()+" - Admin");
+		mav.addObject("title", product.getName() + " - Admin");
 		return mav;
 	}
 	
 	@GetMapping("/new-product")
-	ModelAndView newProduct() 
-	{
+	ModelAndView newProduct() {
 		ModelAndView mav = new ModelAndView("admin/new-product");
 		mav.addObject("title", "New Product - Admin");
 		mav.addObject("productRequest", new ProductRequest());
@@ -89,12 +84,12 @@ public class AdminProductController {
 			ProductRequest productRequest,
 			BindingResult result, 
 			RedirectAttributes redirectAttrs,
-			Model model) 
-	{
+			Model model) {
+		
 		model.addAttribute("title", "New Product - Admin");
+		
 		if(result.hasErrors()) {
 			result.getAllErrors().forEach(e -> System.out.println(e.getDefaultMessage()));
-			
 			return "/admin/new-product";
 		}
 		
@@ -122,8 +117,7 @@ public class AdminProductController {
 	}
 	
 	@GetMapping("/update")
-	ModelAndView updateProduct(@RequestParam String id) 
-	{
+	ModelAndView updateProduct(@RequestParam String id) {
 		ModelAndView mav = new ModelAndView("admin/update-product");
 		ProductUpdateRequest productUpdateRequest = productServ.getUpdateRequestById(id);
 		mav.addObject("productUpdateRequest", productUpdateRequest);
@@ -140,10 +134,10 @@ public class AdminProductController {
 			ProductUpdateRequest productUpdateRequest,
 			BindingResult result, 
 			RedirectAttributes redirectAttrs,
-			Model model) 
-	{
+			Model model) {
 		
 		model.addAttribute("title", "Update Product - Admin");
+		
 		if(result.hasErrors()) {
 			return "/admin/update-product";
 		}
@@ -165,11 +159,10 @@ public class AdminProductController {
 			@RequestParam 
 			String id, 
 			RedirectAttributes redirectAttrs,
-			HttpServletRequest request)
-	{
+			HttpServletRequest request) {
+		
 		String name = productServ.enableById(id).getName();
 		redirectAttrs.addFlashAttribute("success", name + " has been enabled.");
-		
 		return getPreviousPageByRequest(request).orElse("/redirect:/admin/products");
 	}
 	
@@ -179,11 +172,10 @@ public class AdminProductController {
 			@RequestParam 
 			String id, 
 			RedirectAttributes redirectAttrs,
-			HttpServletRequest request)
-	{
+			HttpServletRequest request) {
+		
 		String name = productServ.disableById(id).getName();
 		redirectAttrs.addFlashAttribute("success", name + " has been disabled.");
-		
 		return getPreviousPageByRequest(request).orElse("/redirect:/admin/products");
 	}
 	
@@ -192,11 +184,10 @@ public class AdminProductController {
 			@RequestParam 
 			String id, 
 			RedirectAttributes redirectAttrs,
-			HttpServletRequest request)
-	{
+			HttpServletRequest request) {
+		
 		String name = productServ.putOnSaleById(id).getName();
 		redirectAttrs.addFlashAttribute("success", name + " is now on sale.");
-		
 		return getPreviousPageByRequest(request).orElse("/redirect:/admin/products");
 	}
 	
@@ -205,11 +196,10 @@ public class AdminProductController {
 			@RequestParam 
 			String id, 
 			RedirectAttributes redirectAttrs,
-			HttpServletRequest request)
-	{
+			HttpServletRequest request) {
+		
 		String name = productServ.putOffSaleById(id).getName();
 		redirectAttrs.addFlashAttribute("success", name + " is now off sale.");
-		
 		return getPreviousPageByRequest(request).orElse("/redirect:/admin/products");
 	}
 	
@@ -220,8 +210,7 @@ public class AdminProductController {
 	* @return Optional with the view name. Recomended to use an alternativa url with
 	* {@link Optional#orElse(java.lang.Object)}
 	*/
-	protected Optional<String> getPreviousPageByRequest(HttpServletRequest request)
-	{
-	   return Optional.ofNullable(request.getHeader("Referer")).map(requestUrl -> "redirect:" + requestUrl);
+	protected Optional<String> getPreviousPageByRequest(HttpServletRequest request) {
+		return Optional.ofNullable(request.getHeader("Referer")).map(requestUrl -> "redirect:" + requestUrl);
 	}
 }

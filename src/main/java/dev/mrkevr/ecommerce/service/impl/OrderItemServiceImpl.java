@@ -32,55 +32,45 @@ public class OrderItemServiceImpl implements OrderItemService {
 	{	
 		int currentQuantity = cartItem.getProduct().getCurrentQuantity();
 		int requestedQuantity = cartItem.getQuantity();
-		
 		// Inventory check
 		if(currentQuantity <  requestedQuantity) {
 			throw new InsufficientStockException(cartItem.getProduct().getId());
 		}
-		
 		// Create the order item
 		OrderItem orderItem = OrderItem.builder()
 			.product(cartItem.getProduct())
 			.quantity(cartItem.getQuantity())
 			.unitPrice(cartItem.getUnitPrice())
 			.build();
-		
 		// Deduct the product's quantity
 		Product product = cartItem.getProduct();
 		product.setCurrentQuantity(product.getCurrentQuantity() - requestedQuantity);
 		productRepository.save(product);
-		
 		return orderItem;
 	}
 
 	@Override
 	@Transactional
-	public List<OrderItem> processCartItem(Collection<CartItem> cartItems) 
-	{	
+	public List<OrderItem> processCartItem(Collection<CartItem> cartItems) {
 		return cartItems.stream()
-			.map(item -> this.processCartItem(item))
-			.collect(Collectors.toList());
+				.map(item -> this.processCartItem(item))
+				.collect(Collectors.toList());
 	}
 
 	@Override
 	@Transactional
-	public void returnOrderItem(OrderItem orderItem) 
-	{	
+	public void returnOrderItem(OrderItem orderItem) {
 		// Fetch product and quantity to be added
 		Product product = orderItem.getProduct();
 		int quantity = orderItem.getQuantity();
-		
 		// Restore quantity to the product
 		product.setCurrentQuantity(product.getCurrentQuantity() + quantity);
-		
 		productRepository.save(product);
 	}
 
 	@Override
 	@Transactional
-	public void returnOrderItem(Collection<OrderItem> orderItems) 
-	{
+	public void returnOrderItem(Collection<OrderItem> orderItems) {
 		orderItems.stream().forEach(item -> this.returnOrderItem(item));
 	}
-
 }

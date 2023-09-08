@@ -2,9 +2,6 @@ package dev.mrkevr.ecommerce.exception;
 
 public class OrderItemNotFoundException extends RuntimeException {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 7012697891147135174L;
 	
 	public OrderItemNotFoundException() {

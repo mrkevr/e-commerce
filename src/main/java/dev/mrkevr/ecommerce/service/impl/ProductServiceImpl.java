@@ -77,9 +77,7 @@ public class ProductServiceImpl implements ProductService {
 				product.setImage(Base64.getEncoder().encodeToString(imageFile.getBytes()));
 			}
 			
-			
 			return productMapper.toResponse(savedProduct);
-
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
@@ -90,7 +88,6 @@ public class ProductServiceImpl implements ProductService {
 	@Transactional
 	public ProductResponse update(String id, ProductUpdateRequest productUpdateRequest, MultipartFile imageFile) {
 		try {
-			
 			Product productToUpdate = productRepo.findById(id).orElseThrow(() -> new ProductNotFoundException(id));
 
 			if (imageFile == null) {
@@ -114,7 +111,6 @@ public class ProductServiceImpl implements ProductService {
 
 			Product savedProduct = productRepo.save(productToUpdate);
 			return productMapper.toResponse(savedProduct);
-
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;

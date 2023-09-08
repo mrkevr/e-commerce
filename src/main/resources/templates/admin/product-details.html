@@ -1,4 +1,4 @@
-	<!DOCTYPE html>
+<!DOCTYPE html>
 <html xmlns:th="http://www.thyleaf.org">
 
 <!-- Fragment : Header -->
@@ -102,55 +102,53 @@
 						<!-- Description End -->
 						
 						<!-- Action Button Grouo -->
-									<div class="btn-group" role="group" aria-label="Basic example" style="display: inline-block; text-align:center;">
-												<!-- Activate / Deactivate -->
-												<span th:if="${!product.isActivated} and ${product.isDeleted}">
-													<a th:href="@{/admin/products/enable(id=${product.id})}"
-														class="btn btn-success"
-														onclick="if (!(confirm('Are you sure you want to enable this product?'))) return false">
-														<i class="fas fa-power-off"></i>
-														Activate
-													</a>
-												</span>
-												<span th:if="${product.isActivated} and ${!product.isDeleted}">
-													<a th:href="@{/admin/products/disable(id=${product.id})}"
-														class="btn btn-danger"
-														onclick="if (!(confirm('Are you sure you want to disable this product?'))) return false">
-														<i class="fas fa-power-off"></i>
-														Deactivate
-													</a>
-												</span>
-											
-												<!-- On Sale / Off Sale -->
-												<span th:if="${!product.isOnSale}">
-													<a th:href="@{/admin/products/turnOnSale(id=${product.id})}"
-														class="btn btn-success"
-														onclick="if (!(confirm('Are you sure you want to set this product on sale?'))) return false">
-														<i class="fas fa-hand-holding-usd"></i>
-														Put On Sale
-													</a>
-												</span>
-												<span th:if="${product.isOnSale}">
-													<a th:href="@{/admin/products/turnOffSale(id=${product.id})}"
-														class="btn btn-danger"
-														onclick="if (!(confirm('Are you sure you want to set this product off sale?'))) return false">
-														<i class="fas fa-hand-holding-usd"></i>
-														Remove Sale
-													</a>
-												</span>
-												
-												<!-- Edit -->
-												<span>
-													<a th:href="@{/admin/products/update(id=${product.id})}"
-														class="btn btn-primary">
-														<i class="fas fa-edit"></i>
-														Update
-													</a>
-												</span>
-												
-											</div>
+						<div class="btn-group" role="group" aria-label="Basic example" style="display: inline-block; text-align:center;">
+							<!-- Activate / Deactivate -->
+							<span th:if="${!product.isActivated} and ${product.isDeleted}">
+								<a th:href="@{/admin/products/enable(id=${product.id})}"
+									class="btn btn-success"
+									onclick="if (!(confirm('Are you sure you want to enable this product?'))) return false">
+									<i class="fas fa-power-off"></i>
+									Activate
+								</a>
+							</span>
+							<span th:if="${product.isActivated} and ${!product.isDeleted}">
+								<a th:href="@{/admin/products/disable(id=${product.id})}"
+									class="btn btn-danger"
+									onclick="if (!(confirm('Are you sure you want to disable this product?'))) return false">
+									<i class="fas fa-power-off"></i>
+									Deactivate
+								</a>
+							</span>
 						
-						
+							<!-- On Sale / Off Sale -->
+							<span th:if="${!product.isOnSale}">
+								<a th:href="@{/admin/products/turnOnSale(id=${product.id})}"
+									class="btn btn-success"
+									onclick="if (!(confirm('Are you sure you want to set this product on sale?'))) return false">
+									<i class="fas fa-hand-holding-usd"></i>
+									Put On Sale
+								</a>
+							</span>
+							<span th:if="${product.isOnSale}">
+								<a th:href="@{/admin/products/turnOffSale(id=${product.id})}"
+									class="btn btn-danger"
+									onclick="if (!(confirm('Are you sure you want to set this product off sale?'))) return false">
+									<i class="fas fa-hand-holding-usd"></i>
+									Remove Sale
+								</a>
+							</span>
+							
+							<!-- Edit -->
+							<span>
+								<a th:href="@{/admin/products/update(id=${product.id})}"
+									class="btn btn-primary">
+									<i class="fas fa-edit"></i>
+									Update
+								</a>
+							</span>
+							
+						</div>
 					</div>
 				</div>
 			</main>

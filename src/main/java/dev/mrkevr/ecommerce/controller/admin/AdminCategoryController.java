@@ -32,7 +32,7 @@ public class AdminCategoryController {
 	
 	@GetMapping
 	ModelAndView categories() {
-
+		
 		ModelAndView mav = new ModelAndView("admin/categories");
 //		mav.addObject("categories", categoryServ.findAll().stream().sorted((o1, o2) -> o1.getName().compareTo(o2.getName())).collect(Collectors.toList()));
 		mav.addObject("categories", categoryServ.getCategoriesAndSize());
@@ -47,8 +47,8 @@ public class AdminCategoryController {
 			@Valid 
 			CategoryRequestDto dto, 
 			BindingResult result, 
-			RedirectAttributes redirectAttrs) 
-	{
+			RedirectAttributes redirectAttrs) {
+		
 		if(result.hasErrors()) {
 			redirectAttrs.addFlashAttribute("error", "Adding new category failed.");
 			return "redirect:/admin/categories";
@@ -65,8 +65,8 @@ public class AdminCategoryController {
 			@Valid 
 			CategoryUpdateDto dto, 
 			BindingResult result, 
-			RedirectAttributes redirectAttrs) 
-	{
+			RedirectAttributes redirectAttrs) {
+		
 		if(result.hasErrors()) {
 			redirectAttrs.addFlashAttribute("error", "Updating category failed.");
 			return "redirect:/admin/categories";
@@ -80,8 +80,8 @@ public class AdminCategoryController {
 	String enableCategoryById(
 			@RequestParam 
 			String id, 
-			RedirectAttributes redirectAttrs) 
-	{
+			RedirectAttributes redirectAttrs) {
+		
 		String name = categoryServ.enableById(id).getName();
 		redirectAttrs.addFlashAttribute("success", name + " has been enabled.");
 		return "redirect:/admin/categories";
@@ -92,8 +92,8 @@ public class AdminCategoryController {
 	String disableCategoryById(
 			@RequestParam 
 			String id, 
-			RedirectAttributes redirectAttrs)
-	{
+			RedirectAttributes redirectAttrs) {
+		
 		String name = categoryServ.disableById(id).getName();
 		redirectAttrs.addFlashAttribute("success", name + " has been disabled.");
 		return "redirect:/admin/categories";

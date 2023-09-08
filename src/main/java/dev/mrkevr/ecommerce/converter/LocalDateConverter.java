@@ -18,5 +18,4 @@ public class LocalDateConverter implements Converter<LocalDate, String> {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		return LocalDate.parse(source, formatter);
 	}
-
 }

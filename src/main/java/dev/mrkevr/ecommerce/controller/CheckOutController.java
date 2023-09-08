@@ -11,7 +11,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import dev.mrkevr.ecommerce.dto.LoggedInUserDetails;
 import dev.mrkevr.ecommerce.dto.OrderRequest;
-import dev.mrkevr.ecommerce.dto.OrderResponse;
 import dev.mrkevr.ecommerce.entity.ShoppingCart;
 import dev.mrkevr.ecommerce.service.OrderService;
 import dev.mrkevr.ecommerce.service.ShoppingCartService;
@@ -27,9 +26,7 @@ public class CheckOutController {
 	private final ShoppingCartService shoppingCartServ;
 	
 	@GetMapping
-	ModelAndView checkout(
-		@ModelAttribute("userDetails") LoggedInUserDetails userDetails) 
-	{
+	ModelAndView checkout(@ModelAttribute("userDetails") LoggedInUserDetails userDetails) {
 		ModelAndView mav = new ModelAndView("checkout");
 		mav.addObject("title", "Checkout- E-Commerce");
 		mav.addObject("shoppingCart", shoppingCartServ.getByUserId(userDetails.getId()));
@@ -45,15 +42,13 @@ public class CheckOutController {
 		BindingResult result,
 		@ModelAttribute("shoppingCart") 
 		ShoppingCart shoppingCart,
-		RedirectAttributes redirectAttrs) 
-	{
+		RedirectAttributes redirectAttrs) {
+		
 		if(result.hasErrors()) {
 			return "checkout";
 		}
-		
 		orderServ.addOrder(orderRequest);
 		redirectAttrs.addFlashAttribute("success","Thank you for your order and for supporting our small business! If you want to track your delivery, use the order tracker below.");
 		return "redirect:/orders";
 	}
-
 }

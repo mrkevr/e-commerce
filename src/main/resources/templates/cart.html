@@ -55,14 +55,11 @@
 						
 							<section class="h-100 gradient-custom">
 								
-								
-								
 								<div class="container py-3">
 									
 									<div class="mb-3">
                 						<h3 class="fw-bolder">Cart</h3>
             						</div>
-									
 									
 									<div class="row d-flex justify-content-center my-4">
 										<div class="col-md-8">
@@ -76,8 +73,6 @@
 							          					<h3>Your Cart is currently empty!</h3>
 							          					<a class="btn btn-outline-dark px-4 m-4" th:href="@{/products/categories}">Show Now</a>
 							          				</div>
-							          				
-							          				
 							          				
 							          				<th:block th:each="item, iStat : ${shoppingCart.cartItems}">
 											            <!-- Single item -->
@@ -95,11 +90,6 @@
 												              	<p><strong><a th:href="@{/products/{id}(id=${item.productId})}" class="text-decoration-none"><span class="text-dark" th:text="${item.productName}"></span></a></strong></p>
 													            <p><span th:text="${item.category}" class="text-secondary h6"></span></p>
 													            <p>Quantity: <span th:text="${item.quantity}"></span></p>
-													            
-													           <!--  <button type="button" class="btn btn-outline-dark btn-sm me-1 mb-2" data-mdb-toggle="tooltip"
-												                  title="Remove item">
-												                  <i class="fas fa-trash"></i>
-													            </button> -->
 													            
 													            <a th:href="@{/cart/remove(cartId=${item.id})}"
 																	class="btn btn-outline-dark btn-sm me-1 mb-2"

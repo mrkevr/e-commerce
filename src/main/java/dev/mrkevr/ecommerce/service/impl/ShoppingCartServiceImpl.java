@@ -37,19 +37,16 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     private final CartItemRepository cartItemRepo;
     private final UserRepository userRepo;
 	private final ProductRepository productRepo;
-    
     private final ShoppingCartMapper shoppingCartMapper;
 	
 	@Override
-	public ShoppingCartResponse getById(String id) 
-	{
+	public ShoppingCartResponse getById(String id) {
 		ShoppingCart shoppingCart = shoppingCartRepo.findById(id).orElseThrow(() -> new ShoppingCartNotFoundException(id));
 		return shoppingCartMapper.toResponse(shoppingCart);
 	}
 
 	@Override
-	public ShoppingCartResponse getByUserId(String id) 
-	{
+	public ShoppingCartResponse getByUserId(String id) {
 		User user = userRepo.findById(id).orElseThrow(() -> new UserNotFoundException(id));
 		if(user.getShoppingCart() == null) {
 			throw new ShoppingCartNotFoundException();
@@ -108,8 +105,6 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 			// Persist the cart item
 			cartItemRepo.save(cartItem);
 		}
-		
-		
 		
 		// Updating the shopping cart
 		shoppingCart.setCartItems(cartItems);
@@ -237,29 +232,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 		shoppingCartRepo.save(shoppingCart);		
 	}
 	
-	@Override
-	public ShoppingCartResponse addItemToCartSession(ShoppingCartResponse cartDto, String productId, int quantity) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public ShoppingCartResponse updateCartSession(ShoppingCartResponse cartDto, String productId, int quantity) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public ShoppingCartResponse removeItemFromCartSession(ShoppingCartResponse cartDto, String productId,
-			int quantity) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-	
-	
 	//-- Helper methods --//
-	
 	private int computeTotalItems(Collection<CartItem> cartItems) {
 		return cartItems.stream().mapToInt(item -> item.getQuantity()).sum();
     }
@@ -276,12 +249,4 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 				.filter(item -> item.getProduct().getId().equals(productId))
 				.findAny();
 	}
-
-	
-
-	
-
-	
-
-	
 }

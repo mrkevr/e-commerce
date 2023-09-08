@@ -55,5 +55,4 @@ public class ShoppingCartController {
 		shoppingCartServ.deleteCartItem(userDetails.getId(), cartId);
 		return "redirect:/cart"; 
 	}
-	
 }

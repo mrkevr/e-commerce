@@ -33,7 +33,6 @@ public class UserRegistrationController {
 	
 	@GetMapping
 	public ModelAndView showRegistrationForm() {
-		
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		if (authentication != null && !(authentication instanceof AnonymousAuthenticationToken)) {
 			return new ModelAndView("redirect:dashboard");

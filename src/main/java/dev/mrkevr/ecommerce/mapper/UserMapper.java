@@ -23,8 +23,7 @@ public class UserMapper {
 	private final PasswordEncoder passwordEncoder;
 	private final OrderRepository orderRepo;
 	
-	public User toUser(UserRegistrationRequest request, Role role, ShoppingCart shoppingCart) 
-	{	
+	public User toUser(UserRegistrationRequest request, Role role, ShoppingCart shoppingCart) {	
 		User user =  User.builder()
 			.username(request.getUsername())
 			.firstName(request.getFirstName())
@@ -41,7 +40,6 @@ public class UserMapper {
 	}
 
 	public UserProfileResponse toUserProfileResponse(User user) {
-		
 		return UserProfileResponse.builder()
 			.id(user.getId())
 			.username(user.getUsername())

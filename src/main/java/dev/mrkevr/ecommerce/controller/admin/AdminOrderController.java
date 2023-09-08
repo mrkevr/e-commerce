@@ -30,8 +30,8 @@ public class AdminOrderController {
 	
 	@GetMapping
 	ModelAndView orders(
-			@RequestParam(required = true, defaultValue = "PENDING", name = "orderStatus") OrderStatus orderStatus)
-	{
+			@RequestParam(required = true, defaultValue = "PENDING", name = "orderStatus") OrderStatus orderStatus) {
+
 		List<OrderResponse> orders = orderServ.getAllByOrderStatus(orderStatus);
 		ModelAndView mav = new ModelAndView("admin/orders");
 		mav.addObject("title", "Orders - Admin");
@@ -42,8 +42,8 @@ public class AdminOrderController {
 	}
 	
 	@GetMapping("/{id}")
-	ModelAndView orderDetails(@PathVariable String id) 
-	{
+	ModelAndView orderDetails(@PathVariable String id) {
+		
 		ModelAndView mav = new ModelAndView("admin/order-details");
 		OrderResponse order = orderServ.getById(id);
 		List<OrderStatus> orderStatuses = List.of(
@@ -69,8 +69,8 @@ public class AdminOrderController {
 	String acceptOrder(
 			@RequestParam(name = "id", required = true)
 			String id,
-			RedirectAttributes redirectAttrs) 
-	{
+			RedirectAttributes redirectAttrs) {
+		
 		orderServ.acceptOrderById(id);
 		redirectAttrs.addFlashAttribute("success", "Order has been accepted.");
 		return "redirect:/admin/orders/"+id;
@@ -79,8 +79,8 @@ public class AdminOrderController {
 	@RequestMapping(value = "/deny", method = { RequestMethod.GET, RequestMethod.POST })
 	String denyOrder(
 			@RequestParam(name = "id", required = true) String id,
-			RedirectAttributes redirectAttrs) 
-	{
+			RedirectAttributes redirectAttrs) {
+		
 		orderServ.denyOrderById(id);
 		redirectAttrs.addFlashAttribute("warning", "Order has been denied.");
 		return "redirect:/admin/orders/"+id;
@@ -90,8 +90,8 @@ public class AdminOrderController {
 	String updateOrder(
 		@ModelAttribute(name = "orderUpdateRequest") 
 		OrderUpdateRequest orderUpdateRequest, 
-		RedirectAttributes redirectAttrs) 
-	{
+		RedirectAttributes redirectAttrs) {
+		
 		orderServ.updateOrderById(orderUpdateRequest);
 		redirectAttrs.addFlashAttribute("success", "Order has been updated.");
 		return "redirect:/admin/orders/"+orderUpdateRequest.getId();

@@ -12,6 +12,10 @@ import org.hibernate.type.Type;
 
 import dev.mrkevr.ecommerce.entity.GenericEntity;
 
+/**
+ * This id generator is not being used.
+ * This application is currently using {@link GeneticEntityIdentifierGenerator} to generate entity ids.
+ */
 public class GeneticEntityIdGenerator extends SequenceStyleGenerator {
 
 	private static final long serialVersionUID = -3832357099845937783L;
@@ -33,11 +37,18 @@ public class GeneticEntityIdGenerator extends SequenceStyleGenerator {
 	public void configure(Type type, Properties parameters, ServiceRegistry serviceRegistry) throws MappingException {
 
 		super.configure(type, parameters, serviceRegistry);
+
+		String codeNumberSeparator = ConfigurationHelper.getString(
+				CODE_NUMBER_SEPARATOR_PARAMETER, 
+				parameters,
+				CODE_NUMBER_SEPARATOR_DEFAULT);
 		
-        String codeNumberSeparator = ConfigurationHelper.getString(CODE_NUMBER_SEPARATOR_PARAMETER, parameters, CODE_NUMBER_SEPARATOR_DEFAULT);
-        String numberFormat = ConfigurationHelper.getString(NUMBER_FORMAT_PARAMETER, parameters, NUMBER_FORMAT_DEFAULT).replace("%", "%2"); 
-        
-        this.format = "%1$s"+codeNumberSeparator+numberFormat; 
-    } 
-	
+		String numberFormat = ConfigurationHelper.getString(
+				NUMBER_FORMAT_PARAMETER, 
+				parameters, 
+				NUMBER_FORMAT_DEFAULT)
+				.replace("%", "%2");
+
+		this.format = "%1$s" + codeNumberSeparator + numberFormat;
+	}
 }

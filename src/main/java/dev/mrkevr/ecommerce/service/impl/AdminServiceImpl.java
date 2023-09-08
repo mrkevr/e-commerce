@@ -42,5 +42,4 @@ public class AdminServiceImpl implements AdminService {
 	public long getTotalActiveOrders() {
 		return orderRepo.countActiveOrders();
 	}
-
 }

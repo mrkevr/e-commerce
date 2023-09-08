@@ -11,29 +11,14 @@ import org.springframework.web.multipart.MultipartFile;
 @Component
 public class ImageUploader {
 
-	private final String UPLOAD_FOLDER = "D:\\Programming Applications\\eclipse-workspace\\e-commerce\\src\\main\\resources\\static\\img\\products";
+	private final String UPLOAD_FOLDER_PATH = "D:\\Programming Applications\\eclipse-workspace\\e-commerce\\src\\main\\resources\\static\\img\\products";
 
-//	public boolean uploadFile(MultipartFile file) {
-//		boolean uploadSuccess = false;
-//		try {
-//			Files.copy(
-//				file.getInputStream(), 
-//				Paths.get(UPLOAD_FOLDER + File.separator + file.getOriginalFilename()),
-//				StandardCopyOption.REPLACE_EXISTING);
-//			
-//			uploadSuccess = true;
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//		return uploadSuccess;
-//	}
-	
 	public boolean uploadFile(MultipartFile file, String fileName) {
 		boolean uploadSuccess = false;
 		try {
 			Files.copy(
 				file.getInputStream(), 
-				Paths.get(UPLOAD_FOLDER + File.separator + fileName + this.getFileExtension(file.getOriginalFilename())), StandardCopyOption.REPLACE_EXISTING);
+				Paths.get(UPLOAD_FOLDER_PATH + File.separator + fileName + this.getFileExtension(file.getOriginalFilename())), StandardCopyOption.REPLACE_EXISTING);
 			uploadSuccess = true;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -44,7 +29,7 @@ public class ImageUploader {
 	public boolean fileExists(MultipartFile multipartFile) {
 		boolean isExist = false;
 		try {
-			File file = new File(UPLOAD_FOLDER + "\\" + multipartFile.getOriginalFilename());
+			File file = new File(UPLOAD_FOLDER_PATH + "\\" + multipartFile.getOriginalFilename());
 			isExist = file.exists();
 		} catch (Exception e) {
 			e.printStackTrace();

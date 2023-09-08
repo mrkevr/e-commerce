@@ -29,13 +29,11 @@ public class ContactController {
 	String title() {
 		return "Contact - E-Commerce";
 	}
-	
+
 	@GetMapping
-	ModelAndView contactEmailForm() 
-	{
+	ModelAndView contactEmailForm() {
 		ModelAndView mav = new ModelAndView("contact");
 		mav.addObject("messageDto", new ContactMessageDto());
-		
 		return mav;
 	}
 	
@@ -43,16 +41,13 @@ public class ContactController {
 	String sendContactEmail(
 			@Valid @ModelAttribute("messageDto") ContactMessageDto contactDto, 
 			BindingResult result,
-			Model model,
-			RedirectAttributes redirectAttrs) 
-	{
-		
-		if(result.hasErrors()) {
+			Model model, 
+			RedirectAttributes redirectAttrs) {
+
+		if (result.hasErrors()) {
 			model.addAttribute("error", "Message is not sent.");
 			return "contact";
 		}
-		
-		
 		emailService.sendContactMessage(contactDto);
 		redirectAttrs.addFlashAttribute("success", "Message sent. Thank you for contacting us.");
 		return "redirect:/contact";

@@ -16,28 +16,27 @@ import lombok.RequiredArgsConstructor;
 @Controller
 @RequiredArgsConstructor
 public class SearchController {
-	
+
 	private final ProductService productServ;
-	
+
 	@GetMapping
-	ModelAndView search(@RequestParam(required = true, name = "search") String search)
-	{
+	ModelAndView search(@RequestParam(required = true, name = "search") String search) {
 		ModelAndView mav = new ModelAndView("search");
 		mav.addObject("title", search + " - E-Commerce");
 		mav.addObject("search", search);
-		
-		if(search.length() < 2) {
+
+		if (search.length() < 2) {
 			mav.addObject("noResult", true);
 			mav.addObject("products", productServ.getRandomProducts(4));
 			return mav;
 		}
-		
+
 		List<ProductResponse> products = productServ.searchProducts(search);
-		if(products.isEmpty()) {
+		if (products.isEmpty()) {
 			products = productServ.getRandomProducts(4);
 			mav.addObject("noResult", true);
 		}
-		
+
 		mav.addObject("products", products);
 		return mav;
 	}

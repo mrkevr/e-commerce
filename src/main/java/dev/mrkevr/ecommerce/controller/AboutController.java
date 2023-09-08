@@ -8,7 +8,7 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 @RequestMapping("/about")
 public class AboutController {
-	
+
 	@GetMapping
 	ModelAndView about() {
 		ModelAndView mav = new ModelAndView("about");

@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 public class OrderMonthCount {
 	
 	private String month;
-	private int orderCount;
 	
+	private int orderCount;
 }

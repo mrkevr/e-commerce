@@ -24,21 +24,19 @@ public class ProductController {
 	private final CategoryService categoryServ;
 
 	@GetMapping("/categories")
-	ModelAndView categories() 
-	{
+	ModelAndView categories() {
 		ModelAndView mav = new ModelAndView("categories");
 		mav.addObject("title", "Shop - E-Commerce");
-		
+
 		List<CategoryResponse> availableCategories = categoryServ.getAvailableCategories();
-		
+
 		mav.addObject("categories", availableCategories);
-		
+
 		return mav;
 	}
 	
 	@GetMapping
-	ModelAndView products(@RequestParam(required = true, name = "category") String category)
-	{
+	ModelAndView products(@RequestParam(required = true, name = "category") String category) {
 		ModelAndView mav = new ModelAndView("products");
 		mav.addObject("title", category + " - E-Commerce");
 		mav.addObject("category", category);
@@ -47,19 +45,17 @@ public class ProductController {
 	}
 		
 	@GetMapping("/{id}")
-	ModelAndView productDetails(@PathVariable String id) 
-	{
+	ModelAndView productDetails(@PathVariable String id) {
 		ModelAndView mav = new ModelAndView("product");
 		ProductResponse product = productServ.getById(id);
 		mav.addObject("product", product);
-		mav.addObject("title", product.getName()+" - E-Commerce");
+		mav.addObject("title", product.getName() + " - E-Commerce");
 		mav.addObject("relatedProducts", productServ.getRandomProducts(4));
 		return mav;
 	}
 	
 	@GetMapping("/new-arrivals")
-	ModelAndView newArrivals()
-	{
+	ModelAndView newArrivals() {
 		ModelAndView mav = new ModelAndView("new-arrivals");
 		mav.addObject("title", "New Arrivals - E-Commerce");
 		mav.addObject("products", productServ.getNewlyAddedProducts(8));
@@ -67,8 +63,7 @@ public class ProductController {
 	}
 	
 	@GetMapping("/on-sale")
-	ModelAndView saleProducts()
-	{
+	ModelAndView saleProducts() {
 		ModelAndView mav = new ModelAndView("on-sale");
 		mav.addObject("title", "Sale - E-Commerce");
 		mav.addObject("products", productServ.getAvailableProductsOnSale());

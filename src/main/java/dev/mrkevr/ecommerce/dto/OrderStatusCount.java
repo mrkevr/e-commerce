@@ -11,6 +11,6 @@ import lombok.NoArgsConstructor;
 public class OrderStatusCount {
 	
 	private OrderStatus orderStatus;
-	private Long orderCount;
 	
+	private Long orderCount;
 }
