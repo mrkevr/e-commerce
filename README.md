@@ -6,6 +6,7 @@ A simple monolithic e-commerce web application developed using Spring Boot, MySQ
     - [Admin Features](#admin-features)
     - [Customer Features](#customer-features)
 - [Dependencies](#dependencies)
+- [Credits](#credits)
 
 ## Introduction
 Welcome to E-Commerce Web Application repository! This project showcases a fully functional and feature-rich e-commerce platform built with Spring Framework, MySQL, and Bootstrap.
@@ -37,7 +38,22 @@ This E-Commerce Web Application is a robust and all-in-one solution designed to 
 This web application relies on a stack of powerful and proven technologies to provide a seamless and feature-rich user experience. Here are the key dependencies that drive our platform:
 | Dependency | Purpose |
 | ------------- | ------------- |
+| [Spring Boot](https://spring.io/projects/spring-boot) | Spring Boot forms the backbone of our application, offering a robust and efficient framework for building the server-side components of our e-commerce platform. It simplifies configuration, enhances productivity, and provides a wide range of tools for building enterprise-level applications. |
+| [Spring Validation](https://docs.spring.io/spring-framework/reference/core/validation/beanvalidation.html)  | Spring Validation serves the essential purpose of ensuring that the data entered by users is valid, consistent, and adheres to predefined rules and constraints. |
+| [Spring Data JPA](https://spring.io/projects/spring-data-jpa) | The primary purpose of Spring Data JPA is to simplify database access and streamline the development of data-driven applications in Java. In this application, Spring Data JPA can serve several crucial purposes to enhance and simplify the management of data and interactions within the database. |
+| [MySQL](https://www.mysql.com/) | MySQL is the engine behind data storage and management. It enables this application to efficiently store and retrieve product information, user data, order details, and more. |
+| [Bootstrap](https://getbootstrap.com) | Bootstrap allows this application to deliver a modern and visually appealing user interface. Its responsive design ensures our e-commerce platform looks and works seamlessly across various devices and screen sizes. It speeds up development, resulting in a more user-friendly and polished user experience. |
+| [Thymeleaf](https://www.thymeleaf.org/) | A Java-based library used to create a web application. |
+| [Lombok](https://projectlombok.org/) | Lombok is a library for Java that can significantly simplify and streamline your Java code by automatically generating common boilerplate code. |
 
+## Credits
+I would like to express my sincere gratitude to the following article and Youtube channels for their invaluable contributions and tutorials that have aided me in the development of this project:
+- [Bro Code](https://www.youtube.com/channel/UC4SVo0Ue36XCfOyb5Lh1viQ)
+- [Selenium Express](https://www.youtube.com/@SeleniumExpress)
+- [Java Techie](https://www.youtube.com/@Javatechie)
+- [Laur Spilca](https://www.youtube.com/@laurspilca)
+- [Baeldung](https://www.baeldung.com/)
+- [Amigos Code](https://www.youtube.com/@amigoscode)
 
 
 
