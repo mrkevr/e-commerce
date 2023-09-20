@@ -26,7 +26,7 @@ This E-Commerce Web Application is a robust and all-in-one solution designed to 
 ### Customer Features
 | Feature | Description |
 | ------------- | ------------- |
-| Customer Authentication and Management | Customers can choose their preferred authentication method. They can register using our registration form or log in with either your Google or GitHub account. If it's the customer's first time logging in with Google or GitHub, an account will be created for them using the provided information. Customers can view and manage their accounts, including updating personal information. |
+| User Authentication and Account Management | Customers can choose their preferred authentication method. They can register using the registration form or log in with either Google or GitHub account. If it's the customer's first time logging in with Google or GitHub, an account will be created for them. Customers can view and manage their accounts, including updating personal information. |
 | Product Catalog | Customers can browse all the available products from the catalog. Click on any product to view its details. |
 | New Arrivals | New Arrival section showcases products that have just added to the catalog. |
 | Discounted Items | Discounted Items section features products with special offers and reduced prices. |
@@ -35,7 +35,7 @@ This E-Commerce Web Application is a robust and all-in-one solution designed to 
 | Order Monitoring | After checkout, customers can easily track the status of their orders, from processing to shipping to delivery. |
 
 ## Dependencies
-This web application relies on a stack of powerful and proven technologies to provide a seamless and feature-rich user experience. Here are the key dependencies that drive our platform:
+This web application relies on a stack of powerful and proven technologies to provide a seamless and feature-rich user experience. Here are the key dependencies that drive this platform:
 | Dependency | Purpose |
 | ------------- | ------------- |
 | [Spring Boot](https://spring.io/projects/spring-boot) | Spring Boot forms the backbone of this application, offering a robust and efficient framework for building the server-side components of this e-commerce platform. It simplifies configuration, enhances productivity, and provides a wide range of tools for building enterprise-level applications. |
@@ -56,13 +56,3 @@ I would like to express my sincere gratitude to the following article and Youtub
 - [Laur Spilca](https://www.youtube.com/@laurspilca)
 - [Baeldung](https://www.baeldung.com/)
 - [Amigos Code](https://www.youtube.com/@amigoscode)
-
-
-
-
-
-
-
-
-
-
