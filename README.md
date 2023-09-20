@@ -1,6 +1,12 @@
 # E-Commerce
 A simple monolithic e-commerce web application developed using Spring Boot, MySQL, and Bootstrap.
 
+- [Features](#features)
+    - [Admin Features](#admin-features)
+    - [Customer Features](#customer-features)
+   
+
+
 ## Features
 ### Admin Features
 | Feature | Description |
@@ -18,4 +24,6 @@ A simple monolithic e-commerce web application developed using Spring Boot, MySQ
 | Product Catalog | Customers can browse all the available products from the catalog. Click on any product to view its details. |
 | New Arrivals | New Arrival section showcases products that have just added to the catalog. |
 | Discounted Items | Discounted Items section features products with special offers and reduced prices. |
-| Shopping Cart | From the product page, customer can "Add to Cart" button. The selected products will be instantly added to the customer's shopping cart. Customers can view and update their shopping cart. |
+| Shopping Cart | From the product page, customer can click "Add to Cart" button. The selected products will be instantly added to the customer's shopping cart. Customers can view and update their shopping cart. |
+| Checkout | When the customer is ready to complete their purchase, they can simply click the "Checkout" button. Customer will provide shipping details and mode of payment. |
+| Order Monitoring | After checkout, customers can easily track the status of their orders, from processing to shipping to delivery. |
