@@ -1,5 +1,5 @@
 # E-Commerce
-A simple monolithic e-commerce web application developed using Spring Boot, MySQL, and Bootstrap.
+A simple monolithic e-commerce web application developed using Spring Framework, MySQL, and Bootstrap.
 
 - [Introduction](#introduction)
 - [Features](#features)
