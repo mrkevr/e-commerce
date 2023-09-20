@@ -33,6 +33,7 @@ This E-Commerce Web Application is a robust and all-in-one solution designed to 
 | Shopping Cart | From the product page, customers can click "Add to Cart" button. The selected products will be instantly added to the customer's shopping cart. Customers can view and update their shopping cart. |
 | Checkout | When the customer is ready to complete their purchase, they can simply click the "Checkout" button. Customers to provide shipping details and mode of payment upon checking out. |
 | Order Monitoring | After checkout, customers can easily track the status of their orders, from processing to shipping to delivery. |
+| Email Support | Users can send email to the admin for feedbacks and suggestions. |
 
 ## Dependencies
 This web application relies on a stack of powerful and proven technologies to provide a seamless and feature-rich user experience. Here are the key dependencies that drive this platform:
