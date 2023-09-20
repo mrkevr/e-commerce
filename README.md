@@ -14,5 +14,8 @@ A simple monolithic e-commerce web application developed using Spring Boot, MySQ
 ### Customer Features
 | Feature | Description |
 | ------------- | ------------- |
-| Authentication | Customers can choose their authentication method. They can register using our registration form or log in with either your Google or GitHub account. If it's the customer's first time logging in with Google or GitHub, an account will be created for them using the provided information. |
-| Account Management | Customers can view and manage their accounts, including updating personal information. |
+| Customer Authentication and Management | Customers can choose their preferred authentication method. They can register using our registration form or log in with either your Google or GitHub account. If it's the customer's first time logging in with Google or GitHub, an account will be created for them using the provided information. Customers can view and manage their accounts, including updating personal information. |
+| Product Catalog | Customers can browse all the available products from the catalog. Click on any product to view its details. |
+| New Arrivals | New Arrival section showcases products that have just added to the catalog. |
+| Discounted Items | Discounted Items section features products with special offers and reduced prices. |
+| Shopping Cart | From the product page, customer can "Add to Cart" button. The selected products will be instantly added to the customer's shopping cart. Customers can view and update their shopping cart. |
