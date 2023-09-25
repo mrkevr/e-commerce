@@ -66,7 +66,7 @@ I would like to express my sincere gratitude to the following article and Youtub
 
 ## Screenshots
 ### Database Schema
-<img src="https://cloud.githubusercontent.com/assets/4307137/10105290/2a183f3a-63ae-11e5-9380-50d9f6d8afd6.png" width="90%"></img>
+<img src="https://github.com/mrkevr/e-commerce/blob/master/src/main/resources/static/img/schema.jpg" width="90%"></img>
 
 ### Front Page
 <img src="https://github.com/mrkevr/e-commerce/blob/master/src/main/resources/static/img/home.jpg" width="23%"></img> 
@@ -74,17 +74,20 @@ I would like to express my sincere gratitude to the following article and Youtub
 <img src="https://github.com/mrkevr/e-commerce/blob/master/src/main/resources/static/img/contact_us.jpg" width="23%"></img> 
 
 ### Admin Interface
-<img src="https://cloud.githubusercontent.com/assets/4307137/10105283/251b6868-63ae-11e5-9918-b789d9d682ec.png" width="23%"></img> 
-<img src="https://cloud.githubusercontent.com/assets/4307137/10105290/2a183f3a-63ae-11e5-9380-50d9f6d8afd6.png" width="23%"></img> 
-<img src="https://cloud.githubusercontent.com/assets/4307137/10105284/26aa7ad4-63ae-11e5-88b7-bc523a095c9f.png" width="23%"></img> 
-<img src="https://cloud.githubusercontent.com/assets/4307137/10105288/28698fae-63ae-11e5-8ba7-a62360a8e8a7.png" width="23%"></img> 
-<img src="https://cloud.githubusercontent.com/assets/4307137/10105283/251b6868-63ae-11e5-9918-b789d9d682ec.png" width="23%"></img> 
-<img src="https://cloud.githubusercontent.com/assets/4307137/10105290/2a183f3a-63ae-11e5-9380-50d9f6d8afd6.png" width="23%"></img> 
+<img src="https://github.com/mrkevr/e-commerce/blob/master/src/main/resources/static/img/dashboard.jpg" width="23%"></img>
+<img src="https://github.com/mrkevr/e-commerce/blob/master/src/main/resources/static/img/admin_users.jpg" width="23%"></img> 
+<img src="https://github.com/mrkevr/e-commerce/blob/master/src/main/resources/static/img/admin_user_one.jpg" width="23%"></img> 
+<img src="https://github.com/mrkevr/e-commerce/blob/master/src/main/resources/static/img/admin_categories.jpg" width="23%"></img> 
+<img src="https://github.com/mrkevr/e-commerce/blob/master/src/main/resources/static/img/admin_category_electronics.jpg" width="23%"></img> 
+<img src="https://github.com/mrkevr/e-commerce/blob/master/src/main/resources/static/img/admin_products.jpg" width="23%"></img> 
+<img src="https://github.com/mrkevr/e-commerce/blob/master/src/main/resources/static/img/admin_products_one.jpg" width="23%"></img> 
+<img src="https://github.com/mrkevr/e-commerce/blob/master/src/main/resources/static/img/admin_new_product.jpg" width="23%"></img> 
+<img src="https://github.com/mrkevr/e-commerce/blob/master/src/main/resources/static/img/admin_orders.jpg" width="23%"></img> 
 
 ### Customer Interface
-<img src="https://cloud.githubusercontent.com/assets/4307137/10105283/251b6868-63ae-11e5-9918-b789d9d682ec.png" width="23%"></img> 
-<img src="https://cloud.githubusercontent.com/assets/4307137/10105290/2a183f3a-63ae-11e5-9380-50d9f6d8afd6.png" width="23%"></img> 
-<img src="https://cloud.githubusercontent.com/assets/4307137/10105284/26aa7ad4-63ae-11e5-88b7-bc523a095c9f.png" width="23%"></img> 
-<img src="https://cloud.githubusercontent.com/assets/4307137/10105288/28698fae-63ae-11e5-8ba7-a62360a8e8a7.png" width="23%"></img> 
-<img src="https://cloud.githubusercontent.com/assets/4307137/10105283/251b6868-63ae-11e5-9918-b789d9d682ec.png" width="23%"></img> 
-<img src="https://cloud.githubusercontent.com/assets/4307137/10105290/2a183f3a-63ae-11e5-9380-50d9f6d8afd6.png" width="23%"></img>
+<img src="https://github.com/mrkevr/e-commerce/blob/master/src/main/resources/static/img/user_scategories1.jpg" width="23%"></img>
+<img src="https://github.com/mrkevr/e-commerce/blob/master/src/main/resources/static/img/user_categories2.jpg" width="23%"></img>
+<img src="https://github.com/mrkevr/e-commerce/blob/master/src/main/resources/static/img/user_product1" width="23%"></img> 
+<img src="https://github.com/mrkevr/e-commerce/blob/master/src/main/resources/static/img/user_add_to_cart.jpg" width="23%"></img> 
+<img src="https://github.com/mrkevr/e-commerce/blob/master/src/main/resources/static/img/user_checkout.jpg" width="23%"></img> 
+<img src="https://github.com/mrkevr/e-commerce/blob/master/src/main/resources/static/img/user_orders.jpg" width="23%"></img> 
