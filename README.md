@@ -6,6 +6,7 @@ A simple monolithic e-commerce web application developed using Spring Framework,
     - [Admin Features](#admin-features)
     - [Customer Features](#customer-features)
 - [Dependencies](#dependencies)
+- [How To Run](#how-to-run)
 - [Credits](#credits)
 - [Screenshots](#screenshots)
     - [Database Schema](#database-schema) 
@@ -53,6 +54,16 @@ This web application relies on a stack of powerful and proven technologies to pr
 | [Start Boostrap](https://startbootstrap.com/) | This project's front-end UI is based on several Bootstrap templates created by [Start Boostrap](https://startbootstrap.com/). I want to express my gratitude to the developers for their fantastic work in designing the original template. Without their contribution, this project would not have been possible. | 
 | [Thymeleaf](https://www.thymeleaf.org/) | Thymeleaf is a templating engine for server-side rendering in web applications, particularly well-suited for Java-based web frameworks like Spring. |
 | [Lombok](https://projectlombok.org/) | Lombok is a library for Java that can significantly simplify and streamline your Java code by automatically generating common boilerplate code. |
+
+## How To Run
+- Running this application requires the following :
+  - [MySQL](https://dev.mysql.com/downloads/mysql)
+  - [Maven 3](https://maven.apache.org/download.cgi)
+  - [Java 17](https://www.oracle.com/java/technologies/downloads/#java8](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html))
+  - [Google Account](https://accounts.google.com/)
+
+> [!NOTE]  
+> Google account will be used for sending emails
 
 ## Credits
 I would like to express my sincere gratitude to the following article and Youtube channels for their invaluable contributions and tutorials that have aided me in the development of this project:
