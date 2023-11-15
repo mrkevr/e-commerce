@@ -56,14 +56,14 @@ This web application relies on a stack of powerful and proven technologies to pr
 | [Lombok](https://projectlombok.org/) | Lombok is a library for Java that can significantly simplify and streamline your Java code by automatically generating common boilerplate code. |
 
 ## How To Run
-- Running this application requires the following :
+- Running this application requires the tools below. Look for installation guides on the internet.
   - [MySQL](https://dev.mysql.com/downloads/mysql)
   - [Maven 3](https://maven.apache.org/download.cgi)
   - [Java 17](https://www.oracle.com/java/technologies/downloads/#java8](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html))
   - [Google Account](https://accounts.google.com/)
 
 > [!NOTE]  
-> Google account will be used for sending emails
+> Google account will be used for sending emails.
 
 ## Credits
 I would like to express my sincere gratitude to the following article and Youtube channels for their invaluable contributions and tutorials that have aided me in the development of this project:
