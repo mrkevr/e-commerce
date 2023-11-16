@@ -112,7 +112,7 @@ mail:
             enable: true
             required: true
 ```
-4. Go to e-commerce/src/main/resources/schema.sql, copy the script and run in on your database
+4. Go to e-commerce/src/main/resources/schema.sql, copy the script and run it on your MySQL database
 
 
 ## Credits
