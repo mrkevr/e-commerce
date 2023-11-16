@@ -113,7 +113,40 @@ mail:
             required: true
 ```
 4. Go to e-commerce/src/main/resources/schema.sql, copy the script and run it on your MySQL database
-
+5. On the application directory, build the project by running mvn clean package or mvn clean install
+```
+C:\Your\Directory\e-commerce>mvn clean package
+...
+...
+...
+...
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  10.654 s
+[INFO] Finished at: 2023-11-11T22:23:52+08:00
+[INFO] ------------------------------------------------------------------------
+```
+6. Once successfully built, you can run the jar file on the target folder using this command :
+```
+C:\Your\Directory\e-commerce\target>java -jar e-commerce-0.0.1-SNAPSHOT.jar
+```
+> [!NOTE]  
+> The application will run on default port, to specify your desired port, use this command :
+```
+C:\Your\Directory\e-commerce\target>java -jar e-commerce-0.0.1-SNAPSHOT.jar --server-port=<your_desired_port>
+```
+7. Once the application is live, you should see something like this :
+```
+2023-11-16T13:29:41.787+08:00  INFO 6460 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8086 (http) with context path '/e-commerce'
+2023-11-16T13:29:41.804+08:00  INFO 6460 --- [main] d.mrkevr.ecommerce.ECommerceApplication  : Started ECommerceApplication in 6.492 seconds (process running for 7.008)
+```
+8. To see the web page, go to http://localhost:8086/e-commerce, just replace the port number with the one that you configured
+9. To access the admin page, use account created by default using these credentials :
+```
+username : admin
+password : admin
+```
 
 ## Credits
 I would like to express my sincere gratitude to the following article and Youtube channels for their invaluable contributions and tutorials that have aided me in the development of this project:
