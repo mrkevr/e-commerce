@@ -1,5 +1,6 @@
 package dev.mrkevr.ecommerce.config;
 
+import java.util.HashSet;
 import java.util.function.Consumer;
 
 import org.springframework.boot.CommandLineRunner;
@@ -91,9 +92,10 @@ public class ApplicationConfig {
 			User user = new User();
 			user.setUsername("admin");
 			user.setEmail("admin@e-commerce.com");
-			user.setAddress(new Address("B1 L26 Dollar St. Camella Homes", "Banlic", "Cabuyao", "Laguna", "4025"));
-			user.setPhone("1234-12345");
+			user.setAddress(new Address("Admin", "Admin", "Admin", "Admin", "Admin"));
+			user.setPhone("adminadminadmin");
 			user.setPassword(passwordEncoder.encode("admin"));
+			user.setRoles(new HashSet<>());
 			user.getRoles().add(roleRepo.findByRoleIgnoreCase("ROLE_ADMIN").get());
 			userRepo.save(user);
 		}
