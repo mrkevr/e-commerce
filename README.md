@@ -69,7 +69,7 @@ This web application relies on a stack of powerful and proven technologies to pr
 > Google and Github account will be used for OAuth2 Single Sign-On of the users. Google Mail will be used for sending emails.
 
 2. Clone this repository
-3. Go to e-commerce/src/main/resources/application.yml replace the placeholders (enclosed by <>) with your credentials
+3. Go to e-commerce/src/main/resources/application.yml and replace the placeholders (enclosed by <>) with your own credentials
 MySQL
 ```
 datasource:
@@ -124,7 +124,7 @@ C:\Your\Directory\e-commerce>mvn clean package
 [INFO] BUILD SUCCESS
 [INFO] ------------------------------------------------------------------------
 [INFO] Total time:  10.654 s
-[INFO] Finished at: 2023-11-11T22:23:52+08:00
+[INFO] Finished at: 2023-11-16T13:20:40.804+08:00
 [INFO] ------------------------------------------------------------------------
 ```
 6. Once successfully built, you can run the jar file on the target folder using this command :
@@ -142,7 +142,7 @@ C:\Your\Directory\e-commerce\target>java -jar e-commerce-0.0.1-SNAPSHOT.jar --se
 2023-11-16T13:29:41.804+08:00  INFO 6460 --- [main] d.mrkevr.ecommerce.ECommerceApplication  : Started ECommerceApplication in 6.492 seconds (process running for 7.008)
 ```
 8. To see the web page, go to http://localhost:8086/e-commerce, just replace the port number with the one that you configured
-9. To access the admin page, use account created by default using these credentials :
+9. To access the admin page, use the admin account created by default using these credentials :
 ```
 username : admin
 password : admin
