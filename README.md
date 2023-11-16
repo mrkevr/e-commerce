@@ -56,14 +56,64 @@ This web application relies on a stack of powerful and proven technologies to pr
 | [Lombok](https://projectlombok.org/) | Lombok is a library for Java that can significantly simplify and streamline your Java code by automatically generating common boilerplate code. |
 
 ## How To Run
-- Running this application requires the tools below. Look for installation guides on the internet.
-  - [MySQL](https://dev.mysql.com/downloads/mysql)
-  - [Maven 3](https://maven.apache.org/download.cgi)
-  - [Java 17](https://www.oracle.com/java/technologies/downloads/#java8](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html))
-  - [Google Account](https://accounts.google.com/)
+1. Running this application requires the tools below.
 
+| Tool | Link |
+| ------------- | ------------- |
+| [MySQL](https://dev.mysql.com/downloads/mysql) | [Installation Guide](https://dev.mysql.com/doc/mysql-installation-excerpt/5.7/en/) |
+| [Maven 3](https://maven.apache.org/download.cgi) | [Installation Guide](https://phoenixnap.com/kb/install-maven-windows) |
+| [Java 17](https://www.oracle.com/java/technologies/downloads/#java8](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html)) | [Installation Guide](https://phoenixnap.com/kb/install-java-windows) |
+| [Google Account](https://accounts.google.com) | [Oauth2 Guide](https://rohankadam965.medium.com/how-to-implement-oauth2-login-using-google-part-1-d57f9563b6b9) |
+| [Github Account](https://github.com/join) | [Oauth2 Guide](https://www.youtube.com/watch?v=a-4LK0FiqNQ) |
 > [!NOTE]  
-> Google account will be used for sending emails.
+> Google and Github account will be used for OAuth2 Single Sign-On of the users. Google Mail will be used for sending emails.
+
+2. Clone this repository
+3. Go to e-commerce/src/main/resources/application.yml replace the placeholders (enclosed by <>) with your credentials
+MySQL
+```
+datasource:
+    url: <url>
+    username: <username>
+    password: <password>
+    driver-class-name: com.mysql.cj.jdbc.Driver
+```
+Google and Github
+```
+ security:
+    oauth2:
+      client:
+        registration:
+          github:
+            clientId: <github-id>
+            clientSecret: <github-secret>
+          google:
+            clientId: <google-id>
+            clientSecret: <google-secret>
+```
+Gmail
+```
+mail:
+    host: smtp.gmail.com
+    port: 587
+    username: <google-username>
+    password: <google-password>
+    default-encoding: UTF-8
+    properties:
+      mail:
+        mime:
+          charset: UTF
+        smtp:
+          writetimeout: 10000
+          connectiontimeout: 10000
+          timeout: 10000
+          auth: true
+          starttls:
+            enable: true
+            required: true
+```
+4. Go to e-commerce/src/main/resources/schema.sql, copy the script and run in on your database
+
 
 ## Credits
 I would like to express my sincere gratitude to the following article and Youtube channels for their invaluable contributions and tutorials that have aided me in the development of this project:
