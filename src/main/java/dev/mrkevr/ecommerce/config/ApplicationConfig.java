@@ -10,6 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import dev.mrkevr.ecommerce.entity.Category;
 import dev.mrkevr.ecommerce.entity.Role;
+import dev.mrkevr.ecommerce.entity.ShoppingCart;
 import dev.mrkevr.ecommerce.entity.User;
 import dev.mrkevr.ecommerce.entity.embeddable.Address;
 import dev.mrkevr.ecommerce.repository.CategoryRepository;
@@ -55,8 +56,8 @@ public class ApplicationConfig {
 	}
 	
 	private void initialData() {
-		this.addAdminAccountIfNotExist();
 		this.addRolesIfNotExists();
+		this.addAdminAccountIfNotExist();
 		this.addCategoriesIfEmpty();
 	}
 	
@@ -95,8 +96,15 @@ public class ApplicationConfig {
 			user.setAddress(new Address("Admin", "Admin", "Admin", "Admin", "Admin"));
 			user.setPhone("adminadminadmin");
 			user.setPassword(passwordEncoder.encode("admin"));
+			
 			user.setRoles(new HashSet<>());
 			user.getRoles().add(roleRepo.findByRoleIgnoreCase("ROLE_ADMIN").get());
+			
+			ShoppingCart shoppingCart = new ShoppingCart();
+			shoppingCart.setCartItems(new HashSet<>());
+			shoppingCart.setUser(user);
+			user.setShoppingCart(shoppingCart);
+			
 			userRepo.save(user);
 		}
 	}
