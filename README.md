@@ -56,7 +56,7 @@ This web application relies on a stack of powerful and proven technologies to pr
 | [Lombok](https://projectlombok.org/) | Lombok is a library for Java that can significantly simplify and streamline your Java code by automatically generating common boilerplate code. |
 
 ## How To Run
-1. Running this application requires the tools below.
+1. Running this application requires the tools below:
 
 | Tool | Link |
 | ------------- | ------------- |
@@ -70,7 +70,8 @@ This web application relies on a stack of powerful and proven technologies to pr
 
 2. Clone this repository
 3. Go to e-commerce/src/main/resources/application.yml and replace the placeholders (enclosed by <>) with your own credentials
-MySQL
+
+MySQL:
 ```
 datasource:
     url: <url>
@@ -78,7 +79,7 @@ datasource:
     password: <password>
     driver-class-name: com.mysql.cj.jdbc.Driver
 ```
-Google and Github
+Google and Github:
 ```
  security:
     oauth2:
@@ -91,7 +92,7 @@ Google and Github
             clientId: <google-id>
             clientSecret: <google-secret>
 ```
-Gmail
+Gmail:
 ```
 mail:
     host: smtp.gmail.com
@@ -132,9 +133,9 @@ C:\Your\Directory\e-commerce>mvn clean package
 C:\Your\Directory\e-commerce\target>java -jar e-commerce-0.0.1-SNAPSHOT.jar
 ```
 > [!NOTE]  
-> The application will run on default port, to specify your desired port, use this command :
+> The application will run on default port, to specify a port, add "--server.port=" followed by your desired port. The command below will use the port 8585.
 ```
-C:\Your\Directory\e-commerce\target>java -jar e-commerce-0.0.1-SNAPSHOT.jar --server-port=<your_desired_port>
+C:\Your\Directory\e-commerce\target>java -jar e-commerce-0.0.1-SNAPSHOT.jar --server-port=8585
 ```
 7. Once the application is live, you should see something like this :
 ```
