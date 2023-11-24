@@ -1,5 +1,5 @@
 # E-Commerce
-![e-commerce_thumbnail_2](https://github.com/mrkevr/e-commerce/assets/98044708/4c7c12c0-ac73-474d-bdcc-b7e99aecd406)
+![quiz_rest_api_thumbnail](https://github.com/mrkevr/quiz-app/assets/98044708/cbfce9b9-f9cc-473e-b189-919dc7e26c39)
 A simple monolithic e-commerce web application developed using Spring Framework, MySQL, and Bootstrap.
 
 - [Introduction](#introduction)
