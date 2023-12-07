@@ -10,10 +10,6 @@ A simple monolithic e-commerce web application developed using Spring Framework,
 - [How To Run](#how-to-run)
 - [Credits](#credits)
 - [Screenshots](#screenshots)
-    - [Database Schema](#database-schema) 
-    - [Front Page](#front-page)
-    - [Admin Interface](#admin-interface)
-    - [Customer Interface](#customer-interface)
 
 ## Introduction
 Welcome to E-Commerce Web Application repository! This project showcases a fully functional and feature-rich e-commerce platform built with Spring Framework, MySQL, and Bootstrap.
@@ -193,6 +189,7 @@ I would like to express my sincere gratitude to the following article and Youtub
 ### Customer
 | Register |
 | ------------- |
+| ![register](https://github.com/mrkevr/e-commerce/assets/98044708/f04d0a25-b52e-4803-86b4-f7fe297e22c8)
 
 | Categories 1 | Categories 2 |
 | ------------- | ------------- |
