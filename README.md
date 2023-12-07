@@ -161,29 +161,49 @@ I would like to express my sincere gratitude to the following article and Youtub
 - [Amigos Code](https://www.youtube.com/@amigoscode)
 
 ## Screenshots
-### Database Schema
-<img src="https://github.com/mrkevr/e-commerce/blob/master/src/main/resources/static/img/schema.jpg" width="90%"></img>
+| Schema | Homepage |
+| ------------- | ------------- |
+| ![schema](https://github.com/mrkevr/e-commerce/assets/98044708/0e995894-666e-49c9-a302-5c712e4eef32) | ![home](https://github.com/mrkevr/e-commerce/assets/98044708/71768926-139c-495c-af32-e55c04e1f675) |
 
-### Front Page
-<img src="https://github.com/mrkevr/e-commerce/blob/master/src/main/resources/static/img/home.jpg" width="23%"></img> 
-<img src="https://github.com/mrkevr/e-commerce/blob/master/src/main/resources/static/img/login.jpg" width="23%"></img> 
-<img src="https://github.com/mrkevr/e-commerce/blob/master/src/main/resources/static/img/contact_us.jpg" width="23%"></img> 
+| Login Page | Contact Us |
+| ------------- | ------------- |
+| ![login](https://github.com/mrkevr/e-commerce/assets/98044708/c415cc5e-2759-4fdd-9023-ac10697ef2f3) | ![contact_us](https://github.com/mrkevr/e-commerce/assets/98044708/3963213a-b356-46bf-8157-53a5fd63afe0) |
 
-### Admin Interface
-<img src="https://github.com/mrkevr/e-commerce/blob/master/src/main/resources/static/img/dashboard.jpg" width="23%"></img>
-<img src="https://github.com/mrkevr/e-commerce/blob/master/src/main/resources/static/img/admin_users.jpg" width="23%"></img> 
-<img src="https://github.com/mrkevr/e-commerce/blob/master/src/main/resources/static/img/admin_user_one.jpg" width="23%"></img> 
-<img src="https://github.com/mrkevr/e-commerce/blob/master/src/main/resources/static/img/admin_categories.jpg" width="23%"></img> 
-<img src="https://github.com/mrkevr/e-commerce/blob/master/src/main/resources/static/img/admin_category_electronics.jpg" width="23%"></img> 
-<img src="https://github.com/mrkevr/e-commerce/blob/master/src/main/resources/static/img/admin_products.jpg" width="23%"></img> 
-<img src="https://github.com/mrkevr/e-commerce/blob/master/src/main/resources/static/img/admin_products_one.jpg" width="23%"></img> 
-<img src="https://github.com/mrkevr/e-commerce/blob/master/src/main/resources/static/img/admin_new_product.jpg" width="23%"></img> 
-<img src="https://github.com/mrkevr/e-commerce/blob/master/src/main/resources/static/img/admin_orders.jpg" width="23%"></img> 
+### Adnin
+| Dashboard | Users |
+| ------------- | ------------- |
+| ![dashboard](https://github.com/mrkevr/e-commerce/assets/98044708/17a74b95-29b1-4ad0-9229-9ba5ac4f5ed6) | ![admin_users](https://github.com/mrkevr/e-commerce/assets/98044708/24f3ec4f-85e5-4e80-a1d7-e50fa2145ed1) |
 
-### Customer Interface
-<img src="https://github.com/mrkevr/e-commerce/blob/master/src/main/resources/static/img/user_scategories1.jpg" width="23%"></img>
-<img src="https://github.com/mrkevr/e-commerce/blob/master/src/main/resources/static/img/user_categories2.jpg" width="23%"></img>
-<img src="https://github.com/mrkevr/e-commerce/blob/master/src/main/resources/static/img/user_product1" width="23%"></img> 
-<img src="https://github.com/mrkevr/e-commerce/blob/master/src/main/resources/static/img/user_add_to_cart.jpg" width="23%"></img> 
-<img src="https://github.com/mrkevr/e-commerce/blob/master/src/main/resources/static/img/user_checkout.jpg" width="23%"></img> 
-<img src="https://github.com/mrkevr/e-commerce/blob/master/src/main/resources/static/img/user_orders.jpg" width="23%"></img> 
+| User Details | Categories |
+| ------------- | ------------- |
+| ![admin_user_one](https://github.com/mrkevr/e-commerce/assets/98044708/582f962d-dcfc-42f2-a622-31ff995a9070) | ![admin_categories](https://github.com/mrkevr/e-commerce/assets/98044708/0cff3a3e-2e93-44de-8d7a-521f6b8647be) |
+
+| Category | Products |
+| ------------- | ------------- |
+| ![admin_category_electronics](https://github.com/mrkevr/e-commerce/assets/98044708/344ed829-2556-4bb3-8247-3d5f5c0a1e10) | ![admin_products](https://github.com/mrkevr/e-commerce/assets/98044708/5ffd2864-c3f5-4917-8687-d3eecbb6b6e2) |
+
+| Products One | New Product |
+| ------------- | ------------- |
+| ![admin_product_one](https://github.com/mrkevr/e-commerce/assets/98044708/83fe53f9-3f5e-4bae-b05b-486f1cd1910c) | ![admin_new_product](https://github.com/mrkevr/e-commerce/assets/98044708/e69ac00d-5bb0-4c66-a7ea-d67b65e78943) |
+
+| Orders |  |
+| ------------- | ------------- |
+| ![admin_orders](https://github.com/mrkevr/e-commerce/assets/98044708/094eed69-4644-4a8c-b5fd-f3217069cd3c) |  |
+
+|  |  |
+| ------------- | ------------- |
+|  |  |
+
+|  |  |
+| ------------- | ------------- |
+|  |  |
+
+|  |  |
+| ------------- | ------------- |
+|  |  |
+
+|  |  |
+| ------------- | ------------- |
+|  |  |
+
+
