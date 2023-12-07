@@ -159,7 +159,7 @@ I would like to express my sincere gratitude to the following article and Youtub
 ## Screenshots
 | Schema | 
 | ------------- | 
-| ![schema](https://github.com/mrkevr/e-commerce/assets/98044708/0e995894-666e-49c9-a302-5c712e4eef32) | 
+| ![e_commerce_schema](https://github.com/mrkevr/e-commerce/assets/98044708/e780bb98-b471-487a-9fa6-41e30a650fe1) | 
 
 | Homepage | Login |
 | ------------- | ------------- |
