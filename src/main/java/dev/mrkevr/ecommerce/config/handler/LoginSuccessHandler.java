@@ -5,6 +5,7 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import dev.mrkevr.ecommerce.constant.RoleConstant;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
@@ -19,6 +20,8 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+
+import static dev.mrkevr.ecommerce.constant.RoleConstant.ROLE_ADMIN;
 
 @Component
 @RequiredArgsConstructor
@@ -52,7 +55,7 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 				.map(r -> r.getAuthority())
 				.collect(Collectors.toSet());
 
-		if (roles.contains("ROLE_ADMIN")) {
+		if (roles.contains(ROLE_ADMIN)) {
 			redirectUrl = "/admin/dashboard";
 		} else {
 			redirectUrl = "/dashboard";

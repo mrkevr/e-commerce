@@ -3,6 +3,7 @@ package dev.mrkevr.ecommerce.config;
 import java.util.HashSet;
 import java.util.function.Consumer;
 
+import dev.mrkevr.ecommerce.constant.RoleConstant;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -25,6 +26,9 @@ import dev.mrkevr.ecommerce.service.OrderService;
 import dev.mrkevr.ecommerce.service.ProductService;
 import dev.mrkevr.ecommerce.service.ShoppingCartService;
 import lombok.RequiredArgsConstructor;
+
+import static dev.mrkevr.ecommerce.constant.RoleConstant.ROLE_ADMIN;
+import static dev.mrkevr.ecommerce.constant.RoleConstant.ROLE_USER;
 
 @Configuration
 @RequiredArgsConstructor
@@ -83,8 +87,8 @@ public class ApplicationConfig {
 
 	private void addRolesIfNotExists() {
 		if (roleRepo.count() == 0) {
-			roleRepo.save(new Role("ROLE_ADMIN"));
-			roleRepo.save(new Role("ROLE_USER"));
+			roleRepo.save(new Role(ROLE_ADMIN));
+			roleRepo.save(new Role(ROLE_USER));
 		}
 	}
 

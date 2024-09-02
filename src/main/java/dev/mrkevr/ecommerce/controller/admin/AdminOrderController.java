@@ -20,6 +20,9 @@ import dev.mrkevr.ecommerce.entity.OrderStatus;
 import dev.mrkevr.ecommerce.service.OrderService;
 import lombok.RequiredArgsConstructor;
 
+import static dev.mrkevr.ecommerce.constant.ModelAttributeConstant.*;
+import static dev.mrkevr.ecommerce.entity.OrderStatus.*;
+
 @Controller
 @RequestMapping("/admin/orders")
 @RequiredArgsConstructor
@@ -34,10 +37,10 @@ public class AdminOrderController {
 
 		List<OrderResponse> orders = orderServ.getAllByOrderStatus(orderStatus);
 		ModelAndView mav = new ModelAndView("admin/orders");
-		mav.addObject("title", "Orders - Admin");
-		mav.addObject("orderStatuses", OrderStatus.activeStatuses());
-		mav.addObject("orders", orders);
-		mav.addObject("orderStatus", orderStatus);
+		mav.addObject(TITLE, "Orders - Admin");
+		mav.addObject(ORDER_STATUSES, OrderStatus.activeStatuses());
+		mav.addObject(ORDERS, orders);
+		mav.addObject(ORDER_STATUS, orderStatus);
 		return mav;
 	}
 	
@@ -47,21 +50,22 @@ public class AdminOrderController {
 		ModelAndView mav = new ModelAndView("admin/order-details");
 		OrderResponse order = orderServ.getById(id);
 		List<OrderStatus> orderStatuses = List.of(
-			OrderStatus.IN_PROGRESS, 
-			OrderStatus.TO_SHIP,
-			OrderStatus.TO_RECEIVE,
-			OrderStatus.COMPLETED,
-			OrderStatus.RETURNED);
+			IN_PROGRESS,
+			TO_SHIP,
+			TO_RECEIVE,
+			COMPLETED,
+			RETURNED);
 		
-		mav.addObject("order", order);
-		mav.addObject("orderStatuses", orderStatuses);
-		mav.addObject("orderUpdateRequest", 
+		mav.addObject(ORDER, order);
+		mav.addObject(ORDER_STATUSES, orderStatuses);
+		mav.addObject(ORDER_UPDATE_REQUEST,
 			new OrderUpdateRequest(
 				id, 
 				order.getOrderStatus(), 
 				order.getDeliveryDate() == null ? localDateConverter.convert(LocalDate.now()) : localDateConverter.convert(order.getDeliveryDate()),
 				order.getMessage()));
-		mav.addObject("title", "Order#"+order.getId()+" - Admin");
+
+		mav.addObject(TITLE, "Order#"+order.getId()+" - Admin");
 		return mav;
 	}
 	
@@ -72,7 +76,7 @@ public class AdminOrderController {
 			RedirectAttributes redirectAttrs) {
 		
 		orderServ.acceptOrderById(id);
-		redirectAttrs.addFlashAttribute("success", "Order has been accepted.");
+		redirectAttrs.addFlashAttribute(SUCCESS, "Order has been accepted.");
 		return "redirect:/admin/orders/"+id;
 	}
 	
@@ -82,18 +86,18 @@ public class AdminOrderController {
 			RedirectAttributes redirectAttrs) {
 		
 		orderServ.denyOrderById(id);
-		redirectAttrs.addFlashAttribute("warning", "Order has been denied.");
+		redirectAttrs.addFlashAttribute(WARNING, "Order has been denied.");
 		return "redirect:/admin/orders/"+id;
 	}
 	
 	@RequestMapping(value = "/update-order", method = { RequestMethod.GET, RequestMethod.POST })
 	String updateOrder(
-		@ModelAttribute(name = "orderUpdateRequest") 
+		@ModelAttribute(name = "orderUpdateRequest")
 		OrderUpdateRequest orderUpdateRequest, 
 		RedirectAttributes redirectAttrs) {
 		
 		orderServ.updateOrderById(orderUpdateRequest);
-		redirectAttrs.addFlashAttribute("success", "Order has been updated.");
+		redirectAttrs.addFlashAttribute(SUCCESS, "Order has been updated.");
 		return "redirect:/admin/orders/"+orderUpdateRequest.getId();
 	}
 	
