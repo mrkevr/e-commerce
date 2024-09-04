@@ -3,6 +3,7 @@ package dev.mrkevr.ecommerce.controller.admin;
 import java.util.List;
 import java.util.Optional;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,9 +29,12 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
+import static dev.mrkevr.ecommerce.constant.ModelAttributeConstant.*;
+
 @Controller
 @RequestMapping("/admin/products")
 @RequiredArgsConstructor
+@Slf4j
 public class AdminProductController {
 	
 	private final ProductService productServ;
@@ -44,17 +48,17 @@ public class AdminProductController {
 	@GetMapping
 	ModelAndView products() {
 		ModelAndView mav = new ModelAndView("admin/products");
-		mav.addObject("title", "Products - Admin");
-		mav.addObject("products", productServ.findAll());
+		mav.addObject(TITLE, "Products - Admin");
+		mav.addObject(PRODUCTS, productServ.findAll());
 		return mav;
 	}
 	
 	@GetMapping("/category/{category}")
 	ModelAndView productsByCategory(@PathVariable String category) {
 		ModelAndView mav = new ModelAndView("admin/products-by-category");
-		mav.addObject("title", category + " - Admin");
-		mav.addObject("category", category);
-		mav.addObject("products", productServ.getAllByCategory(category));
+		mav.addObject(TITLE, category + " - Admin");
+		mav.addObject(CATEGORY, category);
+		mav.addObject(PRODUCTS, productServ.getAllByCategory(category));
 		return mav;
 	}
 	
@@ -62,16 +66,16 @@ public class AdminProductController {
 	ModelAndView productDetails(@PathVariable String id) {
 		ModelAndView mav = new ModelAndView("admin/product-details");
 		ProductResponse product = productServ.getById(id);
-		mav.addObject("product", product);
-		mav.addObject("title", product.getName() + " - Admin");
+		mav.addObject(PRODUCT, product);
+		mav.addObject(TITLE, product.getName() + " - Admin");
 		return mav;
 	}
 	
 	@GetMapping("/new-product")
 	ModelAndView newProduct() {
 		ModelAndView mav = new ModelAndView("admin/new-product");
-		mav.addObject("title", "New Product - Admin");
-		mav.addObject("productRequest", new ProductRequest());
+		mav.addObject(TITLE, "New Product - Admin");
+		mav.addObject(PRODUCT_REQUEST, new ProductRequest());
 		return mav;
 	}
 	
@@ -86,7 +90,7 @@ public class AdminProductController {
 			RedirectAttributes redirectAttrs,
 			Model model) {
 		
-		model.addAttribute("title", "New Product - Admin");
+		model.addAttribute(TITLE, "New Product - Admin");
 		
 		if(result.hasErrors()) {
 			result.getAllErrors().forEach(e -> System.out.println(e.getDefaultMessage()));
@@ -99,19 +103,19 @@ public class AdminProductController {
 		} else {
 			long sizeInKb = productImage.getSize() / 1024;
 			if(sizeInKb > 800) {
-				model.addAttribute("productImageError", "Image is too large."); 
+				model.addAttribute(PRODUCT_IMAGE_ERROR, "Image is too large.");
 				return "/admin/new-product"; 
 			}
 		}
 		
 		try {
 			ProductResponse response = productServ.save(productRequest, productImage);
-			redirectAttrs.addFlashAttribute("success", "New product has been added!");
+			redirectAttrs.addFlashAttribute(SUCCESS, "New product has been added!");
 			return "redirect:/admin/products/"+response.getId();
 		} catch (Exception e) {
-            e.printStackTrace();
-            redirectAttrs.addFlashAttribute("error", "Failed to add new product!");
-            redirectAttrs.addFlashAttribute("title", "New Product - Admin");
+            log.error(e.getMessage(), e.getCause());
+            redirectAttrs.addFlashAttribute(ERROR, "Failed to add new product!");
+            redirectAttrs.addFlashAttribute(TITLE, "New Product - Admin");
             return "/admin/new-product";
         }
 	}
@@ -121,7 +125,7 @@ public class AdminProductController {
 		ModelAndView mav = new ModelAndView("admin/update-product");
 		ProductUpdateRequest productUpdateRequest = productServ.getUpdateRequestById(id);
 		mav.addObject("productUpdateRequest", productUpdateRequest);
-		mav.addObject("title", "Update Product - Admin");
+		mav.addObject(TITLE, "Update Product - Admin");
 		return mav;
 	}
 	
@@ -136,7 +140,7 @@ public class AdminProductController {
 			RedirectAttributes redirectAttrs,
 			Model model) {
 		
-		model.addAttribute("title", "Update Product - Admin");
+		model.addAttribute(TITLE, "Update Product - Admin");
 		
 		if(result.hasErrors()) {
 			return "/admin/update-product";
@@ -144,12 +148,12 @@ public class AdminProductController {
 		
 		try {
 			ProductResponse response = productServ.update(productUpdateRequest.getId(), productUpdateRequest, productImage);
-			redirectAttrs.addFlashAttribute("success", "Product has been updated!");
+			redirectAttrs.addFlashAttribute(SUCCESS, "Product has been updated!");
 			return "redirect:/admin/products/"+response.getId();
 		} catch (Exception e) {
-            e.printStackTrace();
-            redirectAttrs.addFlashAttribute("error", "Failed to add new product!");
-            redirectAttrs.addFlashAttribute("title", "Update - Admin");
+			log.error(e.getMessage(), e.getCause());
+            redirectAttrs.addFlashAttribute(ERROR, "Failed to add new product!");
+            redirectAttrs.addFlashAttribute(TITLE, "Update - Admin");
             return "/admin/update-product";
         }
 	}
@@ -162,7 +166,7 @@ public class AdminProductController {
 			HttpServletRequest request) {
 		
 		String name = productServ.enableById(id).getName();
-		redirectAttrs.addFlashAttribute("success", name + " has been enabled.");
+		redirectAttrs.addFlashAttribute(SUCCESS, name + " has been enabled.");
 		return getPreviousPageByRequest(request).orElse("/redirect:/admin/products");
 	}
 	
@@ -175,7 +179,7 @@ public class AdminProductController {
 			HttpServletRequest request) {
 		
 		String name = productServ.disableById(id).getName();
-		redirectAttrs.addFlashAttribute("success", name + " has been disabled.");
+		redirectAttrs.addFlashAttribute(SUCCESS, name + " has been disabled.");
 		return getPreviousPageByRequest(request).orElse("/redirect:/admin/products");
 	}
 	
@@ -187,7 +191,7 @@ public class AdminProductController {
 			HttpServletRequest request) {
 		
 		String name = productServ.putOnSaleById(id).getName();
-		redirectAttrs.addFlashAttribute("success", name + " is now on sale.");
+		redirectAttrs.addFlashAttribute(SUCCESS, name + " is now on sale.");
 		return getPreviousPageByRequest(request).orElse("/redirect:/admin/products");
 	}
 	
@@ -199,7 +203,7 @@ public class AdminProductController {
 			HttpServletRequest request) {
 		
 		String name = productServ.putOffSaleById(id).getName();
-		redirectAttrs.addFlashAttribute("success", name + " is now off sale.");
+		redirectAttrs.addFlashAttribute(SUCCESS, name + " is now off sale.");
 		return getPreviousPageByRequest(request).orElse("/redirect:/admin/products");
 	}
 	

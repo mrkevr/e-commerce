@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import dev.mrkevr.ecommerce.dto.CategoryRequestDto;
-import dev.mrkevr.ecommerce.dto.CategoryUpdateDto;
+import dev.mrkevr.ecommerce.dto.CategoryAddRequest;
+import dev.mrkevr.ecommerce.dto.CategoryUpdateRequest;
 import dev.mrkevr.ecommerce.entity.Category;
 import dev.mrkevr.ecommerce.service.CategoryService;
 import jakarta.validation.Valid;
@@ -38,8 +38,8 @@ public class AdminCategoryController {
         ModelAndView mav = new ModelAndView("admin/categories");
 //		mav.addObject("categories", categoryServ.findAll().stream().sorted((o1, o2) -> o1.getName().compareTo(o2.getName())).collect(Collectors.toList()));
         mav.addObject(CATEGORIES, categoryServ.getCategoriesAndSize());
-        mav.addObject(CATEGORY_REQUEST_DTO, new CategoryRequestDto());
-        mav.addObject(CATEGORY_UPDATE_DTO, new CategoryUpdateDto());
+        mav.addObject(CATEGORY_ADD_REQUEST, new CategoryAddRequest());
+        mav.addObject(CATEGORY_UPDATE_REQUEST, new CategoryUpdateRequest());
         return mav;
     }
 
@@ -47,7 +47,7 @@ public class AdminCategoryController {
     String addNewCategory(
             @ModelAttribute
             @Valid
-            CategoryRequestDto dto,
+            CategoryAddRequest dto,
             BindingResult result,
             RedirectAttributes redirectAttrs) {
 
@@ -65,7 +65,7 @@ public class AdminCategoryController {
     String updateCategory(
             @ModelAttribute
             @Valid
-            CategoryUpdateDto dto,
+            CategoryUpdateRequest dto,
             BindingResult result,
             RedirectAttributes redirectAttrs) {
 

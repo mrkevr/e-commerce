@@ -10,12 +10,9 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CategoryUpdateDto {
+public class CategoryAddRequest {
 	
-	private String id;
-
 	@NotBlank(message = "Category name must not be blank.")
 	@Length(min = 6, max = 50, message = "Category name must be 6 - 60 characters.")
 	private String name;
 }
-
