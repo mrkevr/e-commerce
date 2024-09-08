@@ -1,0 +1,8 @@
+  __  __ ____  _  _________     ______  
+ |  \/  |  _ \| |/ / ____\ \   / /  _ \ 
+ | |\/| | |_) | ' /|  _|  \ \ / /| |_) |
+ | |  | |  _ <| . \| |___  \ V / |  _ < 
+ |_|  |_|_| \_\_|\_\_____|  \_/  |_| \_\
+github.com/mrkevr | linkedin.com/in/mrkevr
+${spring.application.name} ${spring.application.version}
+Powered by Spring Boot ${spring-boot.version}
