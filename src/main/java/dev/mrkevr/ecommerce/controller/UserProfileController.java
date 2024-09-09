@@ -20,6 +20,8 @@ import dev.mrkevr.ecommerce.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
+import static dev.mrkevr.ecommerce.constant.ModelAttributeConstant.*;
+
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/profile")
@@ -38,7 +40,7 @@ public class UserProfileController {
 			String id = principal.getAttribute("sub");
 
 			if (id == null) {
-				id = principal.getAttribute("id").toString();
+				id = principal.getAttribute(ID).toString();
 			}
 			return userServ.getProfileDto(id);
 
@@ -52,22 +54,23 @@ public class UserProfileController {
 	ModelAndView userProfile() 
 	{
 		ModelAndView mav = new ModelAndView("profile");
-		mav.addObject("title", "Profile - E-Commerce");
-		mav.addObject("userProfileDto", this.userProfileDto());
+		mav.addObject(TITLE, "Profile - E-Commerce");
+		mav.addObject(USER_PROFILE_DTO, this.userProfileDto());
 		return mav;
 	}
 
 	@PostMapping
 	String userProfile(
-			@ModelAttribute("userProfileDto") @Valid UserProfileResponse userProfileDto,
+			@ModelAttribute(USER_PROFILE_DTO) @Valid UserProfileResponse userProfileDto,
 			BindingResult result,
 			RedirectAttributes redirectAttrs) 
 	{
 		if (result.hasErrors()) {
 			return "profile";
 		}
+
 		userManager.updateUser(userProfileDto);
-		redirectAttrs.addFlashAttribute("success", "Profile is updated.");
+		redirectAttrs.addFlashAttribute(SUCCESS, "Profile is updated.");
 		return "redirect:profile";
 	}
 }

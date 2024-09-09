@@ -7,6 +7,10 @@ server:
 
 spring:
 
+  application:
+    name: e-commerce
+    version: 1.0
+
   datasource:
     url: <url>
     username: <username>

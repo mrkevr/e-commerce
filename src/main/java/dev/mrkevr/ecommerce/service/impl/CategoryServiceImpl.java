@@ -33,8 +33,7 @@ public class CategoryServiceImpl implements CategoryService {
 	public Category updateName(String id, String name) {
 		Category toUpdate = categoryRepo.findById(id).orElseThrow(() -> new CategoryNotFoundException(id));
 		toUpdate.setName(name);
-		Category updatedCategory = categoryRepo.save(toUpdate);
-		return updatedCategory;
+        return categoryRepo.save(toUpdate);
 	}
 	
 	@Override
@@ -52,7 +51,7 @@ public class CategoryServiceImpl implements CategoryService {
 		return categoryRepo.findById(id).orElseThrow(() -> new CategoryNotFoundException(id));
 	}
 	
-	// do not use, use disableById method instead
+	// Do not use, use disableById method instead
 	@Override
 	@Transactional
 	public void deleteById(String id) {
@@ -97,12 +96,12 @@ public class CategoryServiceImpl implements CategoryService {
 	@Override
 	public List<CategoryResponse> getAvailableCategories() {
 		
-		// Fetch all categories with atleast 1 product
+		// Fetch all categories with at least 1 product
 		List<CategoryResponse> categories = categoryRepo.getActiveCategoriesAndSize().stream()
 			.filter(c -> c.getCount() > 0)
 			.collect(Collectors.toList());
 		
-		// Assign each category with a random image related to the cateogory
+		// Assign each category with a random image related to the category
 		categories.forEach(c -> {
 			String image = productRepo.getRandomProductsByCategoryId(c.getId(), 1).get(0).getImage();
 			c.setImage(image);
@@ -110,11 +109,4 @@ public class CategoryServiceImpl implements CategoryService {
 		 
 		return categories;
 	}
-
-	
-
-
-
-	
-
 }

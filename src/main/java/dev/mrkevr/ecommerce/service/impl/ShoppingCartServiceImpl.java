@@ -115,8 +115,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 		ShoppingCart savedShoppingCart = shoppingCartRepo.save(shoppingCart);
 		
 		// Map the persisted entity to dto and return
-		ShoppingCartResponse response = shoppingCartMapper.toResponse(savedShoppingCart);
-		return response;
+        return shoppingCartMapper.toResponse(savedShoppingCart);
 	}
 	
 	/**
@@ -161,8 +160,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 		// Save to shopping cart to db
 		ShoppingCart savedShoppingCart = shoppingCartRepo.save(shoppingCart);
 		// Map the persisted entity to dto and return
-		ShoppingCartResponse response = shoppingCartMapper.toResponse(savedShoppingCart);
-		return response;
+        return shoppingCartMapper.toResponse(savedShoppingCart);
 	}
 	
 	/**
@@ -196,8 +194,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 		// Save to shopping cart to db
 		ShoppingCart savedShoppingCart = shoppingCartRepo.save(shoppingCart);
 		// Map the persisted shopping cart to dto and return
-		ShoppingCartResponse response = shoppingCartMapper.toResponse(savedShoppingCart);
-		return response;
+        return shoppingCartMapper.toResponse(savedShoppingCart);
 	}
 	
 	@Override
@@ -234,11 +231,11 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 	
 	//-- Helper methods --//
 	private int computeTotalItems(Collection<CartItem> cartItems) {
-		return cartItems.stream().mapToInt(item -> item.getQuantity()).sum();
+		return cartItems.stream().mapToInt(CartItem::getQuantity).sum();
     }
 
     private double computeTotalPrice(Collection<CartItem> cartItems) {
-    	return cartItems.stream().mapToDouble(item -> item.getUnitPrice()).sum();
+    	return cartItems.stream().mapToDouble(CartItem::getUnitPrice).sum();
     }
 
 	private Optional<CartItem> findCommonCartItem(Collection<CartItem> cartItems, String productId) {

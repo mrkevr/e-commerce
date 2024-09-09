@@ -15,6 +15,9 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
+import static dev.mrkevr.ecommerce.constant.ModelAttributeConstant.PRODUCTS;
+import static dev.mrkevr.ecommerce.constant.ModelAttributeConstant.TITLE;
+
 @Controller
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
@@ -32,9 +35,9 @@ public class HomeController {
 		}
 
 		ModelAndView mav = new ModelAndView("index");
-		mav.addObject("title", "Home - E-Commerce");
+		mav.addObject(TITLE, "Home - E-Commerce");
 		// Get random products for the front page
-		mav.addObject("products", productServ.getRandomProducts(8));
+		mav.addObject(PRODUCTS, productServ.getRandomProducts(8));
 		return mav;
 	}
 	

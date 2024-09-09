@@ -13,7 +13,6 @@ public class ShoppingCartMapper {
 	private final CartItemMapper cartItemMapper;
 
 	public ShoppingCartResponse toResponse(ShoppingCart entity) {
-
 		return ShoppingCartResponse.builder()
 			.id(entity.getId())
 			.userId(entity.getUser().getId())

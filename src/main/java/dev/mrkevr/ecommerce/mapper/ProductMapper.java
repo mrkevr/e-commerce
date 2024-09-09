@@ -13,7 +13,7 @@ import dev.mrkevr.ecommerce.entity.Product;
 public class ProductMapper {
 
 	public ProductResponse toResponse(Product product) {
-		ProductResponse response =  ProductResponse.builder()
+        return ProductResponse.builder()
 			.id(product.getId())
 			.category(product.getCategory().getName())
 			.name(product.getName())
@@ -28,16 +28,14 @@ public class ProductMapper {
 			.created(product.getCreated())
 			.modified(product.getModified())
 			.build();
-		
-		return response;
 	}
 
 	public List<ProductResponse> toResponse(List<Product> list) {
-		return list.stream().map(product -> this.toResponse(product)).collect(Collectors.toList());
+		return list.stream().map(this::toResponse).collect(Collectors.toList());
 	}
 	
 	public ProductUpdateRequest toUpdateRequest(Product product) {
-		ProductUpdateRequest request = ProductUpdateRequest.builder()
+        return ProductUpdateRequest.builder()
 			.id(product.getId())
 			.categoryId(product.getCategory().getId())
 			.name(product.getName())
@@ -46,7 +44,5 @@ public class ProductMapper {
 			.costPrice(product.getCostPrice())
 			.salePrice(product.getSalePrice())
 			.build();
-		
-		return request;
 	}
 }

@@ -23,8 +23,8 @@ public class UserMapper {
 	private final PasswordEncoder passwordEncoder;
 	private final OrderRepository orderRepo;
 	
-	public User toUser(UserRegistrationRequest request, Role role, ShoppingCart shoppingCart) {	
-		User user =  User.builder()
+	public User toUser(UserRegistrationRequest request, Role role, ShoppingCart shoppingCart) {
+        return User.builder()
 			.username(request.getUsername())
 			.firstName(request.getFirstName())
 			.lastName(request.getLastName())
@@ -35,8 +35,6 @@ public class UserMapper {
 			.roles(new HashSet<>(Arrays.asList(role)))
 			.shoppingCart(shoppingCart)
 			.build();
-		
-		return user;
 	}
 
 	public UserProfileResponse toUserProfileResponse(User user) {
@@ -56,6 +54,6 @@ public class UserMapper {
 	}
 
 	public List<UserProfileResponse> toUserProfileResponse(List<User> users) {
-		return users.stream().map(user -> this.toUserProfileResponse(user)).collect(Collectors.toList());
+		return users.stream().map(this::toUserProfileResponse).collect(Collectors.toList());
 	}
 }

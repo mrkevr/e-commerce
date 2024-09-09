@@ -28,7 +28,7 @@ public class OrderItemMapper {
 	
 	public List<OrderItemResponse> toResponse(Collection<OrderItem> orderItems){
 		return orderItems.stream()
-			.map(item -> this.toResponse(item))
+			.map(this::toResponse)
 			.collect(Collectors.toList());
 	}
 	
@@ -42,7 +42,7 @@ public class OrderItemMapper {
 	
 	public List<OrderItem> toEntity(Collection<CartItem> cartItems){
 		return cartItems.stream()
-			.map(item -> this.toEntity(item))
+			.map(this::toEntity)
 			.collect(Collectors.toList());
 	}
 }

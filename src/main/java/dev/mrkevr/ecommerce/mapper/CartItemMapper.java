@@ -27,7 +27,7 @@ public class CartItemMapper {
 	
 	public List<CartItemResponse> toResponse(Collection<CartItem> list){
 		return list.stream()
-			.map(item -> this.toResponse(item))
+			.map(this::toResponse)
 			.collect(Collectors.toList());
 	}
 }

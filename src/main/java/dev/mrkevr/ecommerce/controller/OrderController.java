@@ -15,6 +15,8 @@ import dev.mrkevr.ecommerce.dto.OrderResponse;
 import dev.mrkevr.ecommerce.service.OrderService;
 import lombok.RequiredArgsConstructor;
 
+import static dev.mrkevr.ecommerce.constant.ModelAttributeConstant.*;
+
 @Controller
 @RequestMapping("/orders")
 @RequiredArgsConstructor
@@ -25,8 +27,8 @@ public class OrderController {
 	@GetMapping
 	ModelAndView orders(@ModelAttribute("userDetails") LoggedInUserDetails userDetails) {
 		ModelAndView mav = new ModelAndView("orders");
-		mav.addObject("title", "Orders - E-Commerce");
-		mav.addObject("orders", orderServ.getAllActiveByUserId(userDetails.getId()));
+		mav.addObject(TITLE, "Orders - E-Commerce");
+		mav.addObject(ORDERS, orderServ.getAllActiveByUserId(userDetails.getId()));
 		return mav;
 	}
 	
@@ -37,11 +39,11 @@ public class OrderController {
 		
 		ModelAndView mav = new ModelAndView("order");
 		OrderResponse order = orderServ.getByUserIdAndOrderId(userDetails.getId(), orderId);
-		mav.addObject("title", "Order- E-Commerce");
-		mav.addObject("order", order);
+		mav.addObject(TITLE, "Order- E-Commerce");
+		mav.addObject(ORDER, order);
 		return mav;
 	}
-	
+
 	@RequestMapping(value = "/cancel", method = { RequestMethod.GET ,RequestMethod.PUT})
 	String cancelOrder(
 			@ModelAttribute("userDetails") LoggedInUserDetails userDetails,
@@ -49,7 +51,7 @@ public class OrderController {
 			RedirectAttributes redirectAttrs) {
 		
 		orderServ.cancelOrderById(userDetails.getId(), orderId);
-		redirectAttrs.addFlashAttribute("warning", "Order has been cancelled.");
+		redirectAttrs.addFlashAttribute(WARNING, "Order has been cancelled.");
 		return "redirect:/orders";
 	}
 }

@@ -35,7 +35,7 @@ public class OrderMapper {
 	
 	public List<OrderResponse> toResponse(Collection<Order> orders){
 		return orders.stream()
-			.map(order -> this.toResponse(order))
+			.map(this::toResponse)
 			.collect(Collectors.toList());
 	}
 }

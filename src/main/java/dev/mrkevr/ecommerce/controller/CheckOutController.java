@@ -17,6 +17,8 @@ import dev.mrkevr.ecommerce.service.ShoppingCartService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
+import static dev.mrkevr.ecommerce.constant.ModelAttributeConstant.*;
+
 @RequiredArgsConstructor
 @Controller
 @RequestMapping("/checkout")
@@ -28,27 +30,28 @@ public class CheckOutController {
 	@GetMapping
 	ModelAndView checkout(@ModelAttribute("userDetails") LoggedInUserDetails userDetails) {
 		ModelAndView mav = new ModelAndView("checkout");
-		mav.addObject("title", "Checkout- E-Commerce");
-		mav.addObject("shoppingCart", shoppingCartServ.getByUserId(userDetails.getId()));
-		mav.addObject("orderRequest", new OrderRequest());
+		mav.addObject(TITLE, "Checkout- E-Commerce");
+		mav.addObject(SHOPPING_CART, shoppingCartServ.getByUserId(userDetails.getId()));
+		mav.addObject(ORDER_REQUEST, new OrderRequest());
 		return mav;
 	}
 	
 	@PostMapping
 	public String checkOutShoppingCart(
 		@Valid
-		@ModelAttribute("orderRequest") 
+		@ModelAttribute(ORDER_REQUEST)
 		OrderRequest orderRequest,
 		BindingResult result,
-		@ModelAttribute("shoppingCart") 
+		@ModelAttribute(SHOPPING_CART)
 		ShoppingCart shoppingCart,
 		RedirectAttributes redirectAttrs) {
 		
 		if(result.hasErrors()) {
 			return "checkout";
 		}
+
 		orderServ.addOrder(orderRequest);
-		redirectAttrs.addFlashAttribute("success","Thank you for your order and for supporting our small business! If you want to track your delivery, use the order tracker below.");
+		redirectAttrs.addFlashAttribute(SUCCESS,"Thank you for your order and for supporting our small business! If you want to track your delivery, use the order tracker below.");
 		return "redirect:/orders";
 	}
 }

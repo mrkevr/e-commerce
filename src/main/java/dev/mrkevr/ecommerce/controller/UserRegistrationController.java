@@ -23,6 +23,8 @@ import jakarta.validation.Valid;
 import jakarta.validation.Validator;
 import lombok.RequiredArgsConstructor;
 
+import static dev.mrkevr.ecommerce.constant.ModelAttributeConstant.REGISTRATION_DTO;
+
 @Controller
 @RequestMapping("/register")
 @RequiredArgsConstructor
@@ -34,34 +36,35 @@ public class UserRegistrationController {
 	@GetMapping
 	public ModelAndView showRegistrationForm() {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
 		if (authentication != null && !(authentication instanceof AnonymousAuthenticationToken)) {
 			return new ModelAndView("redirect:dashboard");
 		}
 		
 		ModelAndView mav = new ModelAndView("register");
-		mav.addObject("registrationDto", new UserRegistrationRequest());
+		mav.addObject(REGISTRATION_DTO, new UserRegistrationRequest());
 		return mav;
 	}
 	
 	@PostMapping
 	public String registerUserAccount(
 			@Valid 
-			@ModelAttribute("registrationDto") 
+			@ModelAttribute(REGISTRATION_DTO)
 			UserRegistrationRequest registrationDto,
 			BindingResult result,
 			RedirectAttributes redirectAttrs) {
 		
 		// Username availability check
 		if(userManager.usernameAlreadyTaken(registrationDto.getUsername())) {
-			result.addError(new FieldError("registrationDto", "username", registrationDto.getUsername()+" is already taken."));
+			result.addError(new FieldError(REGISTRATION_DTO, "username", registrationDto.getUsername()+" is already taken."));
 		}
 		// Email availability check
 		if(userManager.emailAlreadyTaken(registrationDto.getEmail())){
-			result.addError(new FieldError("registrationDto", "email", "An account already exists for this email."));
+			result.addError(new FieldError(REGISTRATION_DTO, "email", "An account already exists for this email."));
 		}
 		// Password match check
 		if(this.passwordsEqualConstraintViolated(registrationDto)){
-			result.addError(new FieldError("registrationDto", "password", "Passwords did not match."));
+			result.addError(new FieldError(REGISTRATION_DTO, "password", "Passwords did not match."));
 		}
 		if (result.hasErrors()) {
 			return "register";

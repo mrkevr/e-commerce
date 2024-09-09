@@ -53,7 +53,7 @@ public class OrderItemServiceImpl implements OrderItemService {
 	@Transactional
 	public List<OrderItem> processCartItem(Collection<CartItem> cartItems) {
 		return cartItems.stream()
-				.map(item -> this.processCartItem(item))
+				.map(this::processCartItem)
 				.collect(Collectors.toList());
 	}
 
@@ -71,6 +71,6 @@ public class OrderItemServiceImpl implements OrderItemService {
 	@Override
 	@Transactional
 	public void returnOrderItem(Collection<OrderItem> orderItems) {
-		orderItems.stream().forEach(item -> this.returnOrderItem(item));
+		orderItems.forEach(this::returnOrderItem);
 	}
 }

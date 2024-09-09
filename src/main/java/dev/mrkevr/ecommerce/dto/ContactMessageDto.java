@@ -25,6 +25,6 @@ public class ContactMessageDto {
 	@Size(min = 6, max = 64, message = "Phone must be 6-64 characters long")
 	private String phone;
 
-	@Size(min = 12, message = "Message must be atleast 12 characters long")
+	@Size(min = 12, message = "Message must be at least 12 characters long")
 	private String message;
 }
