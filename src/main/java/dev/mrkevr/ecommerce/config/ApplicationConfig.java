@@ -102,7 +102,7 @@ public class ApplicationConfig {
 			user.setPassword(passwordEncoder.encode("admin"));
 			
 			user.setRoles(new HashSet<>());
-			user.getRoles().add(roleRepo.findByRoleIgnoreCase("ROLE_ADMIN").get());
+			user.getRoles().add(roleRepo.findByRoleIgnoreCase(ROLE_ADMIN).get());
 			
 			ShoppingCart shoppingCart = new ShoppingCart();
 			shoppingCart.setCartItems(new HashSet<>());
