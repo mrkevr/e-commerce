@@ -77,7 +77,8 @@ public class CategoryServiceImpl implements CategoryService {
 	@Override
 	@Transactional
 	public Category disableById(String id) {
-		Category toDisable = categoryRepo.findById(id).orElseThrow(() -> new CategoryNotFoundException(id));
+		Category toDisable = categoryRepo.findById(id)
+				.orElseThrow(() -> new CategoryNotFoundException(id));
 		toDisable.setActivated(false);
 		toDisable.setDeleted(true);
 		return categoryRepo.save(toDisable);
@@ -95,7 +96,6 @@ public class CategoryServiceImpl implements CategoryService {
 
 	@Override
 	public List<CategoryResponse> getAvailableCategories() {
-		
 		// Fetch all categories with at least 1 product
 		List<CategoryResponse> categories = categoryRepo.getActiveCategoriesAndSize().stream()
 			.filter(c -> c.getCount() > 0)

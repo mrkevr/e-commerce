@@ -30,7 +30,7 @@ public class OrderController {
 		mav.addObject(TITLE, "Orders - E-Commerce");
 		mav.addObject(ORDERS, orderServ.getAllActiveByUserId(userDetails.getId()));
 		return mav;
-	}
+	} 
 	
 	@GetMapping("/{orderId}")
 	ModelAndView orderById(

@@ -309,8 +309,7 @@ public class OrderServiceImpl implements OrderService {
 	// Helper method to convert Object to Integer
 	private int convertToInt(Object o){
         String stringToConvert = String.valueOf(o);
-        int output = Integer.parseInt(stringToConvert);
-        return output;
+        return Integer.parseInt(stringToConvert);
     }
 	
 //	private boolean isActiveOrder(Order order) {
